@@ -5,7 +5,7 @@ library(languageR) # calls languageR library
 #
 # -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
 #
-f1errout <- read.table("data/errordata.txt", header = T) # reads in all data from data file
+f1errout <- read.table("data/SR_F1_errordata.txt", header = T) # reads in all data from data file
 
 d <- f1errout # renames data file
 
@@ -221,7 +221,7 @@ ds <- data.frame(data = c(
    ))
  
 
-sink("output/SemRel Factor Analyses.txt")
+sink("output/SemRel F1 Factor Analyses.txt")
 
 
 #
@@ -314,7 +314,7 @@ print(rep(c("="),times = 50), quote = F)
 #
 
 # Prepare data for compared responses
-f1errout <- read.table("data/errint.txt", header = T)  # reads in data 
+f1errout <- read.table("data/SR_F1_errint.txt", header = T)  # reads in data 
 d <- f1errout 
 d$subj <- as.factor(d$subj)  
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100) 
@@ -483,7 +483,7 @@ print(rep(c(" = "), times = 50), quote = F)
 #------------------------------------RELATED - UNRELATED ITEMS PAIRED COMPARISONS--------------------------------------
 #
 
-f1errout <- read.table("data/errrel.txt", header = T) #reads in Related data, ignoring integration
+f1errout <- read.table("data/SR_F1_errrel.txt", header = T) #reads in Related data, ignoring integration
 d <- f1errout 
 d$subj <- as.factor(d$subj)
 d$pct <- ifelse(d$errd  == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100) 
@@ -648,7 +648,7 @@ print(rep(c("="),times = 50), quote = F)
 #
 # ---------------------------------------Paired comparisions for each condition------------------
 #
-f1errout <- read.table("data/errordata.txt", header = T) 
+f1errout <- read.table("data/SR_F1_errordata.txt", header = T) 
 d <- f1errout 
 d$subj <- as.factor(d$subj) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord))*100) 
