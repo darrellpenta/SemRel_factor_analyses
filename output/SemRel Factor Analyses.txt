@@ -1,0 +1,457 @@
+__________________Descriptive Stats for 2X2X2 ANOVA
+             data    n    N      mean        sd        se
+1           gmean 1880 1880 3.4131206 15.946647 0.3677820
+2           integ  940  940 3.8475177 16.895004 0.5510543
+3           unint  940  940 2.9787234 14.934623 0.4871137
+4           relat  940  940 4.1666667 17.287428 0.5638537
+5           unrel  940  940 2.6595745 14.452332 0.4713831
+6        integrel  470  470 4.5390071 17.869536 0.8242602
+7      integunrel  470  470 3.1560284 15.849678 0.7310911
+8        unintrel  470  470 3.7943262 16.695789 0.7701193
+9      unintunrel  470  470 2.1631206 12.902670 0.5951558
+10           plur  940  940 6.5602837 21.567121 0.7034419
+11           sing  940  940 0.2659574  4.887827 0.1594233
+12        intplur  470  470 7.4822695 22.885261 1.0556184
+13        intsing  470  470 0.2127660  4.612656 0.2127660
+14      unintplur  470  470 5.6382979 20.145330 0.9292348
+15      unintsing  470  470 0.3191489  5.152706 0.2376766
+16        relplur  470  470 8.1205674 23.361028 1.0775639
+17        relsing  470  470 0.2127660  4.612656 0.2127660
+18      unrelplur  470  470 5.0000000 19.510414 0.8999483
+19      unrelsing  470  470 0.3191489  5.152706 0.2376766
+20     relintplur  235  235 9.0780142 24.466794 1.5960376
+21     relintsing  235  235 0.0000000  0.000000 0.0000000
+22   relunintplur  235  235 7.1631206 22.211308 1.4489060
+23   relunintsing  235  235 0.4255319  6.523281 0.4255319
+24   unrelintplur  235  235 5.8865248 21.118001 1.3775865
+25   unrelintsing  235  235 0.4255319  6.523281 0.4255319
+26 unrelunintplur  235  235 4.1134752 17.759242 1.1584852
+27 unrelunintsing  235  235 0.2127660  3.261640 0.2127660
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________2X2X2 ANOVA
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  81259   347.3               
+
+Error: subj:semint
+           Df Sum Sq Mean Sq F value Pr(>F)
+semint      1    355   354.8   1.494  0.223
+Residuals 234  55583   237.5               
+
+Error: subj:related
+           Df Sum Sq Mean Sq F value Pr(>F)  
+related     1   1068  1067.5   5.655 0.0182 *
+Residuals 234  44176   188.8                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1  18621   18621   55.95 1.49e-12 ***
+Residuals 234  77872     333                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:semint:related
+                Df Sum Sq Mean Sq F value Pr(>F)
+semint:related   1      7    7.24   0.031  0.859
+Residuals      234  53847  230.12               
+
+Error: subj:semint:n2num
+              Df Sum Sq Mean Sq F value Pr(>F)
+semint:n2num   1    447   447.0   2.142  0.145
+Residuals    234  48824   208.6               
+
+Error: subj:related:n2num
+               Df Sum Sq Mean Sq F value  Pr(>F)   
+related:n2num   1   1224    1224    6.76 0.00991 **
+Residuals     234  42353     181                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:semint:related:n2num
+                      Df Sum Sq Mean Sq F value Pr(>F)
+semint:related:n2num   1     18   17.88    0.08  0.777
+Residuals            234  52170  222.95               
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Integrated responses
+      data   n   N     mean       sd        se
+1    integ 940 940 3.847518 16.89500 0.5510543
+2   intrel 470 470 4.539007 17.86954 0.8242602
+3 intunrel 470 470 3.156028 15.84968 0.7310911
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Integrated items
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  78238   334.3               
+
+Error: subj:related
+           Df Sum Sq Mean Sq F value Pr(>F)
+related     1    449   449.5   2.034  0.155
+Residuals 234  51703   221.0               
+
+Error: Within
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 470 137639   292.9               
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Unintegrated itesm ANOVA
+        data   n   N     mean       sd        se
+1      unint 940 940 2.978723 14.93462 0.4871137
+2   unintrel 470 470 3.794326 16.69579 0.7701193
+3 unintunrel 470 470 2.163121 12.90267 0.5951558
+__________________ANOVA: Unintegrated items
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  58604   250.4               
+
+Error: subj:related
+           Df Sum Sq Mean Sq F value Pr(>F)  
+related     1    625   625.3   3.159 0.0768 .
+Residuals 234  46319   197.9                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: Within
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 470 103889     221               
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for ANOVA on Integrated items, ignoring Related
+       data   n   N      mean        sd        se
+1     gmean 940 940 4.0815603 15.274531 0.4982003
+2     integ 470 470 4.6914894 16.774861 0.7737667
+3     unint 470 470 3.4716312 13.600679 0.6273525
+4      plur 470 470 7.9148936 20.679979 0.9538963
+5      sing 470 470 0.2482270  3.163377 0.1459157
+6   intplur 235 235 9.1702128 22.650978 1.4775869
+7   intsing 235 235 0.2127660  3.261640 0.2127660
+8 unintplur 235 235 6.6595745 18.463985 1.2044576
+9 unintsing 235 235 0.2836879  3.068526 0.2001686
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Integrated items, ignoring Related
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  57108   244.1               
+
+Error: subj:semint
+           Df Sum Sq Mean Sq F value Pr(>F)
+semint      1    350   349.7   1.684  0.196
+Residuals 234  48585   207.6               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value Pr(>F)    
+n2num       1  13813   13813   59.17  4e-13 ***
+Residuals 234  54622     233                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:semint:n2num
+              Df Sum Sq Mean Sq F value Pr(>F)
+semint:n2num   1    392   391.5   2.072  0.151
+Residuals    234  44210   188.9               
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Integration Paired Comparison, ignoring Related
+   data   n   N     mean       sd        se
+1 n2num 470 470 4.691489 16.77486 0.7737667
+2  plur 235 235 9.170213 22.65098 1.4775869
+3  sing 235 235 0.212766  3.26164 0.2127660
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Integrated Paired Comparison, ignoring Related
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  61815   264.2               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   9428    9428   36.33 6.44e-09 ***
+Residuals 234  60732     260                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Unintegrated Paired Comparison, ignoring Related
+   data   n   N      mean        sd        se
+1 n2num 470 470 3.4716312 13.600679 0.6273525
+2  plur 235 235 6.6595745 18.463985 1.2044576
+3  sing 235 235 0.2836879  3.068526 0.2001686
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Unintegrated Paired Comparison, ignoring Related
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  43879   187.5               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   4777    4777   29.34 1.51e-07 ***
+Residuals 234  38100     163                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for ANOVA on Related items, ignoring Integration
+       data   n   N      mean        sd        se
+1     gmean 940 940 3.9255319 14.291053 0.4661227
+2     relat 470 470 4.9042553 15.358669 0.7084426
+3     unrel 470 470 2.9468085 13.080338 0.6033510
+4      plur 470 470 7.5141844 18.925699 0.8729774
+5      sing 470 470 0.3368794  4.990988 0.2302171
+6 relatplur 235 235 9.3829787 19.746972 1.2881504
+7 relatsing 235 235 0.4255319  6.523281 0.4255319
+8 unrelplur 235 235 5.6453901 17.914724 1.1686277
+9 unrelsing 235 235 0.2482270  2.712452 0.1769409
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  59747   255.3               
+
+Error: subj:related
+           Df Sum Sq Mean Sq F value  Pr(>F)   
+related     1    900   900.4   6.761 0.00991 **
+Residuals 234  31165   133.2                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1  12106   12106   50.17 1.64e-11 ***
+Residuals 234  56460     241                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:related:n2num
+               Df Sum Sq Mean Sq F value Pr(>F)  
+related:n2num   1    745   744.7   5.685 0.0179 *
+Residuals     234  30654   131.0                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for ANOVA on Related items, ignoring Integration
+       data   n   N      mean        sd        se
+1     gmean 940 940 3.9255319 14.291053 0.4661227
+2     relat 470 470 4.9042553 15.358669 0.7084426
+3     unrel 470 470 2.9468085 13.080338 0.6033510
+4      plur 470 470 7.5141844 18.925699 0.8729774
+5      sing 470 470 0.3368794  4.990988 0.2302171
+6 relatplur 235 235 9.3829787 19.746972 1.2881504
+7 relatsing 235 235 0.4255319  6.523281 0.4255319
+8 unrelplur 235 235 5.6453901 17.914724 1.1686277
+9 unrelsing 235 235 0.2482270  2.712452 0.1769409
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Related items, ignoring Integration
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  59747   255.3               
+
+Error: subj:related
+           Df Sum Sq Mean Sq F value  Pr(>F)   
+related     1    900   900.4   6.761 0.00991 **
+Residuals 234  31165   133.2                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1  12106   12106   50.17 1.64e-11 ***
+Residuals 234  56460     241                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: subj:related:n2num
+               Df Sum Sq Mean Sq F value Pr(>F)  
+related:n2num   1    745   744.7   5.685 0.0179 *
+Residuals     234  30654   131.0                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Paired Compairsion of Related items, ignoring Integration
+   data   n   N      mean        sd        se
+1 n2num 470 470 4.9042553 15.358669 0.7084426
+2  plur 235 235 9.3829787 19.746972 1.2881504
+3  sing 235 235 0.4255319  6.523281 0.4255319
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Paired Compairsion of Related items, ignoring Integration
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  49664   212.2               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   9428    9428    42.8 3.78e-10 ***
+Residuals 234  51540     220                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Paired Compairsion of Unrelated items, ignoring Integration80   data   n   N     mean        sd        se
+1 n2num 470 470 2.946809 13.080338 0.6033510
+2  plur 235 235 5.645390 17.914724 1.1686277
+3  sing 235 235 0.248227  2.712452 0.1769409
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Paired Unelated items, ignoring Integration
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  41248   176.3               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   3423    3423   22.52 3.63e-06 ***
+Residuals 234  35573     152                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Paired Compairsion of Integrated Related items
+   data   n   N     mean       sd        se
+1 n2num 470 470 4.539007 17.86954 0.8242602
+2  plur 235 235 9.078014 24.46679 1.5960376
+3  sing 235 235 0.000000  0.00000 0.0000000
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+ANOVA: Paired Compairsion of Integrated Related items
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  70039   299.3               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   9683    9683   32.35 3.82e-08 ***
+Residuals 234  70039     299                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Paired Compairsion of Integrated Unrelated items
+   data   n   N      mean        sd        se
+1 n2num 470 470 3.1560284 15.849678 0.7310911
+2  plur 235 235 5.8865248 21.118001 1.3775865
+3  sing 235 235 0.4255319  6.523281 0.4255319
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA:Paired Comparison of Integrated Unrelated items
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  59902     256               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   3504    3504   15.07 0.000135 ***
+Residuals 234  54413     233                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+__________________Descriptive Stats for Paired Compairsion of Unitegrated Related items
+   data   n   N      mean        sd        se
+1 n2num 470 470 3.7943262 16.695789 0.7701193
+2  plur 235 235 7.1631206 22.211308 1.4489060
+3  sing 235 235 0.4255319  6.523281 0.4255319
+ [1]                    
+ [1] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ [1]                    
+__________________ANOVA: Paired Compairsion of Unitegrated Related items
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  61983   264.9               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num       1   5334    5334   19.68 1.41e-05 ***
+Residuals 234  63416     271                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+ [1]                    
+ [1]                    
+ [1] = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ [1]                    
+ [1]                    
+[1] "__________________Descriptive Stats for Paired Compairsion of Unitegrated Unrelated items"
+   data   n   N     mean       sd        se
+1 n2num 470 470 2.163121 12.90267 0.5951558
+2  plur 235 235 4.113475 17.75924 1.1584852
+3  sing 235 235 0.212766  3.26164 0.2127660
+__________________ANOVA: Paired Compairsion of Unitegrated Unrelated items
+
+Error: subj
+           Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 234  42940   183.5               
+
+Error: subj:n2num
+           Df Sum Sq Mean Sq F value  Pr(>F)    
+n2num       1   1788  1787.8   12.54 0.00048 ***
+Residuals 234  33351   142.5                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
