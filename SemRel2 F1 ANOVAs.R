@@ -105,11 +105,11 @@ ds <- data.frame(data = c(
 
 sink("output/SemRel2 F1 Factor Analyses.txt")
 cat(" ", "\n")
-cat("******BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 80)
+cat("******BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 60)
 cat(" ", "\n")
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat("2X2 ANOVA: CATEGORY COORDINATES", sep = "", fill = 60)
-cat(rep(c("-"), times=50, quote=F), "\n")
+cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds)
 cat(" ", "\n")
 
@@ -117,7 +117,7 @@ a.2x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = d
 print(summary(a.2x2)) 
 
 cat(" ", "\n")
-cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ===========================================================================
+cat("\n", rep(c("="), times = 40, quote = F), "\n")  # ===========================================================================
 cat(" ", "\n")
 
 
@@ -147,13 +147,13 @@ ds.relat <- data.frame(data = c("n2num","plur","sing"),
                               sd(relat.plur$error) / sqrt(length(relat.plur$error)),
                               sd(relat.sing$error) / sqrt(length(relat.sing$error))))
 
-cat(rep(c("-"), times=50, quote=F),"\n")
-cat("RELATED VS. UNRELATED ITEMS PAIRED COMPARISONS", fill = 50)
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
+cat("RELATED VS. UNRELATED ITEMS PAIRED COMPARISONS", fill = 60)
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat(" ", "\n")
 cat(" ", "\n")
-cat("--- RELATED ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat("--- RELATED ITEMS PARIED COMPARISONS", fill=60 )
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.relat) 
 cat(" ", "\n")
 
@@ -187,7 +187,7 @@ ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error)))) 
 
 cat("--- UNRELATED ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.unrel) 
 cat(" ", "\n")
 
@@ -196,7 +196,7 @@ print(summary(a.unrel))
 
 
 cat(" ", "\n")
-cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ==============================================================================
+cat("\n", rep(c("="), times = 40, quote = F), "\n")  # ==============================================================================
 cat(" ", "\n")
 
 
@@ -246,13 +246,13 @@ ds.plur <- data.frame(data = c("Related","Rel","unrel"),
                               sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
 
 
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat("PLURAL VS. SINGULAR PAIRED COMPARISONS", fill = 50)
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat(" ", "\n")
 cat(" ", "\n")
 cat("--- PLURAL ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
@@ -303,7 +303,7 @@ ds.sing <- data.frame(data = c("n2num","plur","sing"),
 
 
 cat("--- SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
@@ -312,8 +312,8 @@ print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
 
-cat("\n", rep(c("~"), times = 65, quote = F), "\n")  # ==================CATEGORY ANALYSES ABOVE  ==========================
-cat("\n", rep(c("~"), times = 65, quote = F), "\n")  # ==================PROPERTY ANALYESES BELOW ===========================
+cat("\n", rep(c("~"), times = 40, quote = F))  # ==================CATEGORY ANALYSES ABOVE  ==========================
+cat("\n", rep(c("~"), times = 40, quote = F))  # ==================PROPERTY ANALYESES BELOW ===========================
 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -424,15 +424,15 @@ ds <- data.frame(data = c(
 #
 # --------------------------------3 X 2  ANOVA------------------------------------------------------
 #
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat("2X2 ANOVA: PROPERTY ITEMS", sep = "", fill = 60)
-cat(rep(c("-"), times=50, quote=F), "\n")
+cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds) 
 cat(" ", "\n")
 a.3x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
 print(summary(a.3x2)) 
 cat(" ", "\n")
-cat("\n", rep(c("="), times = 55, quote = F), "\n")
+cat("\n", rep(c("="), times = 40, quote = F), "\n")
 cat(" ", "\n")
 
 # 
@@ -521,13 +521,13 @@ assrel <- data.frame(data = c(
          sd(relat.sing$error) / sqrt(length(relat.sing$error))
   ))
 
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat("ASSOCIATED VS. RELATED VS. RELATED  PAIRED COMPARISONS", fill = 50)
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat(" ", "\n")
 cat(" ", "\n")
 cat("--- ASSOCIATED VS. RELATED", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(assrel) 
 cat(" ", "\n")
 
@@ -624,7 +624,7 @@ relunr <- data.frame(data = c(
 
 
 cat("---  RELATED VS. UNRELATED", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(relunr) 
 cat(" ", "\n")
 
@@ -719,7 +719,7 @@ assunr <- data.frame(data = c(
   ))
 
 cat("---  ASSOCIATED VS. UNRELATED", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(assunr) 
 cat(" ", "\n")
 
@@ -780,13 +780,13 @@ ds.relat <- data.frame(data = c("n2num","plur","sing"),
                               sd(relat.sing$error) / sqrt(length(relat.sing$error))))
 
 
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat("PAIRED COMPARISONS", fill = 50)
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat(" ", "\n")
 cat(" ", "\n")
 cat("--- RELATED SING. VS. PLUR", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.relat) 
 cat(" ", "\n")
 
@@ -823,7 +823,7 @@ ds.assoc <- data.frame(data = c("n2num","plur","sing"),
 
 
 cat("--- ASSOCIATED SING. VS. PLUR", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.assoc) 
 cat(" ", "\n")
 
@@ -859,7 +859,7 @@ ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error)))) 
 
 cat("--- UNRELATED SING. VS. PLUR", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.unrel) 
 cat(" ", "\n")
 
@@ -924,13 +924,13 @@ ds.plur <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
                              sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
 
 
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat("PLURAL VS. SINGULAR PAIRED COMPARISONS", fill = 50)
-cat(rep(c("-"), times=50, quote=F),"\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
 cat(" ", "\n")
 cat(" ", "\n")
 cat("--- PLURAL ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
@@ -992,7 +992,7 @@ ds.sing <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
 
 cat("--- SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
@@ -1050,7 +1050,7 @@ ds.plur <- data.frame(data = c("Related","Assoc","Relat"),
                              sd(relat.plur$error) / sqrt(length(relat.plur$error))))
 
 cat("--- ASSOCIATED VS. RELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
@@ -1106,7 +1106,7 @@ ds.plur <- data.frame(data = c("Related","Relat","Unrel"),
                       
 
 cat("--- RELATED VS. UNRELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
@@ -1163,7 +1163,7 @@ ds.plur <- data.frame(data = c("Related","Assoc","Unrel"),
 
 
 cat("--- ASSOCIATED VS. UNRELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
@@ -1220,7 +1220,7 @@ ds.sing <- data.frame(data = c("Related","Assoc","Relat"),
                              sd(relat.sing$error) / sqrt(length(relat.sing$error))))
 
 cat("--- ASSOCIATED VS. RELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
@@ -1276,7 +1276,7 @@ ds.sing <- data.frame(data = c("Related","Relat","Unrel"),
 
 
 cat("--- RELATED VS. UNRELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
@@ -1333,7 +1333,7 @@ ds.sing <- data.frame(data = c("Related","Assoc","Unrel"),
 
 
 cat("--- ASSOCIATED VS. UNRELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
-cat(rep(c("-"), times=25, quote=F),"\n")
+cat(rep(c("-"), times=20, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
