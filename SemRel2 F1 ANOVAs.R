@@ -310,10 +310,12 @@ cat(" ", "\n")
 a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
 print(summary(a.sing))
 cat(" ", "\n")
-cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ==============================================================================
-cat("\n", rep(c("="), times = 55, quote = F), "\n")  #            ==============CAT ABOVE  -- PROP BELOW   ===============
-cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ==============================================================================
+cat(" ", "\n")
 
+cat("\n", rep(c("~"), times = 65, quote = F), "\n")  # ==================CATEGORY ANALYSES ABOVE  ==========================
+cat("\n", rep(c("~"), times = 65, quote = F), "\n")  # ==================PROPERTY ANALYESES BELOW ===========================
+
+cat(" ", "\n")
 cat(" ", "\n")
 
 # # ====================================================================================================
@@ -999,6 +1001,349 @@ a.sing <- aov(error ~ related + Error(subj / related), data = sing)
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
+
+# ------------------SUBSET PAIRED COMPARIONS---------------------
+# -------- ASSOCIATED VS. RELATED PLURAL
+
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d <- subset(d, n2num !="sing" & related != "unrel")
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+
+
+assoc       <- subset(data.subj, related  ==  "assoc") 
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.plur <- data.frame(data = c("Related","Assoc","Relat"),
+                      
+                      n = c(length(plur$error),
+                            length(assoc.plur$error),  
+                            length(relat.plur$error)),
+                      
+                      N = c(length(plur$error),
+                            length(assoc.plur$error),
+                            length(relat.plur$error)),
+                      
+                      mean = c(mean(plur$error),
+                               mean(assoc.plur$error),
+                               mean(relat.plur$error)),
+                      
+                      sd = c(sd(plur$error),
+                             sd(assoc.plur$error),
+                             sd(relat.plur$error)),
+                      
+                      se = c(sd(plur$error) / sqrt(length(plur$error)),
+                             sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
+                             sd(relat.plur$error) / sqrt(length(relat.plur$error))))
+
+cat("--- ASSOCIATED VS. RELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.plur) 
+cat(" ", "\n")
+
+a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+print(summary(a.plur))
+cat(" ", "\n")
+cat(" ", "\n")
+
+# ----------------------RELATED VS. UNRELATED PLURAL
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d <- subset(d, n2num !="sing" & related != "assoc")
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+
+
+assoc       <- subset(data.subj, related  ==  "assoc") 
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.plur <- data.frame(data = c("Related","Relat","Unrel"),
+                      
+                      n = c(length(plur$error),
+                            length(relat.plur$error),  
+                            length(unrel.plur$error)),
+                      
+                      N = c(length(plur$error),
+                            length(relat.plur$error),
+                            length(unrel.plur$error)),
+                      
+                      mean = c(mean(plur$error),
+                               mean(relat.plur$error),
+                               mean(unrel.plur$error)),
+                      
+                      sd = c(sd(plur$error),
+                             sd(relat.plur$error),
+                             sd(unrel.plur$error)),
+                      
+                      se = c(sd(plur$error) / sqrt(length(plur$error)),
+                             sd(relat.plur$error) / sqrt(length(relat.plur$error)),
+                             sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
+                      
+
+cat("--- RELATED VS. UNRELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.plur) 
+cat(" ", "\n")
+
+a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+print(summary(a.plur))
+cat(" ", "\n")
+cat(" ", "\n")
+
+
+# ----------------------ASSOCIATED VS. UNRELATED PLURAL
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d <- subset(d, n2num !="sing" & related != "rel")
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+
+
+assoc       <- subset(data.subj, related  ==  "assoc") 
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.plur <- data.frame(data = c("Related","Assoc","Unrel"),
+                      
+                      n = c(length(plur$error),
+                            length(assoc.plur$error),  
+                            length(unrel.plur$error)),
+                      
+                      N = c(length(plur$error),
+                            length(assoc.plur$error),
+                            length(unrel.plur$error)),
+                      
+                      mean = c(mean(plur$error),
+                               mean(assoc.plur$error),
+                               mean(unrel.plur$error)),
+                      
+                      sd = c(sd(plur$error),
+                             sd(assoc.plur$error),
+                             sd(unrel.plur$error)),
+                      
+                      se = c(sd(plur$error) / sqrt(length(plur$error)),
+                             sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
+                             sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
+
+
+cat("--- ASSOCIATED VS. UNRELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.plur) 
+cat(" ", "\n")
+
+a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+print(summary(a.plur))
+cat(" ", "\n")
+cat(" ", "\n")
+
+
+  # -------- ASSOCIATED VS. RELATED SINGULAR
+  
+  f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d <- subset(d, n2num != "plur" & related != "unrel")
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+
+
+assoc       <- subset(data.subj, related  ==  "assoc") 
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.sing <- data.frame(data = c("Related","Assoc","Relat"),
+                      
+                      n = c(length(sing$error),
+                            length(assoc.sing$error),  
+                            length(relat.sing$error)),
+                      
+                      N = c(length(sing$error),
+                            length(assoc.sing$error),
+                            length(relat.sing$error)),
+                      
+                      mean = c(mean(sing$error),
+                               mean(assoc.sing$error),
+                               mean(relat.sing$error)),
+                      
+                      sd = c(sd(sing$error),
+                             sd(assoc.sing$error),
+                             sd(relat.sing$error)),
+                      
+                      se = c(sd(sing$error) / sqrt(length(sing$error)),
+                             sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
+                             sd(relat.sing$error) / sqrt(length(relat.sing$error))))
+
+cat("--- ASSOCIATED VS. RELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.sing) 
+cat(" ", "\n")
+
+a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+print(summary(a.sing))
+cat(" ", "\n")
+cat(" ", "\n")
+
+# ----------------------RELATED VS. UNRELATED SINGULAR
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d <- subset(d, n2num != "plur" & related != "assoc")
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+
+
+assoc       <- subset(data.subj, related  ==  "assoc") 
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.sing <- data.frame(data = c("Related","Relat","Unrel"),
+                      
+                      n = c(length(sing$error),
+                            length(relat.sing$error),  
+                            length(unrel.sing$error)),
+                      
+                      N = c(length(sing$error),
+                            length(relat.sing$error),
+                            length(unrel.sing$error)),
+                      
+                      mean = c(mean(sing$error),
+                               mean(relat.sing$error),
+                               mean(unrel.sing$error)),
+                      
+                      sd = c(sd(sing$error),
+                             sd(relat.sing$error),
+                             sd(unrel.sing$error)),
+                      
+                      se = c(sd(sing$error) / sqrt(length(sing$error)),
+                             sd(relat.sing$error) / sqrt(length(relat.sing$error)),
+                             sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+
+
+cat("--- RELATED VS. UNRELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.sing) 
+cat(" ", "\n")
+
+a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+print(summary(a.sing))
+cat(" ", "\n")
+cat(" ", "\n")
+
+
+# ----------------------ASSOCIATED VS. UNRELATED SINGULAR
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d <- subset(d, n2num != "plur" & related != "rel")
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+
+
+assoc       <- subset(data.subj, related  ==  "assoc") 
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.sing <- data.frame(data = c("Related","Assoc","Unrel"),
+                      
+                      n = c(length(sing$error),
+                            length(assoc.sing$error),  
+                            length(unrel.sing$error)),
+                      
+                      N = c(length(sing$error),
+                            length(assoc.sing$error),
+                            length(unrel.sing$error)),
+                      
+                      mean = c(mean(sing$error),
+                               mean(assoc.sing$error),
+                               mean(unrel.sing$error)),
+                      
+                      sd = c(sd(sing$error),
+                             sd(assoc.sing$error),
+                             sd(unrel.sing$error)),
+                      
+                      se = c(sd(sing$error) / sqrt(length(sing$error)),
+                             sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
+                             sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+
+
+cat("--- ASSOCIATED VS. UNRELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.sing) 
+cat(" ", "\n")
+
+a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+print(summary(a.sing))
+cat(" ", "\n")
+cat(" ", "\n")
+
+
+
 sink()
 
 
