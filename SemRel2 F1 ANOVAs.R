@@ -2,6 +2,9 @@
 rm(list = ls()) # clears environment
 library(languageR) 
 
+
+
+
 # ====================================================================================================
 # ------------------------------------CATEGORY COORDINATE ITEMS ANALYSES
 # ====================================================================================================
@@ -97,35 +100,30 @@ ds <- data.frame(data = c(
   ))
 
 
-
-
-
-
 #--------------------------------2 X 2 ANOVA------------------------------------------------------
 
 
 sink("output/SemRel2 F1 Factor Analyses.txt")
+cat(" ", "\n")
+cat("******BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 80)
+cat(" ", "\n")
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("2X2 ANOVA: CATEGORY COORDINATES", sep = "", fill = 60)
+cat(rep(c("-"), times=50, quote=F), "\n")
+print(ds)
+cat(" ", "\n")
 
-cat("***BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 80)
-
-
-cat("__________________Descriptive Stats for 2X2 ANOVA: CATEGORY COORDINATES______________", sep = "", fill = 80)
-print(ds) # prints descrip stats for 2x2x2 ANOVA
-
-
-# Computes the anova
 a.2x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
-cat("__________________2X2 ANOVA__________________", sep = "", fill = 80)
 print(summary(a.2x2)) 
-print(rep(c("="), times = 50), quote = F)
+
+cat(" ", "\n")
+cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ===========================================================================
+cat(" ", "\n")
 
 
-# 
-# ========================================================================================================
-# 
-# --------------------RELATED - UNRELATED ITEMS PAIRED COMPARISONS--------------------------------------
+#  --------------------RELATED vs. UNRELATED ITEMS PAIRED COMPARISONS--------------------------------------
 #
-# ------------RELATED ITEMS------------------------------
+#  ------------RELATED ITEMS------------------------------
 
 ds.relat <- data.frame(data = c("n2num","plur","sing"),
                        
@@ -149,15 +147,21 @@ ds.relat <- data.frame(data = c("n2num","plur","sing"),
                               sd(relat.plur$error) / sqrt(length(relat.plur$error)),
                               sd(relat.sing$error) / sqrt(length(relat.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Related items________", sep = "", fill = 80)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("RELATED VS. UNRELATED ITEMS PAIRED COMPARISONS", fill = 50)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat(" ", "\n")
+cat(" ", "\n")
+cat("--- RELATED ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.relat) 
-print(rep(c("-"), times = 50), quote = F)
-
+cat(" ", "\n")
 
 a.relat <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
-cat("__________________ANOVA: Paired Compairsion of Related items___________", sep = "", fill = 80)
 print(summary(a.relat)) 
-print(rep(c("="),times = 50), quote = F)
+
+cat(" ", "\n")
+cat(" ", "\n")
 
 # -----------------------UNRELATED ITEMS----------------
 ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
@@ -182,39 +186,34 @@ ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
                              sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error)))) 
 
-cat("__________________Descriptive Stats for Paired Compairsion of Unrelated items_________", sep = "", fill = 80)
+cat("--- UNRELATED ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.unrel) 
-print(rep(c("-"),times = 50), quote = F)
-
+cat(" ", "\n")
 
 a.unrel <- aov(error ~ n2num + Error(subj / n2num), data = unrel) 
-cat("__________________ANOVA: Paired Unelated items", sep = "",fill = 80)
 print(summary(a.unrel))
-print(rep(c("="),times = 50), quote = F)
 
 
-# ====================================================================================================
+cat(" ", "\n")
+cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ==============================================================================
+cat(" ", "\n")
+
+
 #
 # -----------------------------Paired comparisions of Plural - Singular items
 #
 #------------Plural Items
 #
-rm(list = ls()) # clears environment
-f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) # reads in all data from data file
 
-d <- f1errout # renames data file
+f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) 
+
+d <- f1errout 
 d <- subset(d, n2num !="sing")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+d$subj <- as.factor(d$subj) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
+colnames(data.subj) <- c("subj", "related", "n2num", "error")
 relat       <- subset(data.subj, related  ==  "rel") 
 unrel       <- subset(data.subj, related  ==  "unrel") 
 sing        <- subset(data.subj, n2num    ==  "sing") 
@@ -223,7 +222,6 @@ relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
 relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
 unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
-
 
 ds.plur <- data.frame(data = c("Related","Rel","unrel"),
                        
@@ -247,33 +245,32 @@ ds.plur <- data.frame(data = c("Related","Rel","unrel"),
                               sd(relat.plur$error) / sqrt(length(relat.plur$error)),
                               sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Pural Items________", sep = "", fill = 80)
-print(ds.plur) 
-print(rep(c("-"), times = 50), quote = F)
 
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("PLURAL VS. SINGULAR PAIRED COMPARISONS", fill = 50)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat(" ", "\n")
+cat(" ", "\n")
+cat("--- PLURAL ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.plur) 
+cat(" ", "\n")
 
 a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
-cat("__________________ANOVA: Paired Plural items", sep = "", fill = 80)
 print(summary(a.plur))
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
-#------------Singular Items
-rm(list = ls()) # clears environment
-f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) # reads in all data from data file
 
-d <- f1errout # renames data file
+# -------------------------------Singular Items----------------------
+f1errout <- read.table("data/SR2_F1_errcat.txt", header = T)
+d <- f1errout 
 d <- subset(d, n2num !="plur")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+d$subj <- as.factor(d$subj)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
 relat       <- subset(data.subj, related  ==  "rel") 
 unrel       <- subset(data.subj, related  ==  "unrel") 
 sing        <- subset(data.subj, n2num    ==  "sing") 
@@ -304,37 +301,31 @@ ds.sing <- data.frame(data = c("n2num","plur","sing"),
                              sd(relat.sing$error) / sqrt(length(relat.sing$error)),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Sing Items________", sep = "", fill = 80)
-print(ds.sing) 
-print(rep(c("-"), times = 50), quote = F)
 
+cat("--- SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.sing) 
+cat(" ", "\n")
 
 a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
-cat("__________________ANOVA: Paired Sing items", sep = "", fill = 80)
 print(summary(a.sing))
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ==============================================================================
+cat("\n", rep(c("="), times = 55, quote = F), "\n")  #            ==============CAT ABOVE  -- PROP BELOW   ===============
+cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ==============================================================================
+
+cat(" ", "\n")
 
 # # ====================================================================================================
 # # --------------------------------------PROPERTY ITEMS ANALYSES---------------------
 # # ====================================================================================================
-rm(list = ls()) # clears environment
 
-# -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
-#
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-
-d <- f1errout # renames data file
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
+d$subj <- as.factor(d$subj)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
 relat       <- subset(data.subj, related == "rel") 
 assoc       <- subset(data.subj, related == "assoc")
 unrel       <- subset(data.subj, related == "unrel") 
@@ -346,7 +337,6 @@ assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
 assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
 unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
-
 
 
 ds <- data.frame(data = c(
@@ -429,47 +419,32 @@ ds <- data.frame(data = c(
          sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
   ))
 
-
-
-
-
 #
 # --------------------------------3 X 2  ANOVA------------------------------------------------------
 #
-
-
-cat("__________________Descriptive Stats for 3X2 ANOVA: PROPERTY ITEMS", sep = "", fill = 80)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("2X2 ANOVA: PROPERTY ITEMS", sep = "", fill = 60)
+cat(rep(c("-"), times=50, quote=F), "\n")
 print(ds) 
-
-
-# Computes the anova
+cat(" ", "\n")
 a.3x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
-cat("__________________3X2 ANOVA__________________", sep = "", fill = 80)
 print(summary(a.3x2)) 
-print(rep(c("="), times = 50), quote = F)
-
+cat(" ", "\n")
+cat("\n", rep(c("="), times = 55, quote = F), "\n")
+cat(" ", "\n")
 
 # 
 # ========================================================================================================
 # 
 # --------------------RELATED - ASSOCIATED ITEMS --------------------------------------
 
-rm(list = ls())
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-
-d <- f1errout # renames data file
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T)
+d <- f1errout 
 d <- subset(d, related != "unrel")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+d$subj <- as.factor(d$subj) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
 relat       <- subset(data.subj, related == "rel") 
 assoc       <- subset(data.subj, related == "assoc")
 unrel       <- subset(data.subj, related == "unrel") 
@@ -481,8 +456,6 @@ assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
 assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
 unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
-
-
 
 assrel <- data.frame(data = c(
   "gmean",
@@ -546,36 +519,33 @@ assrel <- data.frame(data = c(
          sd(relat.sing$error) / sqrt(length(relat.sing$error))
   ))
 
-
-cat("__________________Descriptive Stats for Ass-Rel", sep = "", fill = 80)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("ASSOCIATED VS. RELATED VS. RELATED  PAIRED COMPARISONS", fill = 50)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat(" ", "\n")
+cat(" ", "\n")
+cat("--- ASSOCIATED VS. RELATED", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(assrel) 
+cat(" ", "\n")
 
-
-# Computes the anova
 a.assrel <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
-cat("__________________Ass-Rel Anova__________________", sep = "", fill = 80)
 print(summary(a.assrel)) 
-print(rep(c("="), times = 50), quote = F)
+
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 # --------------------RELATED - UNRELATED ITEMS --------------------------------------
 
-rm(list = ls())
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-
-d <- f1errout # renames data file
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
 d <- subset(d, related != "assoc")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+d$subj <- as.factor(d$subj) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
 relat       <- subset(data.subj, related == "rel") 
 assoc       <- subset(data.subj, related == "assoc")
 unrel       <- subset(data.subj, related == "unrel") 
@@ -587,8 +557,6 @@ assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
 assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
 unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
-
-
 
 relunr <- data.frame(data = c(
   "gmean",
@@ -653,35 +621,26 @@ relunr <- data.frame(data = c(
   ))
 
 
-cat("__________________Descriptive Stats for Rel-Unr", sep = "", fill = 80)
+cat("---  RELATED VS. UNRELATED", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(relunr) 
+cat(" ", "\n")
 
-
-# Computes the anova
 a.relunr <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
-cat("__________________Rel-Unrel Anova__________________", sep = "", fill = 80)
 print(summary(a.relunr)) 
-print(rep(c("="), times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 # -------------------- ASSOCIATED - UNRELATED ITEMS --------------------------------------
 
-rm(list = ls())
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-
-d <- f1errout # renames data file
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
 d <- subset(d, related != "rel")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+d$subj <- as.factor(d$subj)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
+colnames(data.subj) <- c("subj", "related", "n2num", "error")
 relat       <- subset(data.subj, related == "rel") 
 assoc       <- subset(data.subj, related == "assoc")
 unrel       <- subset(data.subj, related == "unrel") 
@@ -693,7 +652,6 @@ assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
 assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
 unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
-
 
 
 assunr <- data.frame(data = c(
@@ -758,35 +716,30 @@ assunr <- data.frame(data = c(
          sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
   ))
 
-
-cat("__________________Descriptive Stats for Ass-Unrel", sep = "", fill = 80)
+cat("---  ASSOCIATED VS. UNRELATED", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(assunr) 
+cat(" ", "\n")
 
-
-# Computes the anova
 a.assunr <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
-cat("__________________Ass-Unrel Anova__________________", sep = "", fill = 80)
 print(summary(a.assunr)) 
-print(rep(c("="), times = 50), quote = F)
+
+cat(" ", "\n")
+cat("\n", rep(c("="), times = 55, quote = F), "\n")
+cat(" ", "\n")  # ==========================================================================================
+
 
 #
 # --------------------------------- PAIRED COMPARISONS--------------------- 
 #
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-
-d <- f1errout # renames data file
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout
+d$subj <- as.factor(d$subj) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error")
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
 relat       <- subset(data.subj, related == "rel") 
 assoc       <- subset(data.subj, related == "assoc")
 unrel       <- subset(data.subj, related == "unrel") 
@@ -824,21 +777,25 @@ ds.relat <- data.frame(data = c("n2num","plur","sing"),
                               sd(relat.plur$error) / sqrt(length(relat.plur$error)),
                               sd(relat.sing$error) / sqrt(length(relat.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Related items________", sep = "", fill = 80)
-print(ds.relat) 
-print(rep(c("-"), times = 50), quote = F)
 
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("PAIRED COMPARISONS", fill = 50)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat(" ", "\n")
+cat(" ", "\n")
+cat("--- RELATED SING. VS. PLUR", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.relat) 
+cat(" ", "\n")
 
 a.relat <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
-cat("__________________ANOVA: Paired Compairsion of Related items___________", sep = "", fill = 80)
 print(summary(a.relat)) 
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 # # ------------ASSOC ITEMS------------------------------
 # 
-
-
 
 ds.assoc <- data.frame(data = c("n2num","plur","sing"),
                        
@@ -862,15 +819,17 @@ ds.assoc <- data.frame(data = c("n2num","plur","sing"),
                               sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
                               sd(assoc.sing$error) / sqrt(length(assoc.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Associated items________", sep = "", fill = 80)
+
+cat("--- ASSOCIATED SING. VS. PLUR", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.assoc) 
-print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
 
 
 a.assoc <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
-cat("__________________ANOVA: Paired Compairsion of Associated items___________", sep = "", fill = 80)
 print(summary(a.assoc)) 
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 
@@ -897,36 +856,31 @@ ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
                              sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error)))) 
 
-cat("__________________Descriptive Stats for Paired Compairsion of Unrelated items_________", sep = "", fill = 80)
+cat("--- UNRELATED SING. VS. PLUR", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.unrel) 
-print(rep(c("-"),times = 50), quote = F)
-
+cat(" ", "\n")
 
 a.unrel <- aov(error ~ n2num + Error(subj / n2num), data = unrel) 
-cat("__________________ANOVA: Paired Unelated items", sep = "",fill = 80)
 print(summary(a.unrel))
-print(rep(c("="),times = 50), quote = F)
 
-# -----------------------------Paired comparisions of Plural - Singular items
+cat(" ", "\n")
+cat("\n", rep(c("="), times = 55, quote = F), "\n")  # ================================================================================
+cat(" ", "\n")
+
+# -----------------------------SINGULAR VS. PLURAL PAIRED COMPARISONS
 #
 #------------Plural Items
 #
-rm(list = ls()) # clears environment
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-
-d <- f1errout # renames data file
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
 d <- subset(d, n2num !="sing")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
-d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
+d$subj <- as.factor(d$subj) 
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+colnames(data.subj) <- c("subj", "related", "n2num", "error") 
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
 
-# Below, designates various subsets of the original data file
 assoc       <- subset(data.subj, related  ==  "assoc") 
 relat       <- subset(data.subj, related  ==  "rel") 
 unrel       <- subset(data.subj, related  ==  "unrel") 
@@ -967,35 +921,35 @@ ds.plur <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
                              sd(relat.plur$error) / sqrt(length(relat.plur$error)),
                              sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Pural Items________", sep = "", fill = 80)
-print(ds.plur) 
-print(rep(c("-"), times = 50), quote = F)
 
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat("PLURAL VS. SINGULAR PAIRED COMPARISONS", fill = 50)
+cat(rep(c("-"), times=50, quote=F),"\n")
+cat(" ", "\n")
+cat(" ", "\n")
+cat("--- PLURAL ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
+print(ds.plur) 
+cat(" ", "\n")
 
 a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
-cat("__________________ANOVA: Paired Plural items", sep = "", fill = 80)
 print(summary(a.plur))
-print(rep(c("="),times = 50), quote = F)
 
+cat(" ", "\n")
+cat(" ", "\n")
 #
 # ---------------------------------------Singular Items-------------------------
 #
 
-rm(list = ls()) # clears environment
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) # reads in all data from data file
-d <- f1errout # renames data file
+f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
+d <- f1errout 
 d <- subset(d, n2num !="plur")
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+d$subj <- as.factor(d$subj) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-# aggregates d with dysfluencies 
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
+colnames(data.subj) <- c("subj", "related", "n2num", "error")
 
-# Below, designates various subsets of the original data file
 assoc       <- subset(data.subj, related  ==  "assoc") 
 relat       <- subset(data.subj, related  ==  "rel") 
 unrel       <- subset(data.subj, related  ==  "unrel") 
@@ -1035,15 +989,16 @@ ds.sing <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
                              sd(relat.sing$error) / sqrt(length(relat.sing$error)),
                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Singular Items________", sep = "", fill = 80)
+cat("--- SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
+cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.sing) 
-print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
 
 
 a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
-cat("__________________ANOVA: Paired Singular items", sep = "", fill = 80)
 print(summary(a.sing))
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 sink()
 
 
