@@ -198,8 +198,34 @@ print(rep(c("="),times = 50), quote = F)
 # -----------------------------Paired comparisions of Plural - Singular items
 #
 #------------Plural Items
+#
+rm(list = ls()) # clears environment
+f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) # reads in all data from data file
 
-ds.plur <- data.frame(data = c("n2num","plur","sing"),
+d <- f1errout # renames data file
+d <- subset(d, n2num !="sing")
+d$subj <- as.factor(d$subj) # designates "subject" as a factor
+
+# Calculates the error rates (percent, including dys)
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
+
+# aggregates d with dysfluencies 
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+
+colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
+
+# Below, designates various subsets of the original data file
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+
+
+ds.plur <- data.frame(data = c("Related","Rel","unrel"),
                        
                        n = c(length(plur$error),
                              length(relat.plur$error),
@@ -232,7 +258,30 @@ print(summary(a.plur))
 print(rep(c("="),times = 50), quote = F)
 
 #------------Singular Items
+rm(list = ls()) # clears environment
+f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) # reads in all data from data file
 
+d <- f1errout # renames data file
+d <- subset(d, n2num !="plur")
+d$subj <- as.factor(d$subj) # designates "subject" as a factor
+
+# Calculates the error rates (percent, including dys)
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
+
+# aggregates d with dysfluencies 
+data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+
+colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
+
+# Below, designates various subsets of the original data file
+relat       <- subset(data.subj, related  ==  "rel") 
+unrel       <- subset(data.subj, related  ==  "unrel") 
+sing        <- subset(data.subj, n2num    ==  "sing") 
+plur        <- subset(data.subj, n2num    ==  "plur")
+relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
 ds.sing <- data.frame(data = c("n2num","plur","sing"),
                       
                       n = c(length(sing$error),
