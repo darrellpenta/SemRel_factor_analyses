@@ -21,6 +21,7 @@ d$subj <- as.factor(d$subj) # designates "subject" as a factor
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
 
 # aggregates d with dysfluencies 
+
 data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
 
 colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
@@ -119,8 +120,7 @@ print(summary(a.2x2))
 cat(" ", "\n")
 cat(" ", "\n")
 
-
-#  --------------------RELATED vs. UNRELATED ITEMS PAIRED COMPARISONS--------------------------------------
+#  --------------------RELATED vs. UNRELATED ITEMS PAIRED COMPARISONS--------------------------------
 #
 #  ------------RELATED ITEMS------------------------------
 

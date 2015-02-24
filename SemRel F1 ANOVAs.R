@@ -1,7 +1,6 @@
 rm(list = ls()) # clears environment
 library(languageR) # calls languageR library
-options(digits=6)
-options(scipen=6)
+
 #
 # -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
 #
@@ -221,23 +220,28 @@ ds <- data.frame(data = c(
    ))
  
 
+
+
+
+#
+# --------------------------------2 X 2 X 2 ANOVA-----------------------------------------------------
+
 sink("output/SemRel F1 Factor Analyses.txt")
 
-
-#
-# --------------------------------2 X 2 X 2 ANOVA------------------------------------------------------
-#
-cat("***BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 80)
-cat("__________________Descriptive Stats for 2X2X2 ANOVA__________________", sep = "", fill = 80)
+cat(" ", "\n")
+cat("BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 70)
+cat(" ", "\n")
+cat(rep(c("-"), times=40, quote=F),"\n")
+cat("2X2X2 ANOVA: SEMREL", sep = "", fill = 60)
+cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds) # prints descrip stats for 2x2x2 ANOVA
-
+cat(" ", "\n")
 
 # Computes the anova
 a.2x2x2 <- aov(error ~ semint * related * n2num + Error(subj / (semint * related * n2num)), data = data.subj)
-cat("__________________2X2X2 ANOVA__________________", sep = "", fill = 80)
 print(summary(a.2x2x2)) 
-print(rep(c("="), times = 50), quote = F)
-
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 
@@ -331,16 +335,18 @@ se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
        
 ))
 
-cat("__________________Descriptive Stats for ANOVA on Related items___________", sep = "", fill = 80)
+cat(rep(c("-"), times=40, quote=F),"\n")
+cat("RELATED ITEMS ANALYSES", sep = "", fill = 60)
+cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds) 
-print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
 
 a.2x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj) 
-cat("__________________ANOVA: Related items_______________", sep = "", fill = 80)
 print(summary(a.2x2)) 
-print(rep(c("="), times = 50 ), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
-# -------------------------RELATED PARIED COMPARISONS------------------------------
+# -------------------------RELATED ITEMS ANALYSES------------------------------
 
 ds.relat <- data.frame(data = c("n2num","plur","sing"),
                        
@@ -364,16 +370,16 @@ ds.relat <- data.frame(data = c("n2num","plur","sing"),
                               sd(relat.plur$error) / sqrt(length(relat.plur$error)),
                               sd(relat.sing$error) / sqrt(length(relat.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Related items________", sep = "", fill = 80)
-print(ds.relat) 
-print(rep(c("-"), times = 50), quote = F)
 
+cat(">>>  RELATED ITEMS PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
+print(ds.relat) 
+cat(" ", "\n")
 
 a.relat <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
-cat("__________________ANOVA: Paired Compairsion of Related items___________", sep = "", fill = 80)
 print(summary(a.relat)) 
-print(rep(c("="),times = 50), quote = F)
-
+cat(" ", "\n")
+cat(" ", "\n")
 #------------------------------UNRELATED PAIRED COMPARISION----------------
 ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
                        
@@ -397,16 +403,15 @@ ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
                               sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
                               sd(unrel.sing$error) / sqrt(length(unrel.sing$error)))) 
 
-cat("__________________Descriptive Stats for Paired Compairsion of Unrelated items_________", sep = "", fill = 80)
+cat(">>>  UNRELATED ITEMS PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.unrel) 
-print(rep(c("-"),times = 50), quote = F)
-
+cat(" ", "\n")
 
 a.unrel <- aov(error ~ n2num + Error(subj / n2num), data = unrel) 
-cat("__________________ANOVA: Paired Unelated items, ignoring Integration", sep = "",fill = 80)
 print(summary(a.unrel))
-print(rep(c("="),times = 50), quote = F)
-
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 #==========================================================================================================
@@ -498,14 +503,16 @@ se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
 
 ))
 
-cat("__________________Descriptive Stats for ANOVA on Integrated items, ignoring Related___________", sep = "",fill = 80)
+cat(rep(c("-"), times=40, quote=F),"\n")
+cat("INTEGRATED ITEMS ANALYSES", sep = "", fill = 60)
+cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds)  
-print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
 
 a.2x2 <- aov(error ~ semint * n2num + Error(subj / (semint * n2num)), data = data.subj)  # 2x2 anova
-cat("__________________ANOVA: Integrated items, ignoring Related_________", sep = "", fill = 80)
 print(summary(a.2x2)) 
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
 #
 # -----------------------INTEGRATED PAIRED COMPARISONS------------------------------------------------------
@@ -533,15 +540,16 @@ ds.integ <- data.frame(data = c("n2num", "plur", "sing"),
                             sd(integ.plur$error) / sqrt(length(integ.plur$error)),
                             sd(integ.sing$error) / sqrt(length(integ.sing$error)))) 
  
-cat("__________________Descriptive Stats for Integration Paired Comparisons, ignoring Related____", sep = "", fill = 80)
+cat(">>>  INTEGRATED ITEMS PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.integ) 
-print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
+
 
 a.integ <- aov(error ~ n2num + Error(subj / n2num), data = integ) 
-cat("__________________ANOVA: Integrated Paired Comparison, ignoring Related________", sep = "", fill = 80)
 print(summary(a.integ)) 
-print(rep(c("="), times = 50 ), quote = F)
-
+cat(" ", "\n")
+cat(" ", "\n")
 #
 #----------------------UNINTEGRATED PAIRED COMPARISONS--------------------------------------------------
 #
@@ -568,22 +576,20 @@ ds.uninteg <- data.frame(data = c("n2num", "plur", "sing"),
                               sd(unint.plur$error) / sqrt(length(unint.plur$error)),
                               sd(unint.sing$error) / sqrt(length(unint.sing$error)))) 
 
-cat("__________________Descriptive Stats for Unintegrated Paired Comparison, ignoring Related", sep = "", fill = 80)
+cat(">>>  UNINTEGRATED ITEMS PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.uninteg) 
-print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
 
 a.uninteg <- aov(error ~ n2num + Error(subj / n2num), data = unint)
-cat("__________________ANOVA: Unintegrated Paired Comparison__________", sep = "", fill = 80)
 print(summary(a.uninteg)) 
-print(rep(c("="), times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
 
-
-# ==================ALL GOOD UP TO HERE!!!!!!!!!!!
-
-# +++++++++++++++++++++++++TESTSTSTSTSTSTSTSTSTS
 # ---------------------------------------Paired comparisions for each condition------------------
 #
+
 f1errout <- read.table("data/SR_F1_errordata.txt", header = T) 
 d <- f1errout 
 d$subj <- as.factor(d$subj) 
@@ -618,14 +624,19 @@ ds.integrel <- data.frame(data = c("n2num","plur","sing"),
                                  sd(relat.int.plur$error) / sqrt(length(relat.int.plur$error)),
                                  sd(relat.int.sing$error) / sqrt(length(relat.int.sing$error)))) 
 
-cat("__________________Descriptive Stats for Paired Compairsion of Integrated Related items_____", sep = "", fill = 80)
+cat(rep(c("-"), times=40, quote=F),"\n")
+cat("VARIOUS PAIRED COMBINATIONS", sep = "", fill = 60)
+cat(rep(c("-"), times=40, quote=F), "\n")
+cat(" ", "\n")
+
+cat(">>>  INTEGRATED -RELATED PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.integrel) 
 print(rep(c("-"), times = 50), quote = F)
+cat(" ", "\n")
 
 a.integrel <- aov(error ~ n2num + Error(subj / n2num), data = integ.relat) 
-cat("ANOVA: Paired Compairsion of Integrated Related items", sep = "", fill = 80 )
 print(summary(a.integrel))
-print(rep(c("="), times = 50 ), quote = F)
 
 #-------------------Integrated Unrelated paired--------------------
 integ.unrel    <- subset(data.subj, semint  == "integ" & related == "unrel") 
@@ -654,14 +665,15 @@ ds.integunrel <- data.frame(data = c("n2num", "plur", "sing"),
                                    sd(unrel.int.plur$error) / sqrt(length(unrel.int.plur$error)),
                                    sd(unrel.int.sing$error) / sqrt(length(unrel.int.sing$error)))) 
 
-cat("__________________Descriptive Stats for Paired Comparison of Integrated Unrelated items_____", sep = "", fill = 80)
+cat(">>>  INTEGRATED -UNRELATED PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.integunrel)
-print(rep(c("-"),times = 50), quote = F)
+cat(" ", "\n")
 
 a.integunrel <- aov(error ~ n2num + Error(subj / n2num), data = integ.unrel) 
-cat("__________________ANOVA:Paired Comparison of Integrated Unrelated items_____", sep = "", fill = 80)
 print(summary(a.integunrel)) 
-print(rep(c("="),times = 50), quote = F)
+cat(" ", "\n")
+cat(" ", "\n")
 
 # ----------------------Uninegrated Related paired-------------------------
 unint.relat      <- subset(data.subj, semint  == "unint" & related == "rel") 
@@ -690,15 +702,14 @@ ds.unintrel <- data.frame(data = c("n2num", "plur", "sing"),
                                  sd(relat.unint.plur$error) / sqrt(length(relat.unint.plur$error)),
                                  sd(relat.unint.sing$error) / sqrt(length(relat.unint.sing$error)))) 
 
-cat("__________________Descriptive Stats for Paired Compairsion of Unitegrated Related items_____", sep = "", fill = 80)
+cat(">>>  UNINTEGRATED - RELATED PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.unintrel) 
-print(rep(c("-"), times = 50), quote = F)
-
+cat(" ", "\n")
 a.unintrel <- aov(error ~ n2num + Error(subj / n2num), data = unint.relat) 
-cat("__________________ANOVA: Paired Compairsion of Unitegrated Related items________", sep = "", fill = 80)
 print(summary(a.unintrel)) 
-print(rep(c("="),times = 50), quote = F)
-
+cat(" ", "\n")
+cat(" ", "\n")
 
 # -------------------------Unintegrated Unrelated comparisons-------------------
 unint.unrel      <- subset(data.subj, semint  == "unint" & related == "unrel") 
@@ -727,12 +738,15 @@ ds.unintunrel <- data.frame(data=c("n2num","plur","sing"),
                                    sd(unrel.unint.plur$error) / sqrt(length(unrel.unint.plur$error)),
                                    sd(unrel.unint.sing$error) / sqrt(length(unrel.unint.sing$error))))
 
-cat("__________________Descriptive Stats for Paired Compairsion of Unitegrated Unrelated items____", sep = "", fill = 80)
+cat(">>>  UNINTEGRATED - UNRELATED PAIRED COMPARISONS", sep = "", fill = 60)
+cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.unintunrel) 
+cat(" ", "\n")
 
 a.unintunrel <- aov(error ~ n2num + Error(subj / n2num), data = unint.unrel) 
-cat("__________________ANOVA: Paired Compairsion of Unitegrated Unrelated items_________", sep = "",fill = 80)
 print(summary(a.unintunrel)) 
+cat(" ", "\n")
+cat(" ", "\n")
 
 
 
