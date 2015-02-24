@@ -11,30 +11,30 @@ library(languageR)
 #
 # -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
 #
-f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) # reads in all data from data file
+f2errout <- read.table("data/SR2_F2_errcat.txt", header = T) # reads in all data from data file
 
-d <- f1errout # renames data file
+d <- f2errout # renames data file
 
-d$subj <- as.factor(d$subj) # designates "subject" as a factor
+d$item <- as.factor(d$item) # designates "subject" as a factor
 
 # Calculates the error rates (percent, including dys)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
 
 # aggregates d with dysfluencies 
 
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") # renames columns
+colnames(data.item) <- c("item", "related", "n2num", "error") # renames columns
 
 # Below, designates various subsets of the original data file
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 
@@ -49,7 +49,7 @@ ds <- data.frame(data = c(
   "unrelplur",
   "unrelsing"),
   
-  n = c(length(data.subj$error),
+  n = c(length(data.item$error),
         length(relat$error),
         length(unrel$error),
         length(plur$error),
@@ -59,7 +59,7 @@ ds <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  N = c(length(data.subj$error),
+  N = c(length(data.item$error),
         length(relat$error),
         length(unrel$error),
         length(plur$error),
@@ -69,7 +69,7 @@ ds <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  mean = c(mean(data.subj$error),
+  mean = c(mean(data.item$error),
            mean(relat$error),
            mean(unrel$error),
            mean(plur$error),
@@ -79,7 +79,7 @@ ds <- data.frame(data = c(
            mean(unrel.plur$error),
            mean(unrel.sing$error)),
   
-  sd = c(sd(data.subj$error),
+  sd = c(sd(data.item$error),
          sd(relat$error),
          sd(unrel$error),
          sd(plur$error),
@@ -89,7 +89,7 @@ ds <- data.frame(data = c(
          sd(unrel.plur$error),
          sd(unrel.sing$error)),
   
-  se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
          sd(relat$error) / sqrt(length(relat$error)),
          sd(unrel$error) / sqrt(length(unrel$error)),
          sd(plur$error) / sqrt(length(plur$error)),
@@ -104,7 +104,7 @@ ds <- data.frame(data = c(
 #--------------------------------2 X 2 ANOVA------------------------------------------------------
 
 
-sink("output/SemRel2 F1 Factor Analyses.txt")
+sink("output/SemRel2 F2 Factor Analyses.txt")
 cat(" ", "\n")
 cat("BY-SUBJECTS FACTOR ANALYSES RUN ON:", format(Sys.time(), "%b. %d, %Y at %T"), sep = "", fill= 70)
 cat(" ", "\n")
@@ -114,7 +114,7 @@ cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds)
 cat(" ", "\n")
 
-a.2x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
+a.2x2 <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item)
 print(summary(a.2x2)) 
 
 cat(" ", "\n")
@@ -156,7 +156,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.relat) 
 cat(" ", "\n")
 
-a.relat <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
+a.relat <- aov(error ~ n2num + Error(item / n2num), data = relat) 
 print(summary(a.relat)) 
 
 cat(" ", "\n")
@@ -190,7 +190,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.unrel) 
 cat(" ", "\n")
 
-a.unrel <- aov(error ~ n2num + Error(subj / n2num), data = unrel) 
+a.unrel <- aov(error ~ n2num + Error(item / n2num), data = unrel) 
 print(summary(a.unrel))
 
 
@@ -204,22 +204,22 @@ cat(" ", "\n")
 #------------Plural Items
 #
 
-f1errout <- read.table("data/SR2_F1_errcat.txt", header = T) 
+f2errout <- read.table("data/SR2_F2_errcat.txt", header = T) 
 
-d <- f1errout 
+d <- f2errout 
 d <- subset(d, n2num !="sing")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error")
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error")
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.plur <- data.frame(data = c("Related","Rel","unrel"),
                       
@@ -254,29 +254,29 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
-a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+a.plur <- aov(error ~ related + Error(item / related), data = plur) 
 print(summary(a.plur))
 cat(" ", "\n")
 cat(" ", "\n")
 
 
 # -------------------------------Singular Items----------------------
-f1errout <- read.table("data/SR2_F1_errcat.txt", header = T)
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errcat.txt", header = T)
+d <- f2errout 
 d <- subset(d, n2num !="plur")
-d$subj <- as.factor(d$subj)
+d$item <- as.factor(d$item)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 ds.sing <- data.frame(data = c("n2num","plur","sing"),
                       
                       n = c(length(sing$error),
@@ -305,11 +305,12 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
-a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+a.sing <- aov(error ~ related + Error(item / related), data = sing) 
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
-cat("\n", rep(c("vv"), times = 20, quote = F))  # ==================CATEGORY ANALYSES ABOVE  ==========================
+cat("\n", rep(c("//\\\\"), times = 25, quote = F),"\n")  # ==================CATEGORY ABOVE & PROP BELOW ==========================
+
 cat(" ", "\n")
 cat(" ", "\n")
 
@@ -317,23 +318,23 @@ cat(" ", "\n")
 # # --------------------------------------PROPERTY ITEMS ANALYSES---------------------
 # # ====================================================================================================
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
-d$subj <- as.factor(d$subj)
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
+d$item <- as.factor(d$item)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
-relat       <- subset(data.subj, related == "rel") 
-assoc       <- subset(data.subj, related == "assoc")
-unrel       <- subset(data.subj, related == "unrel") 
-sing        <- subset(data.subj, n2num   == "sing") 
-plur        <- subset(data.subj, n2num   == "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
+relat       <- subset(data.item, related == "rel") 
+assoc       <- subset(data.item, related == "assoc")
+unrel       <- subset(data.item, related == "unrel") 
+sing        <- subset(data.item, n2num   == "sing") 
+plur        <- subset(data.item, n2num   == "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
+assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds <- data.frame(data = c(
@@ -350,7 +351,7 @@ ds <- data.frame(data = c(
   "unrelplur",
   "unrelsing"),
   
-  n = c(length(data.subj$error),
+  n = c(length(data.item$error),
         length(assoc$error),
         length(relat$error),
         length(unrel$error),
@@ -363,7 +364,7 @@ ds <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  N = c(length(data.subj$error),
+  N = c(length(data.item$error),
         length(assoc$error),
         length(relat$error),
         length(unrel$error),
@@ -376,7 +377,7 @@ ds <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  mean = c(mean(data.subj$error),
+  mean = c(mean(data.item$error),
            mean(assoc$error),
            mean(relat$error),
            mean(unrel$error),
@@ -389,7 +390,7 @@ ds <- data.frame(data = c(
            mean(unrel.plur$error),
            mean(unrel.sing$error)),
   
-  sd = c(sd(data.subj$error),
+  sd = c(sd(data.item$error),
          sd(assoc$error),
          sd(relat$error),
          sd(unrel$error),
@@ -402,7 +403,7 @@ ds <- data.frame(data = c(
          sd(unrel.plur$error),
          sd(unrel.sing$error)),
   
-  se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
          sd(assoc$error) / sqrt(length(assoc$error)),
          sd(relat$error) / sqrt(length(relat$error)),
          sd(unrel$error) / sqrt(length(unrel$error)),
@@ -424,7 +425,7 @@ cat("2X2 ANOVA: PROPERTY ITEMS", sep = "", fill = 60)
 cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds) 
 cat(" ", "\n")
-a.3x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
+a.3x2 <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item)
 print(summary(a.3x2)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -434,24 +435,24 @@ cat(" ", "\n")
 # 
 # --------------------RELATED - ASSOCIATED ITEMS --------------------------------------
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T)
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T)
+d <- f2errout 
 d <- subset(d, related != "unrel")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
-relat       <- subset(data.subj, related == "rel") 
-assoc       <- subset(data.subj, related == "assoc")
-unrel       <- subset(data.subj, related == "unrel") 
-sing        <- subset(data.subj, n2num   == "sing") 
-plur        <- subset(data.subj, n2num   == "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
+relat       <- subset(data.item, related == "rel") 
+assoc       <- subset(data.item, related == "assoc")
+unrel       <- subset(data.item, related == "unrel") 
+sing        <- subset(data.item, n2num   == "sing") 
+plur        <- subset(data.item, n2num   == "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
+assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 assrel <- data.frame(data = c(
   "gmean",
@@ -464,7 +465,7 @@ assrel <- data.frame(data = c(
   "relplur",
   "relsing"),
   
-  n = c(length(data.subj$error),
+  n = c(length(data.item$error),
         length(assoc$error),
         length(relat$error),
         length(plur$error),
@@ -474,7 +475,7 @@ assrel <- data.frame(data = c(
         length(relat.plur$error),
         length(relat.sing$error)),
   
-  N = c(length(data.subj$error),
+  N = c(length(data.item$error),
         length(assoc$error),
         length(relat$error),
         length(plur$error),
@@ -484,7 +485,7 @@ assrel <- data.frame(data = c(
         length(relat.plur$error),
         length(relat.sing$error)),
   
-  mean = c(mean(data.subj$error),
+  mean = c(mean(data.item$error),
            mean(assoc$error),
            mean(relat$error),
            mean(plur$error),
@@ -494,7 +495,7 @@ assrel <- data.frame(data = c(
            mean(relat.plur$error),
            mean(relat.sing$error)),
   
-  sd = c(sd(data.subj$error),
+  sd = c(sd(data.item$error),
          sd(assoc$error),
          sd(relat$error),
          sd(plur$error),
@@ -504,7 +505,7 @@ assrel <- data.frame(data = c(
          sd(relat.plur$error),
          sd(relat.sing$error)),
   
-  se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
          sd(assoc$error) / sqrt(length(assoc$error)),
          sd(relat$error) / sqrt(length(relat$error)),
          sd(plur$error) / sqrt(length(plur$error)),
@@ -525,7 +526,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(assrel) 
 cat(" ", "\n")
 
-a.assrel <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
+a.assrel <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item)
 print(summary(a.assrel)) 
 
 cat(" ", "\n")
@@ -534,25 +535,25 @@ cat(" ", "\n")
 
 # --------------------RELATED - UNRELATED ITEMS --------------------------------------
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, related != "assoc")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
-relat       <- subset(data.subj, related == "rel") 
-assoc       <- subset(data.subj, related == "assoc")
-unrel       <- subset(data.subj, related == "unrel") 
-sing        <- subset(data.subj, n2num   == "sing") 
-plur        <- subset(data.subj, n2num   == "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related == "rel") 
+assoc       <- subset(data.item, related == "assoc")
+unrel       <- subset(data.item, related == "unrel") 
+sing        <- subset(data.item, n2num   == "sing") 
+plur        <- subset(data.item, n2num   == "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
+assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 relunr <- data.frame(data = c(
   "gmean",
@@ -565,7 +566,7 @@ relunr <- data.frame(data = c(
   "unrelplur",
   "unrelsing"),
   
-  n = c(length(data.subj$error),
+  n = c(length(data.item$error),
         length(relat$error),
         length(unrel$error),
         length(plur$error),
@@ -575,7 +576,7 @@ relunr <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  N = c(length(data.subj$error),
+  N = c(length(data.item$error),
         length(relat$error),
         length(unrel$error),
         length(plur$error),
@@ -585,7 +586,7 @@ relunr <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  mean = c(mean(data.subj$error),
+  mean = c(mean(data.item$error),
            mean(relat$error),
            mean(unrel$error),
            mean(plur$error),
@@ -595,7 +596,7 @@ relunr <- data.frame(data = c(
            mean(unrel.plur$error),
            mean(unrel.sing$error)),
   
-  sd = c(sd(data.subj$error),
+  sd = c(sd(data.item$error),
          sd(relat$error),
          sd(unrel$error),
          sd(plur$error),
@@ -605,7 +606,7 @@ relunr <- data.frame(data = c(
          sd(unrel.plur$error),
          sd(unrel.sing$error)),
   
-  se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
          sd(relat$error) / sqrt(length(relat$error)),
          sd(unrel$error) / sqrt(length(unrel$error)),
          sd(plur$error) / sqrt(length(plur$error)),
@@ -622,7 +623,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(relunr) 
 cat(" ", "\n")
 
-a.relunr <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
+a.relunr <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item)
 print(summary(a.relunr)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -630,24 +631,24 @@ cat(" ", "\n")
 
 # -------------------- ASSOCIATED - UNRELATED ITEMS --------------------------------------
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, related != "rel")
-d$subj <- as.factor(d$subj)
+d$item <- as.factor(d$item)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error")
-relat       <- subset(data.subj, related == "rel") 
-assoc       <- subset(data.subj, related == "assoc")
-unrel       <- subset(data.subj, related == "unrel") 
-sing        <- subset(data.subj, n2num   == "sing") 
-plur        <- subset(data.subj, n2num   == "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error")
+relat       <- subset(data.item, related == "rel") 
+assoc       <- subset(data.item, related == "assoc")
+unrel       <- subset(data.item, related == "unrel") 
+sing        <- subset(data.item, n2num   == "sing") 
+plur        <- subset(data.item, n2num   == "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
+assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 assunr <- data.frame(data = c(
@@ -661,7 +662,7 @@ assunr <- data.frame(data = c(
   "relplur",
   "relsing"),
   
-  n = c(length(data.subj$error),
+  n = c(length(data.item$error),
         length(assoc$error),
         length(unrel$error),
         length(plur$error),
@@ -671,7 +672,7 @@ assunr <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  N = c(length(data.subj$error),
+  N = c(length(data.item$error),
         length(assoc$error),
         length(unrel$error),
         length(plur$error),
@@ -681,7 +682,7 @@ assunr <- data.frame(data = c(
         length(unrel.plur$error),
         length(unrel.sing$error)),
   
-  mean = c(mean(data.subj$error),
+  mean = c(mean(data.item$error),
            mean(assoc$error),
            mean(unrel$error),
            mean(plur$error),
@@ -691,7 +692,7 @@ assunr <- data.frame(data = c(
            mean(unrel.plur$error),
            mean(unrel.sing$error)),
   
-  sd = c(sd(data.subj$error),
+  sd = c(sd(data.item$error),
          sd(assoc$error),
          sd(unrel$error),
          sd(plur$error),
@@ -701,7 +702,7 @@ assunr <- data.frame(data = c(
          sd(unrel.plur$error),
          sd(unrel.sing$error)),
   
-  se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
          sd(assoc$error) / sqrt(length(assoc$error)),
          sd(unrel$error) / sqrt(length(unrel$error)),
          sd(plur$error) / sqrt(length(plur$error)),
@@ -717,7 +718,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(assunr) 
 cat(" ", "\n")
 
-a.assunr <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj)
+a.assunr <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item)
 print(summary(a.assunr)) 
 
 cat(" ", "\n")
@@ -728,24 +729,24 @@ cat(" ", "\n")  # ==============================================================
 # --------------------------------- PAIRED COMPARISONS--------------------- 
 #
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout
-d$subj <- as.factor(d$subj) 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error")
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error")
 
-relat       <- subset(data.subj, related == "rel") 
-assoc       <- subset(data.subj, related == "assoc")
-unrel       <- subset(data.subj, related == "unrel") 
-sing        <- subset(data.subj, n2num   == "sing") 
-plur        <- subset(data.subj, n2num   == "plur")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-assoc.plur  <- subset(data.subj, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.subj, related == "assoc" & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related == "rel") 
+assoc       <- subset(data.item, related == "assoc")
+unrel       <- subset(data.item, related == "unrel") 
+sing        <- subset(data.item, n2num   == "sing") 
+plur        <- subset(data.item, n2num   == "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
+assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 # # ------------RELATED ITEMS------------------------------
@@ -783,7 +784,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.relat) 
 cat(" ", "\n")
 
-a.relat <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
+a.relat <- aov(error ~ n2num + Error(item / n2num), data = relat) 
 print(summary(a.relat)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -821,7 +822,7 @@ print(ds.assoc)
 cat(" ", "\n")
 
 
-a.assoc <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
+a.assoc <- aov(error ~ n2num + Error(item / n2num), data = relat) 
 print(summary(a.assoc)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -856,7 +857,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.unrel) 
 cat(" ", "\n")
 
-a.unrel <- aov(error ~ n2num + Error(subj / n2num), data = unrel) 
+a.unrel <- aov(error ~ n2num + Error(item / n2num), data = unrel) 
 print(summary(a.unrel))
 
 cat(" ", "\n")
@@ -866,26 +867,26 @@ cat(" ", "\n")
 #
 #------------Plural Items
 #
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num !="sing")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.plur <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
@@ -926,7 +927,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
-a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+a.plur <- aov(error ~ related + Error(item / related), data = plur) 
 print(summary(a.plur))
 
 cat(" ", "\n")
@@ -935,26 +936,26 @@ cat(" ", "\n")
 # ---------------------------------------Singular Items-------------------------
 #
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num !="plur")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
 
-colnames(data.subj) <- c("subj", "related", "n2num", "error")
+colnames(data.item) <- c("item", "related", "n2num", "error")
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.sing <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
                       
@@ -989,7 +990,7 @@ print(ds.sing)
 cat(" ", "\n")
 
 
-a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+a.sing <- aov(error ~ related + Error(item / related), data = sing) 
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
@@ -997,26 +998,26 @@ cat(" ", "\n")
 # ------------------SUBSET PAIRED COMPARIONS---------------------
 # -------- ASSOCIATED VS. RELATED PLURAL
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num !="sing" & related != "unrel")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.plur <- data.frame(data = c("Related","Assoc","Relat"),
@@ -1046,32 +1047,32 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
-a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+a.plur <- aov(error ~ related + Error(item / related), data = plur) 
 print(summary(a.plur))
 cat(" ", "\n")
 cat(" ", "\n")
 
 # ----------------------RELATED VS. UNRELATED PLURAL
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num !="sing" & related != "assoc")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.plur <- data.frame(data = c("Related","Relat","Unrel"),
@@ -1102,33 +1103,33 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
-a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+a.plur <- aov(error ~ related + Error(item / related), data = plur) 
 print(summary(a.plur))
 cat(" ", "\n")
 cat(" ", "\n")
 
 
 # ----------------------ASSOCIATED VS. UNRELATED PLURAL
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num !="sing" & related != "rel")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.plur <- data.frame(data = c("Related","Assoc","Unrel"),
@@ -1159,7 +1160,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.plur) 
 cat(" ", "\n")
 
-a.plur <- aov(error ~ related + Error(subj / related), data = plur) 
+a.plur <- aov(error ~ related + Error(item / related), data = plur) 
 print(summary(a.plur))
 cat(" ", "\n")
 cat(" ", "\n")
@@ -1167,26 +1168,26 @@ cat(" ", "\n")
 
 # -------- ASSOCIATED VS. RELATED SINGULAR
 
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num != "plur" & related != "unrel")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.sing <- data.frame(data = c("Related","Assoc","Relat"),
@@ -1216,32 +1217,32 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
-a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+a.sing <- aov(error ~ related + Error(item / related), data = sing) 
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
 
 # ----------------------RELATED VS. UNRELATED SINGULAR
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num != "plur" & related != "assoc")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.sing <- data.frame(data = c("Related","Relat","Unrel"),
@@ -1272,33 +1273,33 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
-a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+a.sing <- aov(error ~ related + Error(item / related), data = sing) 
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
 
 
 # ----------------------ASSOCIATED VS. UNRELATED SINGULAR
-f1errout <- read.table("data/SR2_F1_errprop.txt", header = T) 
-d <- f1errout 
+f2errout <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d <- f2errout 
 d <- subset(d, n2num != "plur" & related != "rel")
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)   
-data.subj <- aggregate(d$pct, list(d$subj, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
 
-assoc       <- subset(data.subj, related  ==  "assoc") 
-relat       <- subset(data.subj, related  ==  "rel") 
-unrel       <- subset(data.subj, related  ==  "unrel") 
-sing        <- subset(data.subj, n2num    ==  "sing") 
-plur        <- subset(data.subj, n2num    ==  "plur")
-assoc.plur  <- subset(data.subj, related == "assoc"   & n2num   == "plur")
-assoc.sing  <- subset(data.subj, related == "assoc"   & n2num   == "sing")
-relat.plur  <- subset(data.subj, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.subj, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.subj, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.subj, related == "unrel" & n2num   == "sing")
+assoc       <- subset(data.item, related  ==  "assoc") 
+relat       <- subset(data.item, related  ==  "rel") 
+unrel       <- subset(data.item, related  ==  "unrel") 
+sing        <- subset(data.item, n2num    ==  "sing") 
+plur        <- subset(data.item, n2num    ==  "plur")
+assoc.plur  <- subset(data.item, related == "assoc"   & n2num   == "plur")
+assoc.sing  <- subset(data.item, related == "assoc"   & n2num   == "sing")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 
 ds.sing <- data.frame(data = c("Related","Assoc","Unrel"),
@@ -1329,7 +1330,7 @@ cat(rep(c("-"), times=25, quote=F),"\n")
 print(ds.sing) 
 cat(" ", "\n")
 
-a.sing <- aov(error ~ related + Error(subj / related), data = sing) 
+a.sing <- aov(error ~ related + Error(item / related), data = sing) 
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")

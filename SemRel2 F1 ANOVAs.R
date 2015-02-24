@@ -309,7 +309,8 @@ a.sing <- aov(error ~ related + Error(subj / related), data = sing)
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
-cat("\n", rep(c("vv"), times = 20, quote = F))  # ==================CATEGORY ANALYSES ABOVE  ==========================
+cat("\n", rep(c("//\\\\"), times = 25, quote = F),"\n")  # ==================CATEGORY ABOVE & PROP BELOW ==========================
+
 cat(" ", "\n")
 cat(" ", "\n")
 
