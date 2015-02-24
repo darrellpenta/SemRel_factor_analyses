@@ -605,18 +605,11 @@ cat(" ", "\n")
 #
 
 f2errout <- read.table("data/SR_F2_errordata.txt", header = T) # reads in all data from data file
-
 d <- f2errout # renames data file
-
-
 d$item <- as.factor(d$item) # designates "itemect" as a factor
 
-# Calculates the error rates (percent, including dys)
-d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
-
-#aggregates d with dysfluencies 
-data.item <- aggregate(d$pct, list(d$item, d$semint, d$related, d$n2num ), mean) 
-
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord))*100) 
+data.item <- aggregate(d$pct, list(d$item, d$integ, d$related, d$n2num ), mean) 
 colnames(data.item) <- c("item", "semint", "related", "n2num", "error") # renames columns
 # ----------------Integrated Related paired----------------------
 integ.relat    <- subset(data.item, semint  == "integ" & related == "rel") 
