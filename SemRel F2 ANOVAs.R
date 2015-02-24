@@ -249,20 +249,19 @@ cat(" ", "\n")
 #
 #------------------------------------RELATED - UNRELATED ITEMS PAIRED COMPARISONS--------------------------------------
 #
-f2errout <- read.table("data/SR_F2_errordata.txt", header = T) # reads in all data from data file
-
+f2errout <- read.table("data/SR_F2_errrel.txt", header = T) # reads in all data from data file
 d <- f2errout # renames data file
 
 
-d$item <- as.factor(d$item) # designates "itemect" as a factor
+d$item <- as.factor(d$item) # designates "item" as a factor
 
 # Calculates the error rates (percent, including dys)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
 
 #aggregates d with dysfluencies 
-data.item <- aggregate(d$pct, list(d$item, d$integ, d$related, d$n2num ), mean) 
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean) 
 
-colnames(data.item) <- c("item", "semint", "related", "n2num", "error") # renames columns
+colnames(data.item) <- c("item", "related", "n2num", "error") # renames columns
 
 
 relat      <- subset(data.item, related == "rel") 
@@ -426,13 +425,20 @@ cat(" ", "\n")
 #
 # ----------------------------INTEGRATED - UNINTEGRATED PAIRED COMPARISONS --------------------------------
 #
+f2errout <- read.table("data/SR_F2_errint.txt", header = T) # reads in all data from data file
+d <- f2errout # renames data file
 
-f1errout <- read.table("data/SR_F2_errordata.txt", header = T)  # reads in data 
-d <- f1errout 
-d$item <- as.factor(d$item)  
-d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100) 
-data.item <- aggregate(d$pct, list(d$item, d$semint, d$related, d$n2num ), mean) 
-colnames(data.item) <- c("item", "semint", "related", "n2num", "error") 
+
+d$item <- as.factor(d$item) # designates "item" as a factor
+
+# Calculates the error rates (percent, including dys)
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
+
+#aggregates d with dysfluencies 
+data.item <- aggregate(d$pct, list(d$item, d$semint, d$n2num ), mean) 
+
+colnames(data.item) <- c("item", "semint", "n2num", "error") # renames columns
+
 
 integ      <- subset(data.item, semint == "integ") 
 unint      <- subset(data.item, semint == "unint") 
@@ -598,13 +604,20 @@ cat(" ", "\n")
 # ---------------------------------------Paired comparisions for each condition------------------
 #
 
-f1errout <- read.table("data/SR_F2_errordata.txt", header = T) 
-d <- f1errout 
-d$item <- as.factor(d$item) 
-d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord))*100) 
-data.item <- aggregate(d$pct, list(d$item, d$semint, d$related, d$n2num ), mean) 
-colnames(data.item) <- c("item", "semint", "related", "n2num", "error")
+f2errout <- read.table("data/SR_F2_errordata.txt", header = T) # reads in all data from data file
 
+d <- f2errout # renames data file
+
+
+d$item <- as.factor(d$item) # designates "itemect" as a factor
+
+# Calculates the error rates (percent, including dys)
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
+
+#aggregates d with dysfluencies 
+data.item <- aggregate(d$pct, list(d$item, d$semint, d$related, d$n2num ), mean) 
+
+colnames(data.item) <- c("item", "semint", "related", "n2num", "error") # renames columns
 # ----------------Integrated Related paired----------------------
 integ.relat    <- subset(data.item, semint  == "integ" & related == "rel") 
 relat.int.plur <- subset(data.item, related == "rel"   & semint  == "integ" & n2num == "plur") 
