@@ -9,7 +9,7 @@ f2errout <- read.table("data/SR_F2_errordata.txt", header = T) # reads in all da
 d <- f2errout # renames data file
 
 
-d$item <- as.factor(d$item) # designates "subject" as a factor
+d$item <- as.factor(d$item) # designates "itemect" as a factor
 
 # Calculates the error rates (percent, including dys)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
@@ -79,7 +79,7 @@ ds <- data.frame(data = c(
   "unrelunintplur",
   "unrelunintsing"),
 
-  n = c(length(data.subj$error),
+  n = c(length(data.item$error),
         length(integ$error),
         length(unint$error),
         length(relat$error),
@@ -107,7 +107,7 @@ ds <- data.frame(data = c(
         length(unrel.unint.plur$error),
         length(unrel.unint.sing$error)),
 
-  N = c(length(data.subj$error),
+  N = c(length(data.item$error),
         length(integ$error),
         length(unint$error),
         length(relat$error),
@@ -135,7 +135,7 @@ ds <- data.frame(data = c(
         length(unrel.unint.plur$error),
         length(unrel.unint.sing$error)),
   
-  mean = c(mean(data.subj$error),
+  mean = c(mean(data.item$error),
            mean(integ$error),
            mean(unint$error),
            mean(relat$error),
@@ -163,7 +163,7 @@ ds <- data.frame(data = c(
            mean(unrel.unint.plur$error),
            mean(unrel.unint.sing$error)),
 
-  sd = c(sd(data.subj$error),
+  sd = c(sd(data.item$error),
          sd(integ$error),
          sd(unint$error),
          sd(relat$error),
@@ -191,7 +191,7 @@ ds <- data.frame(data = c(
          sd(unrel.unint.plur$error),
          sd(unrel.unint.sing$error)),
 
-  se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
          sd(integ$error) / sqrt(length(integ$error)),
          sd(unint$error) / sqrt(length(unint$error)),
          sd(relat$error) / sqrt(length(relat$error)),
@@ -222,8 +222,6 @@ ds <- data.frame(data = c(
  
 
 
-
-
 #
 # --------------------------------2 X 2 X 2 ANOVA-----------------------------------------------------
 
@@ -244,29 +242,37 @@ print(summary(a.2x2x2))
 cat(" ", "\n")
 cat(" ", "\n")
 
-sink()
+
 
 #
 #========================================================================================================
 #
 #------------------------------------RELATED - UNRELATED ITEMS PAIRED COMPARISONS--------------------------------------
 #
+f2errout <- read.table("data/SR_F2_errordata.txt", header = T) # reads in all data from data file
 
-f1errout <- read.table("data/SR_F1_errrel.txt", header = T) #reads in Related data, ignoring integration
-d <- f1errout 
-d$subj <- as.factor(d$subj)
-d$pct <- ifelse(d$errd  == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100) 
-data.subj <- aggregate(d$pct, list(d$subj, d$semint, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "semint", "related", "n2num", "error") 
+d <- f2errout # renames data file
 
-relat      <- subset(data.subj, related == "rel") 
-unrel      <- subset(data.subj, related == "unrel") 
-sing       <- subset(data.subj, n2num   == "sing") 
-plur       <- subset(data.subj, n2num   == "plur")
-relat.plur <- subset(data.subj, related == "rel"   & n2num == "plur") 
-relat.sing <- subset(data.subj, related == "rel"   & n2num == "sing")
-unrel.plur <- subset(data.subj, related == "unrel" & n2num == "plur")
-unrel.sing <- subset(data.subj, related == "unrel" & n2num == "sing")
+
+d$item <- as.factor(d$item) # designates "itemect" as a factor
+
+# Calculates the error rates (percent, including dys)
+d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)  
+
+#aggregates d with dysfluencies 
+data.item <- aggregate(d$pct, list(d$item, d$integ, d$related, d$n2num ), mean) 
+
+colnames(data.item) <- c("item", "semint", "related", "n2num", "error") # renames columns
+
+
+relat      <- subset(data.item, related == "rel") 
+unrel      <- subset(data.item, related == "unrel") 
+sing       <- subset(data.item, n2num   == "sing") 
+plur       <- subset(data.item, n2num   == "plur")
+relat.plur <- subset(data.item, related == "rel"   & n2num == "plur") 
+relat.sing <- subset(data.item, related == "rel"   & n2num == "sing")
+unrel.plur <- subset(data.item, related == "unrel" & n2num == "plur")
+unrel.sing <- subset(data.item, related == "unrel" & n2num == "sing")
 
 ds <- data.frame(data = c(
   "gmean",
@@ -280,7 +286,7 @@ ds <- data.frame(data = c(
   "unrelsing"
 ),
 
-n = c(length(data.subj$error),
+n = c(length(data.item$error),
       length(relat$error),
       length(unrel$error),
       length(plur$error),
@@ -291,7 +297,7 @@ n = c(length(data.subj$error),
       length(unrel.sing$error)
 ),
 
-N = c(length(data.subj$error),
+N = c(length(data.item$error),
       length(relat$error),
       length(unrel$error),
       length(plur$error),
@@ -302,7 +308,7 @@ N = c(length(data.subj$error),
       length(unrel.sing$error)
 ),
 
-mean = c(mean(data.subj$error),
+mean = c(mean(data.item$error),
          mean(relat$error),
          mean(unrel$error),
          mean(plur$error),
@@ -313,7 +319,7 @@ mean = c(mean(data.subj$error),
          mean(unrel.sing$error)
 ),
 
-sd = c(sd(data.subj$error),
+sd = c(sd(data.item$error),
        sd(relat$error),
        sd(unrel$error),
        sd(plur$error),
@@ -324,7 +330,7 @@ sd = c(sd(data.subj$error),
        sd(unrel.sing$error)
 ),
 
-se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+se = c(sd(data.item$error) / sqrt(length(data.item$error)),
        sd(relat$error) / sqrt(length(relat$error)),
        sd(unrel$error) / sqrt(length(unrel$error)),
        sd(plur$error) / sqrt(length(plur$error)),
@@ -342,9 +348,10 @@ cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds) 
 cat(" ", "\n")
 
-a.2x2 <- aov(error ~ related * n2num + Error(subj / (related * n2num)), data = data.subj) 
+a.2x2 <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item) 
 print(summary(a.2x2)) 
 cat(" ", "\n")
+
 cat(" ", "\n")
 
 # -------------------------RELATED ITEMS ANALYSES------------------------------
@@ -377,7 +384,7 @@ cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.relat) 
 cat(" ", "\n")
 
-a.relat <- aov(error ~ n2num + Error(subj / n2num), data = relat) 
+a.relat <- aov(error ~ n2num + Error(item / n2num), data = relat) 
 print(summary(a.relat)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -409,7 +416,7 @@ cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.unrel) 
 cat(" ", "\n")
 
-a.unrel <- aov(error ~ n2num + Error(subj / n2num), data = unrel) 
+a.unrel <- aov(error ~ n2num + Error(item / n2num), data = unrel) 
 print(summary(a.unrel))
 cat(" ", "\n")
 cat(" ", "\n")
@@ -420,21 +427,21 @@ cat(" ", "\n")
 # ----------------------------INTEGRATED - UNINTEGRATED PAIRED COMPARISONS --------------------------------
 #
 
-f1errout <- read.table("data/SR_F1_errint.txt", header = T)  # reads in data 
+f1errout <- read.table("data/SR_F2_errordata.txt", header = T)  # reads in data 
 d <- f1errout 
-d$subj <- as.factor(d$subj)  
+d$item <- as.factor(d$item)  
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100) 
-data.subj <- aggregate(d$pct, list(d$subj, d$semint, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "semint", "related", "n2num", "error") 
+data.item <- aggregate(d$pct, list(d$item, d$semint, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "semint", "related", "n2num", "error") 
 
-integ      <- subset(data.subj, semint == "integ") 
-unint      <- subset(data.subj, semint == "unint") 
-sing       <- subset(data.subj, n2num  == "sing") 
-plur       <- subset(data.subj, n2num  == "plur") 
-integ.plur <- subset(data.subj, semint == "integ" & n2num == "plur") 
-integ.sing <- subset(data.subj, semint == "integ" & n2num == "sing")
-unint.plur <- subset(data.subj, semint == "unint" & n2num == "plur")
-unint.sing <- subset(data.subj, semint == "unint" & n2num == "sing")
+integ      <- subset(data.item, semint == "integ") 
+unint      <- subset(data.item, semint == "unint") 
+sing       <- subset(data.item, n2num  == "sing") 
+plur       <- subset(data.item, n2num  == "plur") 
+integ.plur <- subset(data.item, semint == "integ" & n2num == "plur") 
+integ.sing <- subset(data.item, semint == "integ" & n2num == "sing")
+unint.plur <- subset(data.item, semint == "unint" & n2num == "plur")
+unint.sing <- subset(data.item, semint == "unint" & n2num == "sing")
 
 ds <- data.frame(data = c(
   "gmean",
@@ -448,7 +455,7 @@ ds <- data.frame(data = c(
   "unintsing"
 ),
 
-n = c(length(data.subj$error),
+n = c(length(data.item$error),
       length(integ$error),
       length(unint$error),
       length(plur$error),
@@ -459,7 +466,7 @@ n = c(length(data.subj$error),
       length(unint.sing$error)
 ),
 
-N = c(length(data.subj$error),
+N = c(length(data.item$error),
       length(integ$error),
       length(unint$error),
       length(plur$error),  
@@ -470,7 +477,7 @@ N = c(length(data.subj$error),
       length(unint.sing$error)
 ),
 
-mean = c(mean(data.subj$error),
+mean = c(mean(data.item$error),
          mean(integ$error),
          mean(unint$error),
          mean(plur$error),
@@ -481,7 +488,7 @@ mean = c(mean(data.subj$error),
          mean(unint.sing$error)
 ),
 
-sd = c(sd(data.subj$error),
+sd = c(sd(data.item$error),
        sd(integ$error),
        sd(unint$error),
        sd(plur$error),
@@ -492,7 +499,7 @@ sd = c(sd(data.subj$error),
        sd(unint.sing$error)
 ),
 
-se = c(sd(data.subj$error) / sqrt(length(data.subj$error)),
+se = c(sd(data.item$error) / sqrt(length(data.item$error)),
        sd(integ$error) / sqrt(length(integ$error)),
        sd(unint$error) / sqrt(length(unint$error)),
        sd(plur$error) / sqrt(length(plur$error)),
@@ -510,7 +517,7 @@ cat(rep(c("-"), times=40, quote=F), "\n")
 print(ds)  
 cat(" ", "\n")
 
-a.2x2 <- aov(error ~ semint * n2num + Error(subj / (semint * n2num)), data = data.subj)  # 2x2 anova
+a.2x2 <- aov(error ~ semint * n2num + Error(item / (semint * n2num)), data = data.item)  # 2x2 anova
 print(summary(a.2x2)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -547,7 +554,7 @@ print(ds.integ)
 cat(" ", "\n")
 
 
-a.integ <- aov(error ~ n2num + Error(subj / n2num), data = integ) 
+a.integ <- aov(error ~ n2num + Error(item / n2num), data = integ) 
 print(summary(a.integ)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -582,7 +589,7 @@ cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.uninteg) 
 cat(" ", "\n")
 
-a.uninteg <- aov(error ~ n2num + Error(subj / n2num), data = unint)
+a.uninteg <- aov(error ~ n2num + Error(item / n2num), data = unint)
 print(summary(a.uninteg)) 
 cat(" ", "\n")
 cat(" ", "\n")
@@ -591,17 +598,17 @@ cat(" ", "\n")
 # ---------------------------------------Paired comparisions for each condition------------------
 #
 
-f1errout <- read.table("data/SR_F1_errordata.txt", header = T) 
+f1errout <- read.table("data/SR_F2_errordata.txt", header = T) 
 d <- f1errout 
-d$subj <- as.factor(d$subj) 
+d$item <- as.factor(d$item) 
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord))*100) 
-data.subj <- aggregate(d$pct, list(d$subj, d$semint, d$related, d$n2num ), mean) 
-colnames(data.subj) <- c("subj", "semint", "related", "n2num", "error")
+data.item <- aggregate(d$pct, list(d$item, d$semint, d$related, d$n2num ), mean) 
+colnames(data.item) <- c("item", "semint", "related", "n2num", "error")
 
 # ----------------Integrated Related paired----------------------
-integ.relat    <- subset(data.subj, semint  == "integ" & related == "rel") 
-relat.int.plur <- subset(data.subj, related == "rel"   & semint  == "integ" & n2num == "plur") 
-relat.int.sing <- subset(data.subj, related == "rel"   & semint  == "integ" & n2num == "sing") 
+integ.relat    <- subset(data.item, semint  == "integ" & related == "rel") 
+relat.int.plur <- subset(data.item, related == "rel"   & semint  == "integ" & n2num == "plur") 
+relat.int.sing <- subset(data.item, related == "rel"   & semint  == "integ" & n2num == "sing") 
 
 ds.integrel <- data.frame(data = c("n2num","plur","sing"),
                           
@@ -636,13 +643,13 @@ print(ds.integrel)
 print(rep(c("-"), times = 50), quote = F)
 cat(" ", "\n")
 
-a.integrel <- aov(error ~ n2num + Error(subj / n2num), data = integ.relat) 
+a.integrel <- aov(error ~ n2num + Error(item / n2num), data = integ.relat) 
 print(summary(a.integrel))
 
 #-------------------Integrated Unrelated paired--------------------
-integ.unrel    <- subset(data.subj, semint  == "integ" & related == "unrel") 
-unrel.int.plur <- subset(data.subj, related == "unrel" & semint  == "integ" & n2num == "plur") 
-unrel.int.sing <- subset(data.subj, related == "unrel" & semint  == "integ" & n2num == "sing") 
+integ.unrel    <- subset(data.item, semint  == "integ" & related == "unrel") 
+unrel.int.plur <- subset(data.item, related == "unrel" & semint  == "integ" & n2num == "plur") 
+unrel.int.sing <- subset(data.item, related == "unrel" & semint  == "integ" & n2num == "sing") 
 
 ds.integunrel <- data.frame(data = c("n2num", "plur", "sing"),
                             
@@ -671,15 +678,15 @@ cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.integunrel)
 cat(" ", "\n")
 
-a.integunrel <- aov(error ~ n2num + Error(subj / n2num), data = integ.unrel) 
+a.integunrel <- aov(error ~ n2num + Error(item / n2num), data = integ.unrel) 
 print(summary(a.integunrel)) 
 cat(" ", "\n")
 cat(" ", "\n")
 
 # ----------------------Uninegrated Related paired-------------------------
-unint.relat      <- subset(data.subj, semint  == "unint" & related == "rel") 
-relat.unint.plur <- subset(data.subj, related == "rel"   & semint  == "unint" & n2num == "plur") 
-relat.unint.sing <- subset(data.subj, related == "rel"   & semint  == "unint" & n2num == "sing") 
+unint.relat      <- subset(data.item, semint  == "unint" & related == "rel") 
+relat.unint.plur <- subset(data.item, related == "rel"   & semint  == "unint" & n2num == "plur") 
+relat.unint.sing <- subset(data.item, related == "rel"   & semint  == "unint" & n2num == "sing") 
 
 ds.unintrel <- data.frame(data = c("n2num", "plur", "sing"),
                           
@@ -707,15 +714,15 @@ cat(">>>  UNINTEGRATED - RELATED PAIRED COMPARISONS", sep = "", fill = 60)
 cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.unintrel) 
 cat(" ", "\n")
-a.unintrel <- aov(error ~ n2num + Error(subj / n2num), data = unint.relat) 
+a.unintrel <- aov(error ~ n2num + Error(item / n2num), data = unint.relat) 
 print(summary(a.unintrel)) 
 cat(" ", "\n")
 cat(" ", "\n")
 
 # -------------------------Unintegrated Unrelated comparisons-------------------
-unint.unrel      <- subset(data.subj, semint  == "unint" & related == "unrel") 
-unrel.unint.plur <- subset(data.subj, related == "unrel" & semint  == "unint" & n2num == "plur")
-unrel.unint.sing <- subset(data.subj, related == "unrel" & semint  == "unint" & n2num == "sing")
+unint.unrel      <- subset(data.item, semint  == "unint" & related == "unrel") 
+unrel.unint.plur <- subset(data.item, related == "unrel" & semint  == "unint" & n2num == "plur")
+unrel.unint.sing <- subset(data.item, related == "unrel" & semint  == "unint" & n2num == "sing")
 
 ds.unintunrel <- data.frame(data=c("n2num","plur","sing"),
                             
@@ -744,7 +751,7 @@ cat(rep(c("-"), times=25, quote=F), "\n")
 print(ds.unintunrel) 
 cat(" ", "\n")
 
-a.unintunrel <- aov(error ~ n2num + Error(subj / n2num), data = unint.unrel) 
+a.unintunrel <- aov(error ~ n2num + Error(item / n2num), data = unint.unrel) 
 print(summary(a.unintunrel)) 
 cat(" ", "\n")
 cat(" ", "\n")
