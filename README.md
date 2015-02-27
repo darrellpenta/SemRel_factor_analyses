@@ -1,9 +1,9 @@
-#SemRel Factor Analyses
-###For the experiments SemRel 1  &amp; 2 factor analyses
+#SemRel Factorial Analyses
+###For the experiments SemRel 1  &amp; 2 factorial analyses
 
 ---
 
-This package contains the scripts and datafiles for doing various factor analyses of data from Semrel 1 and Semrel 2, experiments conducted between 9/2012-12/2014 by [Darrell J. Penta](http://www.northeastern.edu/cos/psychology/people/graduate-students/darrell-penta/) and [Neal J. Pearlmutter](http://www.northeastern.edu/cos/faculty/neal-pearlmutter-2/) in the [Pearlmutter Sentence Processing Laboratory](http://nuweb.neu.edu/npearlmutter/lab/index.html) at [Northeastern University](http://www.northeastern.edu), Boston, MA. The main files are:
+This package contains the scripts and datafiles for doing various factorial analyses of data from Semrel 1 and Semrel 2, experiments conducted between 9/2012-12/2014 by [Darrell J. Penta](http://www.northeastern.edu/cos/psychology/people/graduate-students/darrell-penta/) and [Neal J. Pearlmutter](http://www.northeastern.edu/cos/faculty/neal-pearlmutter-2/) in the [Pearlmutter Sentence Processing Laboratory](http://nuweb.neu.edu/npearlmutter/lab/index.html) at [Northeastern University](http://www.northeastern.edu), Boston, MA. The main files are:
 
 * `SemRel F1 ANOVAs.R`, a script that performs  F1 (by-subjects) ANOVAs on the data from SemRel
   * Data files used here are: 
