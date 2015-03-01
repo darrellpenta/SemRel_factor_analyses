@@ -1,0 +1,54 @@
+  
+BY-ITEMS FACTOR ANALYSES RUN ON:Mar. 01, 2015 at 14:44:17
+  
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+2X2X2 ANOVA: SEMREL
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23   1646   71.55               
+
+Error: item:semint
+          Df Sum Sq Mean Sq F value Pr(>F)
+semint     1   56.3   56.26   1.532  0.228
+Residuals 23  844.7   36.73               
+
+Error: item:related
+          Df Sum Sq Mean Sq F value Pr(>F)  
+related    1  161.1  161.07   5.583  0.027 *
+Residuals 23  663.6   28.85                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1   2346  2346.0   31.77 9.76e-06 ***
+Residuals 23   1698    73.8                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:semint:related
+               Df Sum Sq Mean Sq F value Pr(>F)
+semint:related  1    0.3   0.262   0.015  0.903
+Residuals      23  393.5  17.107               
+
+Error: item:semint:n2num
+             Df Sum Sq Mean Sq F value Pr(>F)
+semint:n2num  1   75.3   75.30   2.214   0.15
+Residuals    23  782.1   34.01               
+
+Error: item:related:n2num
+              Df Sum Sq Mean Sq F value Pr(>F)  
+related:n2num  1  177.4  177.39   6.156 0.0208 *
+Residuals     23  662.8   28.82                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:semint:related:n2num
+                     Df Sum Sq Mean Sq F value Pr(>F)
+semint:related:n2num  1    0.1   0.055   0.003  0.956
+Residuals            23  399.9  17.389               
+  
+  

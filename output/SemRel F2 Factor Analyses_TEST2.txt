@@ -1,0 +1,84 @@
+  
+BY-ITEMS FACTOR ANALYSES RUN ON:Mar. 01, 2015 at 15:27:31
+  
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+2X2X2 ANOVA: SEMREL
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+>>>  UNRELATED ITEMS PAIRED COMPARISONS
+- - - - - - - - - - - - - - - - - - - - - - - - - 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+RELATED ITEMS ANALYSES
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        data  n  N      mean        sd        se
+1      gmean 96 96  3.547608  5.889587 0.6011035
+2      relat 48 48  4.491078  7.113289  1.026715
+3      unrel 48 48  2.604137  4.206598 0.6071702
+4       plur 48 48  6.908824  6.818166 0.9841175
+5       sing 48 48 0.1863919 0.7408177 0.1069278
+6 relat.plur 24 24  8.838478  7.966117  1.626077
+7 relat.sing 24 24 0.1436782 0.7038764 0.1436782
+8 unrel.plur 24 24  4.979169   4.87504 0.9951135
+9 unrel.sing 24 24 0.2291056 0.7888178 0.1610168
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23  718.4   31.23               
+
+Error: item:related
+          Df Sum Sq Mean Sq F value Pr(>F)  
+related    1  85.45   85.45   6.848 0.0154 *
+Residuals 23 287.00   12.48                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1 1084.6  1084.6   33.59 6.63e-06 ***
+Residuals 23  742.5    32.3                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:related:n2num
+              Df Sum Sq Mean Sq F value Pr(>F)  
+related:n2num  1  93.37   93.37   7.563 0.0114 *
+Residuals     23 283.93   12.34                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  
+  
+>>>  RELATED ITEMS PAIRED COMPARISONS
+- - - - - - - - - - - - - - - - - - - - - - - - - 
+        data  n  N      mean        sd        se
+1      relat 48 48  4.491078  7.113289  1.026715
+2 relat.plur 24 24  8.838478  7.966117  1.626077
+3 relat.sing 24 24 0.1436782 0.7038764 0.1436782
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23  735.4   31.97               
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1  907.2   907.2   28.37 2.08e-05 ***
+Residuals 23  735.5    32.0                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  
+  
+- - - - - - - - - - - - - - - - - - - - - - - - - 
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23    270   11.74               
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1  270.8  270.76    21.4 0.000118 ***
+Residuals 23  290.9   12.65                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  
+  

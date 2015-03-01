@@ -1,0 +1,163 @@
+  
+BY-ITEMS FACTORIAL ANALYSES RUN ON: Mar. 01, 2015 at 16:48:25
+  
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+2X2X2 ANOVA: SEMREL
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+               data   n   N       mean        sd         se
+1             gmean 192 192   3.679698  7.201982  0.5197583
+2             integ  96  96   4.221004  8.737802  0.8917981
+3             unint  96  96   3.138392  5.228931  0.5336755
+4             relat  96  96   4.595623  8.137352   0.830515
+5             unrel  96  96   2.763773  6.030845  0.6155205
+6       integ.relat  48  48   5.099956  9.692947   1.399056
+7       integ.unrel  48  48   3.342052  7.667568   1.106718
+8       unint.relat  48  48   4.091289  6.274482  0.9056434
+9       unint.unrel  48  48   2.185495  3.747184  0.5408594
+10             sing  96  96  0.1841518  1.040886   0.106235
+11             plur  96  96   7.175244  8.860289  0.9042994
+12       integ.plur  48  48   8.342802  10.91554   1.575522
+13       integ.sing  48  48 0.09920635 0.6873217 0.09920635
+14       unint.plur  48  48   6.007687  6.061877  0.8749565
+15       unint.sing  48  48  0.2690972   1.30491  0.1883475
+16       relat.plur  48  48   9.052357  9.609671   1.387036
+17       relat.sing  48  48  0.1388889 0.9622504  0.1388889
+18       unrel.plur  48  48   5.298132  7.690054   1.109964
+19       unrel.sing  48  48  0.2294147  1.122421  0.1620075
+20   relat.int.plur  24  24   10.19991  11.73501     2.3954
+21   relat.int.sing  24  24     0.0000    0.0000     0.0000
+22 relat.unint.plur  24  24   7.904801   6.94606   1.417859
+23 relat.unint.sing  24  24  0.2777778  1.360828  0.2777778
+24   unrel.int.plur  24  24   6.485691  9.928255   2.026597
+25   unrel.int.sing  24  24  0.1984127 0.9720197  0.1984127
+26 unrel.unint.plur  24  24   4.110573  4.396767  0.8974863
+27 unrel.unint.sing  24  24  0.2604167  1.275776  0.2604167
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23   1646   71.55               
+
+Error: item:semint
+          Df Sum Sq Mean Sq F value Pr(>F)
+semint     1   56.3   56.26   1.532  0.228
+Residuals 23  844.7   36.73               
+
+Error: item:related
+          Df Sum Sq Mean Sq F value Pr(>F)  
+related    1  161.1  161.07   5.583  0.027 *
+Residuals 23  663.6   28.85                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1   2346  2346.0   31.77 9.76e-06 ***
+Residuals 23   1698    73.8                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:semint:related
+               Df Sum Sq Mean Sq F value Pr(>F)
+semint:related  1    0.3   0.262   0.015  0.903
+Residuals      23  393.5  17.107               
+
+Error: item:semint:n2num
+             Df Sum Sq Mean Sq F value Pr(>F)
+semint:n2num  1   75.3   75.30   2.214   0.15
+Residuals    23  782.1   34.01               
+
+Error: item:related:n2num
+              Df Sum Sq Mean Sq F value Pr(>F)  
+related:n2num  1  177.4  177.39   6.156 0.0208 *
+Residuals     23  662.8   28.82                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:semint:related:n2num
+                     Df Sum Sq Mean Sq F value Pr(>F)
+semint:related:n2num  1    0.1   0.055   0.003  0.956
+Residuals            23  399.9  17.389               
+  
+  
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+RELATED ITEMS ANALYSES
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        data  n  N      mean        sd        se
+1      gmean 96 96  3.547608  5.889587 0.6011035
+2      relat 48 48  4.491078  7.113289  1.026715
+3      unrel 48 48  2.604137  4.206598 0.6071702
+4       plur 48 48  6.908824  6.818166 0.9841175
+5       sing 48 48 0.1863919 0.7408177 0.1069278
+6 relat.plur 24 24  8.838478  7.966117  1.626077
+7 relat.sing 24 24 0.1436782 0.7038764 0.1436782
+8 unrel.plur 24 24  4.979169   4.87504 0.9951135
+9 unrel.sing 24 24 0.2291056 0.7888178 0.1610168
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23  718.4   31.23               
+
+Error: item:related
+          Df Sum Sq Mean Sq F value Pr(>F)  
+related    1  85.45   85.45   6.848 0.0154 *
+Residuals 23 287.00   12.48                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1 1084.6  1084.6   33.59 6.63e-06 ***
+Residuals 23  742.5    32.3                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: item:related:n2num
+              Df Sum Sq Mean Sq F value Pr(>F)  
+related:n2num  1  93.37   93.37   7.563 0.0114 *
+Residuals     23 283.93   12.34                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  
+  
+>>>  RELATED ITEMS PAIRED COMPARISONS
+- - - - - - - - - - - - - - - - - - - - - - - - - 
+        data  n  N      mean        sd        se
+1      relat 48 48  4.491078  7.113289  1.026715
+2 relat.plur 24 24  8.838478  7.966117  1.626077
+3 relat.sing 24 24 0.1436782 0.7038764 0.1436782
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23  735.4   31.97               
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1  907.2   907.2   28.37 2.08e-05 ***
+Residuals 23  735.5    32.0                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  
+  
+>>>  UNRELATED ITEMS PAIRED COMPARISONS
+- - - - - - - - - - - - - - - - - - - - - - - - - 
+        data  n  N      mean        sd        se
+1      unrel 48 48  2.604137  4.206598 0.6071702
+2 unrel.plur 24 24  4.979169   4.87504 0.9951135
+3 unrel.sing 24 24 0.2291056 0.7888178 0.1610168
+  
+
+Error: item
+          Df Sum Sq Mean Sq F value Pr(>F)
+Residuals 23    270   11.74               
+
+Error: item:n2num
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+n2num      1  270.8  270.76    21.4 0.000118 ***
+Residuals 23  290.9   12.65                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+  
+  
