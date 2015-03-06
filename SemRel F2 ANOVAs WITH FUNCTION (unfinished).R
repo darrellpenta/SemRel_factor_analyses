@@ -65,12 +65,12 @@ cat(rep(c("-"), times=40, quote=F), "\n")
 ds <- StatRep(c("gmean","integ","unint","relat","unrel","integ.relat","integ.unrel","unint.relat","unint.unrel", "sing","plur", "integ.plur","integ.sing","unint.plur","unint.sing","relat.plur","relat.sing","unrel.plur","unrel.sing","relat.int.plur","relat.int.sing","relat.unint.plur","relat.unint.sing","unrel.int.plur","unrel.int.sing","unrel.unint.plur","unrel.unint.sing"))
 
 
-print(format(ds, trim = FALSE, nsmall = 4, scientific = FALSE)) # prints descrip stats for 2x2x2 ANOVA
+print(ds, digits=8) # prints descrip stats for 2x2x2 ANOVA
 cat(" ", "\n")
 
 # Computes the anova
 a.2x2x2 <- aov(error ~ semint * related * n2num + Error(item / (semint * related * n2num)), data = data.item)
-print(summary(a.2x2x2))
+print(summary(a.2x2x2), digits=8)
 cat(" ", "\n")
 cat(" ", "\n")
 
@@ -108,7 +108,7 @@ cat(rep(c("-"), times=40, quote=F),"\n")
 cat("RELATED ITEMS ANALYSES", sep = "", fill = 60)
 cat(rep(c("-"), times=40, quote=F), "\n")
 ds <- StatRep(c("gmean","relat","unrel","plur","sing","relat.plur","relat.sing","unrel.plur","unrel.sing"))
-print(format(ds, trim = FALSE, nsmall = 4, scientific = FALSE))
+print(ds)
 cat(" ", "\n")
 
 a.2x2 <- aov(error ~ related * n2num + Error(item / (related * n2num)), data = data.item)
@@ -122,11 +122,11 @@ ds.relat <- StatRep(c("relat","relat.plur","relat.sing"))
 
 cat(">>>  RELATED ITEMS PAIRED COMPARISONS", sep = "", fill = 60)
 cat(rep(c("-"), times=25, quote=F), "\n")
-print(ds.relat)
+print(ds.relat, digits=8, small=4)
 cat(" ", "\n")
 
 a.relat <- aov(error ~ n2num + Error(item / n2num), data = data.list$relat)
-print(summary(a.relat))
+print(summary(a.relat), digits=8, nsmall=4)
 cat(" ", "\n")
 cat(" ", "\n")
 #------------------------------UNRELATED PAIRED COMPARISION----------------
@@ -135,11 +135,11 @@ ds.unrel <- StatRep(c("unrel", "unrel.plur", "unrel.sing"))
               
 cat(">>>  UNRELATED ITEMS PAIRED COMPARISONS", sep = "", fill = 60)
 cat(rep(c("-"), times=25, quote=F), "\n")
-print(ds.unrel)
+print(ds.unrel, digits=8, nsmall=4)
 cat(" ", "\n")
 
 a.unrel <- aov(error ~ n2num + Error(item / n2num), data = data.list$unrel)
-print(summary(a.unrel))
+print(summary(a.unrel), digits=8, nsmall=4)
 cat(" ", "\n")
 cat(" ", "\n")
 

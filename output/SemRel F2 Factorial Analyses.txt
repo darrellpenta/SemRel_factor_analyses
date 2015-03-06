@@ -1,5 +1,5 @@
   
-BY-ITEMS FACTORIAL ANALYSES RUN ON: Mar. 01, 2015 at 15:19:10
+BY-ITEMS FACTORIAL ANALYSES RUN ON: Mar. 06, 2015 at 11:15:39
   
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 2X2X2 ANOVA: SEMREL
