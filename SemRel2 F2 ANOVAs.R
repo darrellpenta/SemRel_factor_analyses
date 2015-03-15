@@ -6,10 +6,10 @@ library(languageR)
 
 
 # ====================================================================================================
-# ------------------------------------CATEGORY COORDINATE ITEMS ANALYSES
+# CATEGORY COORDINATE ITEMS ANALYSES ------------------------------------------------
 # ====================================================================================================
 #
-# -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
+# PREPARE DATA FILE FOR ANALYSES -------------------------------------------------
 #
 f2errout <- read.table("data/SR2_F2_errcat.txt", header = T) # reads in all data from data file
 
@@ -101,6 +101,7 @@ ds <- data.frame(data = c(
   ))
 
 
+
 #--------------------------------2 X 2 ANOVA------------------------------------------------------
 
 
@@ -120,9 +121,9 @@ print(summary(a.2x2))
 cat(" ", "\n")
 cat(" ", "\n")
 
-#  --------------------RELATED vs. UNRELATED ITEMS PAIRED COMPARISONS--------------------------------
+#  ------RELATED vs. UNRELATED ITEMS PAIRED COMPARISONS--------------------------------
 #
-#  ------------RELATED ITEMS------------------------------
+#  ------RELATED ITEMS------------------------------
 
 ds.relat <- data.frame(data = c("n2num","plur","sing"),
 
@@ -314,9 +315,9 @@ cat("\n", rep(c("//\\\\"), times = 25, quote = F),"\n")  # ==================CAT
 cat(" ", "\n")
 cat(" ", "\n")
 
-# # ====================================================================================================
-# # --------------------------------------PROPERTY ITEMS ANALYSES---------------------
-# # ====================================================================================================
+# ====================================================================================================
+# PROPERTY ITEMS ANALYSES -----------------------------------------------------
+# ====================================================================================================
 
 f2errout <- read.table("data/SR2_F2_errprop.txt", header = T)
 d <- f2errout
@@ -1334,8 +1335,143 @@ a.sing <- aov(error ~ related + Error(item / related), data = sing)
 print(summary(a.sing))
 cat(" ", "\n")
 cat(" ", "\n")
-
-
-
 sink()
+
+# =============================================================================================
+# FIGURES -----------------------------------------------------------------------------------
+
+rm(list = ls()) # clears environment
+library(languageR)
+library(ggplot2)
+library(grid)
+
+f2errout <- read.table("data/SR2_F2_errcat.txt", header = T) # reads in all data from data file
+
+dcat <- f2errout # renames data file
+
+# Calculates the error rates (percent, including dys)
+dcat$pct <- ifelse(dcat$errd == 0 & dcat$errcord == 0, 0, (dcat$errd / (d$errcord)) * 100)
+
+# aggregates d with dysfluencies
+
+data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean)
+
+colnames(data.item) <- c("item", "related", "n2num", "error") # renames columns
+
+# Below, designates various subsets of the original data file
+relat       <- subset(data.item, related  ==  "rel")
+unrel       <- subset(data.item, related  ==  "unrel")
+sing        <- subset(data.item, n2num    ==  "sing")
+plur        <- subset(data.item, n2num    ==  "plur")
+relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
+
+
+
+
+  
+  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
+         sd(relat$error) / sqrt(length(relat$error)),
+         sd(unrel$error) / sqrt(length(unrel$error)),
+         sd(plur$error) / sqrt(length(plur$error)),
+         sd(sing$error) / sqrt(length(sing$error)),
+         sd(relat.plur$error) / sqrt(length(relat.plur$error) ),
+         sd(relat.sing$error) / sqrt(length(relat.sing$error)),
+         sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
+         sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
+  ))
+
+
+rel.pl   <- subset(dcat, related == "rel"   & n2num == "plur")
+rel.s    <- subset(dcat, related == "rel"   & n2num == "sing")
+unr.pl   <- subset(dcat, related == "unrel" & n2num == "plur")
+unr.s    <- subset(dcat, related == "unrel" & n2num == "sing")
+
+
+
+df <- data.frame(
+  Relatedness = c("Related","Related","Unrelated","Unrelated"),
+  Number = c("Singular","Plural","Singular","Plural"),
+  Error = c(sum(rel.s$errd),
+            sum(rel.pl$errd),
+            sum(unr.s$errd),
+            sum(unr.pl$errd)),
+  
+  Correct = c(sum(rel.s$errcord)-sum(rel.s$errd),
+              sum(rel.pl$errcord)  -sum(rel.pl$errd),
+              sum(unr.s$errcord)   -sum(unr.s$errd),
+              sum(unr.pl$errcord)  -sum(unr.pl$errd)),
+  
+  
+  All = c(sum(rel.int.s$errcord),
+          sum(rel.int.pl$errcord),
+          sum(rel.uni.s$errcord),
+          sum(rel.uni.pl$errcord),
+          sum(unr.int.s$errcord),
+          sum(unr.int.pl$errcord),
+          sum(unr.uni.s$errcord),
+          sum(unr.uni.pl$errcord)),
+  
+  Rate = c(sum(rel.int.s$errd)   / sum(rel.int.s$errcord),
+           sum(rel.int.pl$errd) / sum(rel.int.pl$errcord),
+           sum(rel.uni.s$errd)  / sum(rel.uni.s$errcord),
+           sum(rel.uni.pl$errd) / sum(rel.uni.pl$errcord),
+           sum(unr.int.s$errd)  / sum(unr.int.s$errcord),
+           sum(unr.int.pl$errd) / sum(unr.int.pl$errcord),
+           sum(unr.uni.s$errd)  / sum(unr.uni.s$errcord),
+           sum(unr.uni.pl$errd) / sum(unr.uni.pl$errcord)),
+  
+  ErrPer = c(  (sum(rel.int.s$errd)/ sum(rel.int.s$errcord))  * 100,
+               (sum(rel.int.pl$errd) / sum(rel.int.pl$errcord)) * 100,
+               (sum(rel.uni.s$errd)  / sum(rel.uni.s$errcord))  * 100,
+               (sum(rel.uni.pl$errd) / sum(rel.uni.pl$errcord)) * 100,
+               (sum(unr.int.s$errd)  / sum(unr.int.s$errcord))  * 100,
+               (sum(unr.int.pl$errd) / sum(unr.int.pl$errcord)) * 100,
+               (sum(unr.uni.s$errd)  / sum(unr.uni.s$errcord))  * 100,
+               (sum(unr.uni.pl$errd) / sum(unr.uni.pl$errcord)) * 100),
+  SE = c(
+    sd(relat.int.sing$error) / sqrt(length(relat.int.sing$error)),
+    sd(relat.int.plur$error) / sqrt(length(relat.int.plur$error)),
+    sd(relat.unint.sing$error) / sqrt(length(relat.unint.sing$error)),
+    sd(relat.unint.plur$error) / sqrt(length(relat.unint.plur$error)),
+    sd(unrel.int.sing$error) / sqrt(length(unrel.int.sing$error)),
+    sd(unrel.int.plur$error) / sqrt(length(unrel.int.plur$error)),
+    sd(unrel.unint.sing$error) / sqrt(length(unrel.unint.sing$error)),
+    sd(unrel.unint.plur$error) / sqrt(length(unrel.unint.plur$error))
+  ))
+View(df)
+
+# MIS-MATCH EFFECTS TABLE & FIG ----------------------------
+se.dat <- read.table("~/Desktop/R/SemRel 1 & 2 R Analyses/SemRel Factorial Analyses/data/SR_SEdata.txt", header=TRUE) 
+se.dat$error <- ifelse(se.dat$errd == 0 & se.dat$errcord == 0, 0, (se.dat$errd / (se.dat$errcord)) * 100)
+se.rel.int   <- subset(se.dat, related == "rel"   & semint  == "integ" & n2num == "plur")
+se.rel.uni   <- subset(se.dat, related == "rel"   & semint  == "unint" & n2num == "plur")
+se.unr.int   <- subset(se.dat, related == "unrel" & semint  == "integ" & n2num == "plur")
+se.unr.uni   <- subset(se.dat, related == "unrel" & semint  == "unint" & n2num == "plur")
+
+
+
+mis.eff <-data.frame(
+  Relatedness = c("Related","Related","Unrelated","Unrelated"),
+  Integration = c("Integrated", "Unintegrated", "Integrated", "Unintegrated"),
+  Number = c("Plural", "Plural","Plural","Plural"),
+  ErrRate = c((df[2,8]-df[1,8]),(df[4,8]-df[3,8]),(df[6,8]-df[5,8]),(df[8,8]-df[7,8])),
+  SE = c(
+    sd(se.rel.int$error) / sqrt(length(se.rel.int$error)),
+    sd(se.rel.uni$error) / sqrt(length(se.rel.uni$error)),
+    sd(se.unr.int$error) / sqrt(length(se.unr.int$error)),
+    sd(se.unr.uni$error) / sqrt(length(se.unr.uni$error)))
+)
+
+
+
+
+
+
+
+
+
+
 

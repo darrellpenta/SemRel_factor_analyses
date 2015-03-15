@@ -1,6 +1,7 @@
 rm(list = ls()) # clears environment
 library(languageR) # calls languageR library
-
+library(ggplot2)
+library(grid)
 #
 # -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
 #
@@ -15,8 +16,7 @@ d$item <- as.factor(d$item) # designates "itemect" as a factor
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)
 
 #aggregates d with dysfluencies
-data.item <- aggregate(d$pct, list(d$item, d$integ, d$related, d$n2num ), mean)
-
+data.item <- aggregate(d$pct, list(d$item, d$integ, d$related, d$n2num), mean)
 colnames(data.item) <- c("item", "semint", "related", "n2num", "error") # renames columns
 
 # Below, designates various subsets of the original data file
@@ -219,6 +219,132 @@ ds <- data.frame(data = c(
          sd(unrel.unint.plur$error) / sqrt(length(unrel.unint.plur$error)),
          sd(unrel.unint.sing$error) / sqrt(length(unrel.unint.sing$error))
   ))
+
+
+# PREPARE FIGURES-------------------------
+
+
+rel.int.pl   <- subset(d, related == "rel"   & integ  == "integ" & n2num == "plur")
+rel.int.s    <- subset(d, related == "rel"   & integ  == "integ" & n2num == "sing")
+rel.uni.pl   <- subset(d, related == "rel"   & integ  == "unint" & n2num == "plur")
+rel.uni.s    <- subset(d, related == "rel"   & integ  == "unint" & n2num == "sing")
+unr.int.pl   <- subset(d, related == "unrel" & integ  == "integ" & n2num == "plur")
+unr.int.s    <- subset(d, related == "unrel" & integ  == "integ" & n2num == "sing")
+unr.uni.pl   <- subset(d, related == "unrel" & integ  == "unint" & n2num == "plur")
+unr.uni.s    <- subset(d, related == "unrel" & integ  == "unint" & n2num == "sing")
+
+
+
+df <- data.frame(
+  Relatedness = c("Related","Related","Related","Related","Unrelated","Unrelated","Unrelated","Unrelated"),
+  Integration = c("Integrated","Integrated","Unintegrated", "Unintegrated", "Integrated","Integrated","Unintegrated","Unintegrated"),
+  Number = c("Singular","Plural","Singular","Plural","Singular","Plural","Singular","Plural"),
+  Error = c(sum(rel.int.s$errd),
+            sum(rel.int.pl$errd),
+            sum(rel.uni.s$errd),
+            sum(rel.uni.pl$errd),
+            sum(unr.int.s$errd),
+            sum(unr.int.pl$errd),
+            sum(unr.uni.s$errd),
+            sum(unr.uni.pl$errd)),
+  
+  Correct = c(sum(rel.int.s$errcord)-sum(rel.int.s$errd),
+          sum(rel.int.pl$errcord)  -sum(rel.int.pl$errd),
+          sum(rel.uni.s$errcord)   -sum(rel.uni.s$errd),
+          sum(rel.uni.pl$errcord)  -sum(rel.uni.pl$errd),
+          sum(unr.int.s$errcord)   -sum(unr.int.s$errd),
+          sum(unr.int.pl$errcord)  -sum(unr.int.pl$errd),
+          sum(unr.uni.s$errcord)   -sum(unr.uni.s$errd),
+          sum(unr.uni.pl$errcord)  -sum(unr.uni.pl$errd)),
+  
+  
+  All = c(sum(rel.int.s$errcord),
+            sum(rel.int.pl$errcord),
+            sum(rel.uni.s$errcord),
+            sum(rel.uni.pl$errcord),
+            sum(unr.int.s$errcord),
+            sum(unr.int.pl$errcord),
+            sum(unr.uni.s$errcord),
+            sum(unr.uni.pl$errcord)),
+  
+  Rate = c(sum(rel.int.s$errd)   / sum(rel.int.s$errcord),
+            sum(rel.int.pl$errd) / sum(rel.int.pl$errcord),
+            sum(rel.uni.s$errd)  / sum(rel.uni.s$errcord),
+            sum(rel.uni.pl$errd) / sum(rel.uni.pl$errcord),
+            sum(unr.int.s$errd)  / sum(unr.int.s$errcord),
+            sum(unr.int.pl$errd) / sum(unr.int.pl$errcord),
+            sum(unr.uni.s$errd)  / sum(unr.uni.s$errcord),
+            sum(unr.uni.pl$errd) / sum(unr.uni.pl$errcord)),
+  
+ ErrPer = c(  (sum(rel.int.s$errd)/ sum(rel.int.s$errcord))  * 100,
+              (sum(rel.int.pl$errd) / sum(rel.int.pl$errcord)) * 100,
+              (sum(rel.uni.s$errd)  / sum(rel.uni.s$errcord))  * 100,
+              (sum(rel.uni.pl$errd) / sum(rel.uni.pl$errcord)) * 100,
+              (sum(unr.int.s$errd)  / sum(unr.int.s$errcord))  * 100,
+              (sum(unr.int.pl$errd) / sum(unr.int.pl$errcord)) * 100,
+              (sum(unr.uni.s$errd)  / sum(unr.uni.s$errcord))  * 100,
+              (sum(unr.uni.pl$errd) / sum(unr.uni.pl$errcord)) * 100),
+SE = c(
+sd(relat.int.sing$error) / sqrt(length(relat.int.sing$error)),
+sd(relat.int.plur$error) / sqrt(length(relat.int.plur$error)),
+sd(relat.unint.sing$error) / sqrt(length(relat.unint.sing$error)),
+sd(relat.unint.plur$error) / sqrt(length(relat.unint.plur$error)),
+sd(unrel.int.sing$error) / sqrt(length(unrel.int.sing$error)),
+sd(unrel.int.plur$error) / sqrt(length(unrel.int.plur$error)),
+sd(unrel.unint.sing$error) / sqrt(length(unrel.unint.sing$error)),
+sd(unrel.unint.plur$error) / sqrt(length(unrel.unint.plur$error))
+))
+View(df)
+
+# MIS-MATCH EFFECTS TABLE & FIG ----------------------------
+se.dat <- read.table("data/SR_SEdata.txt", header=TRUE) 
+se.dat$error <- ifelse(se.dat$errd == 0 & se.dat$errcord == 0, 0, (se.dat$errd / (se.dat$errcord)) * 100)
+se.rel.int   <- subset(se.dat, related == "rel"   & semint  == "integ" & n2num == "plur")
+se.rel.uni   <- subset(se.dat, related == "rel"   & semint  == "unint" & n2num == "plur")
+se.unr.int   <- subset(se.dat, related == "unrel" & semint  == "integ" & n2num == "plur")
+se.unr.uni   <- subset(se.dat, related == "unrel" & semint  == "unint" & n2num == "plur")
+
+
+
+mis.eff <-data.frame(
+    Relatedness = c("Related","Related","Unrelated","Unrelated"),
+    Integration = c("Integrated", "Unintegrated", "Integrated", "Unintegrated"),
+    Number = c("Plural", "Plural","Plural","Plural"),
+    ErrRate = c((df[2,8]-df[1,8]),(df[4,8]-df[3,8]),(df[6,8]-df[5,8]),(df[8,8]-df[7,8])),
+    SE = c(
+      sd(se.rel.int$error) / sqrt(length(se.rel.int$error)),
+      sd(se.rel.uni$error) / sqrt(length(se.rel.uni$error)),
+      sd(se.unr.int$error) / sqrt(length(se.unr.int$error)),
+      sd(se.unr.uni$error) / sqrt(length(se.unr.uni$error)))
+    )
+
+
+dodge <- position_dodge(width = 0.9)
+
+g1 <- ggplot(data = df, aes(x = interaction(Integration, Relatedness), y = ErrPer, fill = factor(ErrPer))) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_errorbar(aes(ymax = ErrPer + SE, ymin = ErrPer - SE), position = dodge, width = 0.2) +
+  coord_cartesian(ylim = c(0, 15)) +
+  annotate("text", x = 1:4, y = - 400,
+           label = rep(c("Integrated", "Unintegrated"), 2)) +
+  annotate("text", c(1.5, 3.5), y = - 500, label = c("Related", "Unrelated")) +
+  theme_classic() +
+  theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank())
+# remove clipping of x axis labels
+g2 <- ggplot_gtable(ggplot_build(g1))
+g2$layout$clip[g2$layout$name == "panel"] <- "off"
+grid.draw(g2)
+png(file="figures/errors.png")
+grid.draw(g2) 
+dev.off()
+
+
+
+
+
+
 
 
 
@@ -761,8 +887,5 @@ a.unintunrel <- aov(error ~ n2num + Error(item / n2num), data = unint.unrel)
 print(summary(a.unintunrel))
 cat(" ", "\n")
 cat(" ", "\n")
-
-
-
 
 sink()
