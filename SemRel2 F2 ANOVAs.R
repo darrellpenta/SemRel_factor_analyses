@@ -1,9 +1,5 @@
-
-rm(list = ls()) # clears environment
+rm(list = ls()) 
 library(languageR)
-
-
-
 
 # ====================================================================================================
 # CATEGORY COORDINATE ITEMS ANALYSES ------------------------------------------------
@@ -11,30 +7,21 @@ library(languageR)
 #
 # PREPARE DATA FILE FOR ANALYSES -------------------------------------------------
 #
-f2errout <- read.table("data/SR2_F2_errcat.txt", header = T) # reads in all data from data file
-
-d <- f2errout # renames data file
-
-d$item <- as.factor(d$item) # designates "subject" as a factor
-
-# Calculates the error rates (percent, including dys)
+f2errout <- read.table("data/SR2_F2_errcat.txt", header = T)
+d <- f2errout
+d$item <- as.factor(d$item)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)
-
-# aggregates d with dysfluencies
-
 data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean)
+colnames(data.item) <- c("item", "related", "n2num", "error") 
 
-colnames(data.item) <- c("item", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
-relat       <- subset(data.item, related  ==  "rel")
-unrel       <- subset(data.item, related  ==  "unrel")
-sing        <- subset(data.item, n2num    ==  "sing")
-plur        <- subset(data.item, n2num    ==  "plur")
-relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related  == "rel")
+unrel       <- subset(data.item, related  == "unrel")
+sing        <- subset(data.item, n2num    == "sing")
+plur        <- subset(data.item, n2num    == "plur")
+relat.plur  <- subset(data.item, related  == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related  == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related  == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related  == "unrel" & n2num   == "sing")
 
 
 
@@ -49,55 +36,55 @@ ds <- data.frame(data = c(
   "unrelplur",
   "unrelsing"),
 
-  n = c(length(data.item$error),
-        length(relat$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  n = c(length( data.item$error),
+        length( relat$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  N = c(length(data.item$error),
-        length(relat$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  N = c(length( data.item$error),
+        length( relat$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  mean = c(mean(data.item$error),
-           mean(relat$error),
-           mean(unrel$error),
-           mean(plur$error),
-           mean(sing$error),
-           mean(relat.plur$error),
-           mean(relat.sing$error),
-           mean(unrel.plur$error),
-           mean(unrel.sing$error)),
+  mean = c(mean( data.item$error),
+           mean( relat$error),
+           mean( unrel$error),
+           mean( plur$error),
+           mean( sing$error),
+           mean( relat.plur$error),
+           mean( relat.sing$error),
+           mean( unrel.plur$error),
+           mean( unrel.sing$error)),
 
-  sd = c(sd(data.item$error),
-         sd(relat$error),
-         sd(unrel$error),
-         sd(plur$error),
-         sd(sing$error),
-         sd(relat.plur$error),
-         sd(relat.sing$error),
-         sd(unrel.plur$error),
-         sd(unrel.sing$error)),
+  sd = c(sd( data.item$error),
+         sd( relat$error),
+         sd( unrel$error),
+         sd( plur$error),
+         sd( sing$error),
+         sd( relat.plur$error),
+         sd( relat.sing$error),
+         sd( unrel.plur$error),
+         sd( unrel.sing$error)),
 
-  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
-         sd(relat$error) / sqrt(length(relat$error)),
-         sd(unrel$error) / sqrt(length(unrel$error)),
-         sd(plur$error) / sqrt(length(plur$error)),
-         sd(sing$error) / sqrt(length(sing$error)),
-         sd(relat.plur$error) / sqrt(length(relat.plur$error) ),
-         sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-         sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-         sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
+  se = c(sd( data.item$error)  / sqrt( length( data.item$error)),
+         sd( relat$error)      / sqrt( length( relat$error)),
+         sd( unrel$error)      / sqrt( length( unrel$error)),
+         sd( plur$error)       / sqrt( length( plur$error)),
+         sd( sing$error)       / sqrt( length( sing$error)),
+         sd( relat.plur$error) / sqrt( length( relat.plur$error) ),
+         sd( relat.sing$error) / sqrt( length( relat.sing$error)),
+         sd( unrel.plur$error) / sqrt( length( unrel.plur$error)),
+         sd( unrel.sing$error) / sqrt( length( unrel.sing$error))
   ))
 
 
@@ -127,25 +114,25 @@ cat(" ", "\n")
 
 ds.relat <- data.frame(data = c("n2num","plur","sing"),
 
-                       n = c(length(relat$error),
-                             length(relat.plur$error),
-                             length(relat.sing$error)),
+                       n = c(length( relat$error),
+                             length( relat.plur$error),
+                             length( relat.sing$error)),
 
-                       N = c(length(relat$error),
-                             length(relat.plur$error),
-                             length(relat.sing$error)),
+                       N = c(length( relat$error),
+                             length( relat.plur$error),
+                             length( relat.sing$error)),
 
-                       mean = c(mean(relat$error),
-                                mean(relat.plur$error),
-                                mean(relat.sing$error)),
+                       mean = c(mean( relat$error),
+                                mean( relat.plur$error),
+                                mean( relat.sing$error)),
 
-                       sd = c(sd(relat$error),
-                              sd(relat.plur$error),
-                              sd(relat.sing$error)),
+                       sd = c(sd( relat$error),
+                              sd( relat.plur$error),
+                              sd( relat.sing$error)),
 
-                       se = c(sd(relat$error) / sqrt(length(relat$error)),
-                              sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-                              sd(relat.sing$error) / sqrt(length(relat.sing$error))))
+                       se = c(sd( relat$error)      / sqrt( length( relat$error)),
+                              sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+                              sd( relat.sing$error) / sqrt( length( relat.sing$error))))
 
 cat(rep(c("-"), times=40, quote=F),"\n")
 cat("RELATED VS. UNRELATED ITEMS PAIRED COMPARISONS", fill = 60)
@@ -166,25 +153,25 @@ cat(" ", "\n")
 # -----------------------UNRELATED ITEMS----------------
 ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
 
-                       n = c(length(unrel$error),
-                             length(unrel.plur$error),
-                             length(unrel.sing$error)),
+                       n = c(length( unrel$error),
+                             length( unrel.plur$error),
+                             length( unrel.sing$error)),
 
-                       N = c(length(unrel$error),
-                             length(unrel.plur$error),
-                             length(unrel.sing$error)),
+                       N = c(length( unrel$error),
+                             length( unrel.plur$error),
+                             length( unrel.sing$error)),
 
-                       mean = c(mean(unrel$error),
-                                mean(unrel.plur$error),
-                                mean(unrel.sing$error)),
+                       mean = c(mean( unrel$error),
+                                mean( unrel.plur$error),
+                                mean( unrel.sing$error)),
 
-                       sd = c(sd(unrel$error),
-                              sd(unrel.plur$error),
-                              sd(unrel.sing$error)),
+                       sd = c(sd( unrel$error),
+                              sd( unrel.plur$error),
+                              sd( unrel.sing$error)),
 
-                       se = c(sd(unrel$error) / sqrt(length(unrel$error)),
-                              sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+                       se = c(sd( unrel$error)      / sqrt( length( unrel$error)),
+                              sd( unrel.plur$error) / sqrt( length( unrel.plur$error)),
+                              sd( unrel.sing$error) / sqrt( length( unrel.sing$error))))
 
 cat(">>> UNRELATED ITEMS PARIED COMPARISONS", fill=50 )
 cat(rep(c("-"), times=25, quote=F),"\n")
@@ -213,36 +200,36 @@ d$item <- as.factor(d$item)
 d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)
 data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean)
 colnames(data.item) <- c("item", "related", "n2num", "error")
-relat       <- subset(data.item, related  ==  "rel")
-unrel       <- subset(data.item, related  ==  "unrel")
-sing        <- subset(data.item, n2num    ==  "sing")
-plur        <- subset(data.item, n2num    ==  "plur")
-relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related  == "rel")
+unrel       <- subset(data.item, related  == "unrel")
+sing        <- subset(data.item, n2num    == "sing")
+plur        <- subset(data.item, n2num    == "plur")
+relat.plur  <- subset(data.item, related  == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related  == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related  == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related  == "unrel" & n2num   == "sing")
 
 ds.plur <- data.frame(data = c("Related","Rel","unrel"),
 
-                      n = c(length(plur$error),
-                            length(relat.plur$error),
-                            length(unrel.plur$error)),
+                      n = c(length( plur$error),
+                            length( relat.plur$error),
+                            length( unrel.plur$error)),
 
-                      N = c(length(plur$error),
-                            length(relat.plur$error),
-                            length(unrel.plur$error)),
+                      N = c(length( plur$error),
+                            length( relat.plur$error),
+                            length( unrel.plur$error)),
 
-                      mean = c(mean(plur$error),
-                               mean(relat.plur$error),
-                               mean(unrel.plur$error)),
+                      mean = c(mean( plur$error),
+                               mean( relat.plur$error),
+                               mean( unrel.plur$error)),
 
-                      sd = c(sd(plur$error),
-                             sd(relat.plur$error),
-                             sd(unrel.plur$error)),
+                      sd = c(sd( plur$error),
+                             sd( relat.plur$error),
+                             sd( unrel.plur$error)),
 
-                      se = c(sd(plur$error) / sqrt(length(plur$error)),
-                             sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-                             sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
+                      se = c(sd( plur$error)       / sqrt( length( plur$error)),
+                             sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+                             sd( unrel.plur$error) / sqrt( length( unrel.plur$error))))
 
 
 cat(rep(c("-"), times=40, quote=F),"\n")
@@ -270,35 +257,35 @@ d$pct <- ifelse(d$errd == 0 & d$errcord == 0, 0, (d$errd / (d$errcord)) * 100)
 data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean)
 colnames(data.item) <- c("item", "related", "n2num", "error")
 
-relat       <- subset(data.item, related  ==  "rel")
-unrel       <- subset(data.item, related  ==  "unrel")
-sing        <- subset(data.item, n2num    ==  "sing")
-plur        <- subset(data.item, n2num    ==  "plur")
-relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
+relat       <- subset(data.item, related  == "rel")
+unrel       <- subset(data.item, related  == "unrel")
+sing        <- subset(data.item, n2num    == "sing")
+plur        <- subset(data.item, n2num    == "plur")
+relat.plur  <- subset(data.item, related  == "rel"   & n2num   == "plur")
+relat.sing  <- subset(data.item, related  == "rel"   & n2num   == "sing")
+unrel.plur  <- subset(data.item, related  == "unrel" & n2num   == "plur")
+unrel.sing  <- subset(data.item, related  == "unrel" & n2num   == "sing")
 ds.sing <- data.frame(data = c("n2num","plur","sing"),
-
-                      n = c(length(sing$error),
-                            length(relat.sing$error),
-                            length(unrel.sing$error)),
-
-                      N = c(length(sing$error),
-                            length(relat.sing$error),
-                            length(unrel.sing$error)),
-
-                      mean = c(mean(sing$error),
-                               mean(relat.sing$error),
-                               mean(unrel.sing$error)),
-
-                      sd = c(sd(sing$error),
-                             sd(relat.sing$error),
-                             sd(unrel.sing$error)),
-
-                      se = c(sd(sing$error) / sqrt(length(sing$error)),
-                             sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-                             sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+                      
+                      n = c(length( sing$error),
+                            length( relat.sing$error),
+                            length( unrel.sing$error)),
+                      
+                      N = c(length( sing$error),
+                            length( relat.sing$error),
+                            length( unrel.sing$error)),
+                      
+                      mean = c(mean( sing$error),
+                               mean( relat.sing$error),
+                               mean( unrel.sing$error)),
+                      
+                      sd = c(sd( sing$error),
+                             sd( relat.sing$error),
+                             sd( unrel.sing$error)),
+                      
+                      se = c(sd( sing$error)       / sqrt( length( sing$error)),
+                             sd( relat.sing$error) / sqrt( length( relat.sing$error)),
+                             sd( unrel.sing$error) / sqrt( length( unrel.sing$error))))
 
 
 cat(">>>  SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
@@ -333,7 +320,7 @@ plur        <- subset(data.item, n2num   == "plur")
 relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
 relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
 assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+assoc.sing  <- subset(data.item, related == "assoc" & n2num   == "sing")
 unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
@@ -352,70 +339,70 @@ ds <- data.frame(data = c(
   "unrelplur",
   "unrelsing"),
 
-  n = c(length(data.item$error),
-        length(assoc$error),
-        length(relat$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(assoc.plur$error),
-        length(assoc.sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  n = c(length( data.item$error),
+        length( assoc$error),
+        length( relat$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( assoc.plur$error),
+        length( assoc.sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  N = c(length(data.item$error),
-        length(assoc$error),
-        length(relat$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(assoc.plur$error),
-        length(assoc.sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  N = c(length( data.item$error),
+        length( assoc$error),
+        length( relat$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( assoc.plur$error),
+        length( assoc.sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  mean = c(mean(data.item$error),
-           mean(assoc$error),
-           mean(relat$error),
-           mean(unrel$error),
-           mean(plur$error),
-           mean(sing$error),
-           mean(assoc.plur$error),
-           mean(assoc.sing$error),
-           mean(relat.plur$error),
-           mean(relat.sing$error),
-           mean(unrel.plur$error),
-           mean(unrel.sing$error)),
+  mean = c(mean( data.item$error),
+           mean( assoc$error),
+           mean( relat$error),
+           mean( unrel$error),
+           mean( plur$error),
+           mean( sing$error),
+           mean( assoc.plur$error),
+           mean( assoc.sing$error),
+           mean( relat.plur$error),
+           mean( relat.sing$error),
+           mean( unrel.plur$error),
+           mean( unrel.sing$error)),
 
-  sd = c(sd(data.item$error),
-         sd(assoc$error),
-         sd(relat$error),
-         sd(unrel$error),
-         sd(plur$error),
-         sd(sing$error),
-         sd(assoc.plur$error),
-         sd(assoc.sing$error),
-         sd(relat.plur$error),
-         sd(relat.sing$error),
-         sd(unrel.plur$error),
-         sd(unrel.sing$error)),
+  sd = c(sd( data.item$error),
+         sd( assoc$error),
+         sd( relat$error),
+         sd( unrel$error),
+         sd( plur$error),
+         sd( sing$error),
+         sd( assoc.plur$error),
+         sd( assoc.sing$error),
+         sd( relat.plur$error),
+         sd( relat.sing$error),
+         sd( unrel.plur$error),
+         sd( unrel.sing$error)),
 
-  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
-         sd(assoc$error) / sqrt(length(assoc$error)),
-         sd(relat$error) / sqrt(length(relat$error)),
-         sd(unrel$error) / sqrt(length(unrel$error)),
-         sd(plur$error) / sqrt(length(plur$error)),
-         sd(sing$error) / sqrt(length(sing$error)),
-         sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-         sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
-         sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-         sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-         sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-         sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
+  se = c(sd( data.item$error)  / sqrt( length( data.item$error)),
+         sd( assoc$error)      / sqrt( length( assoc$error)),
+         sd( relat$error)      / sqrt( length( relat$error)),
+         sd( unrel$error)      / sqrt( length( unrel$error)),
+         sd( plur$error)       / sqrt( length( plur$error)),
+         sd( sing$error)       / sqrt( length( sing$error)),
+         sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+         sd( assoc.sing$error) / sqrt( length( assoc.sing$error)),
+         sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+         sd( relat.sing$error) / sqrt( length( relat.sing$error)),
+         sd( unrel.plur$error) / sqrt( length( unrel.plur$error)),
+         sd( unrel.sing$error) / sqrt( length( unrel.sing$error))
   ))
 
 #
@@ -451,7 +438,7 @@ plur        <- subset(data.item, n2num   == "plur")
 relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
 relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
 assoc.plur  <- subset(data.item, related == "assoc" & n2num   == "plur")
-assoc.sing   <- subset(data.item, related == "assoc" & n2num   == "sing")
+assoc.sing  <- subset(data.item, related == "assoc" & n2num   == "sing")
 unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
 unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
@@ -466,55 +453,55 @@ assrel <- data.frame(data = c(
   "relplur",
   "relsing"),
 
-  n = c(length(data.item$error),
-        length(assoc$error),
-        length(relat$error),
-        length(plur$error),
-        length(sing$error),
-        length(assoc.plur$error),
-        length(assoc.sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error)),
+  n = c(length( data.item$error),
+        length( assoc$error),
+        length( relat$error),
+        length( plur$error),
+        length( sing$error),
+        length( assoc.plur$error),
+        length( assoc.sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error)), 
 
-  N = c(length(data.item$error),
-        length(assoc$error),
-        length(relat$error),
-        length(plur$error),
-        length(sing$error),
-        length(assoc.plur$error),
-        length(assoc.sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error)),
+  N = c(length( data.item$error),
+        length( assoc$error),
+        length( relat$error),
+        length( plur$error),
+        length( sing$error),
+        length( assoc.plur$error),
+        length( assoc.sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error)), 
 
-  mean = c(mean(data.item$error),
-           mean(assoc$error),
-           mean(relat$error),
-           mean(plur$error),
-           mean(sing$error),
-           mean(assoc.plur$error),
-           mean(assoc.sing$error),
-           mean(relat.plur$error),
-           mean(relat.sing$error)),
+  mean = c(mean( data.item$error),
+           mean( assoc$error),
+           mean( relat$error),
+           mean( plur$error),
+           mean( sing$error),
+           mean( assoc.plur$error),
+           mean( assoc.sing$error),
+           mean( relat.plur$error),
+           mean( relat.sing$error)), 
 
-  sd = c(sd(data.item$error),
-         sd(assoc$error),
-         sd(relat$error),
-         sd(plur$error),
-         sd(sing$error),
-         sd(assoc.plur$error),
-         sd(assoc.sing$error),
-         sd(relat.plur$error),
-         sd(relat.sing$error)),
+  sd = c(sd( data.item$error),
+         sd( assoc$error),
+         sd( relat$error),
+         sd( plur$error),
+         sd( sing$error),
+         sd( assoc.plur$error),
+         sd( assoc.sing$error),
+         sd( relat.plur$error),
+         sd( relat.sing$error)),
 
-  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
-         sd(assoc$error) / sqrt(length(assoc$error)),
-         sd(relat$error) / sqrt(length(relat$error)),
-         sd(plur$error) / sqrt(length(plur$error)),
-         sd(sing$error) / sqrt(length(sing$error)),
-         sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-         sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
-         sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-         sd(relat.sing$error) / sqrt(length(relat.sing$error))
+  se = c(sd( data.item$error)  / sqrt( length( data.item$error)),
+         sd( assoc$error)      / sqrt( length( assoc$error)),
+         sd( relat$error)      / sqrt( length( relat$error)),
+         sd( plur$error)       / sqrt( length( plur$error)),
+         sd( sing$error)       / sqrt( length( sing$error)),
+         sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+         sd( assoc.sing$error) / sqrt( length( assoc.sing$error)),
+         sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+         sd( relat.sing$error) / sqrt( length( relat.sing$error))
   ))
 
 cat(rep(c("-"), times=40, quote=F),"\n")
@@ -567,55 +554,55 @@ relunr <- data.frame(data = c(
   "unrelplur",
   "unrelsing"),
 
-  n = c(length(data.item$error),
-        length(relat$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  n = c( length( data.item$error),
+        length( relat$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  N = c(length(data.item$error),
-        length(relat$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(relat.plur$error),
-        length(relat.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  N = c( length( data.item$error),
+        length( relat$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( relat.plur$error),
+        length( relat.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  mean = c(mean(data.item$error),
-           mean(relat$error),
-           mean(unrel$error),
-           mean(plur$error),
-           mean(sing$error),
-           mean(relat.plur$error),
-           mean(relat.sing$error),
-           mean(unrel.plur$error),
-           mean(unrel.sing$error)),
+  mean = c( mean( data.item$error),
+           mean( relat$error),
+           mean( unrel$error),
+           mean( plur$error),
+           mean( sing$error),
+           mean( relat.plur$error),
+           mean( relat.sing$error),
+           mean( unrel.plur$error),
+           mean( unrel.sing$error)),
 
-  sd = c(sd(data.item$error),
-         sd(relat$error),
-         sd(unrel$error),
-         sd(plur$error),
-         sd(sing$error),
-         sd(relat.plur$error),
-         sd(relat.sing$error),
-         sd(unrel.plur$error),
-         sd(unrel.sing$error)),
+  sd = c( sd( data.item$error),
+         sd( relat$error),
+         sd( unrel$error),
+         sd( plur$error),
+         sd( sing$error),
+         sd( relat.plur$error),
+         sd( relat.sing$error),
+         sd( unrel.plur$error),
+         sd( unrel.sing$error)),
 
-  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
-         sd(relat$error) / sqrt(length(relat$error)),
-         sd(unrel$error) / sqrt(length(unrel$error)),
-         sd(plur$error) / sqrt(length(plur$error)),
-         sd(sing$error) / sqrt(length(sing$error)),
-         sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-         sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-         sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-         sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
+  se = c( sd( data.item$error) / sqrt( length( data.item$error)),
+         sd( relat$error)      / sqrt( length( relat$error)),
+         sd( unrel$error)      / sqrt( length( unrel$error)),
+         sd( plur$error)       / sqrt( length( plur$error)),
+         sd( sing$error)       / sqrt( length( sing$error)),
+         sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+         sd( relat.sing$error) / sqrt( length( relat.sing$error)),
+         sd( unrel.plur$error) / sqrt( length( unrel.plur$error)),
+         sd( unrel.sing$error) / sqrt( length( unrel.sing$error))
   ))
 
 
@@ -663,55 +650,55 @@ assunr <- data.frame(data = c(
   "relplur",
   "relsing"),
 
-  n = c(length(data.item$error),
-        length(assoc$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(assoc.plur$error),
-        length(assoc.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  n = c( length( data.item$error),
+        length( assoc$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( assoc.plur$error),
+        length( assoc.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  N = c(length(data.item$error),
-        length(assoc$error),
-        length(unrel$error),
-        length(plur$error),
-        length(sing$error),
-        length(assoc.plur$error),
-        length(assoc.sing$error),
-        length(unrel.plur$error),
-        length(unrel.sing$error)),
+  N = c( length( data.item$error),
+        length( assoc$error),
+        length( unrel$error),
+        length( plur$error),
+        length( sing$error),
+        length( assoc.plur$error),
+        length( assoc.sing$error),
+        length( unrel.plur$error),
+        length( unrel.sing$error)),
 
-  mean = c(mean(data.item$error),
-           mean(assoc$error),
-           mean(unrel$error),
-           mean(plur$error),
-           mean(sing$error),
-           mean(assoc.plur$error),
-           mean(assoc.sing$error),
-           mean(unrel.plur$error),
-           mean(unrel.sing$error)),
+  mean = c( mean( data.item$error),
+           mean( assoc$error),
+           mean( unrel$error),
+           mean( plur$error),
+           mean( sing$error),
+           mean( assoc.plur$error),
+           mean( assoc.sing$error),
+           mean( unrel.plur$error),
+           mean( unrel.sing$error)),
 
-  sd = c(sd(data.item$error),
-         sd(assoc$error),
-         sd(unrel$error),
-         sd(plur$error),
-         sd(sing$error),
-         sd(assoc.plur$error),
-         sd(assoc.sing$error),
-         sd(unrel.plur$error),
-         sd(unrel.sing$error)),
+  sd = c( sd( data.item$error),
+         sd( assoc$error),
+         sd( unrel$error),
+         sd( plur$error),
+         sd( sing$error),
+         sd( assoc.plur$error),
+         sd( assoc.sing$error),
+         sd( unrel.plur$error),
+         sd( unrel.sing$error)),
 
-  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
-         sd(assoc$error) / sqrt(length(assoc$error)),
-         sd(unrel$error) / sqrt(length(unrel$error)),
-         sd(plur$error) / sqrt(length(plur$error)),
-         sd(sing$error) / sqrt(length(sing$error)),
-         sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-         sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
-         sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-         sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
+  se = c( sd( data.item$error) / sqrt( length( data.item$error)),
+         sd( assoc$error)      / sqrt( length( assoc$error)),
+         sd( unrel$error)      / sqrt( length( unrel$error)),
+         sd( plur$error)       / sqrt( length( plur$error)),
+         sd( sing$error)       / sqrt( length( sing$error)),
+         sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+         sd( assoc.sing$error) / sqrt( length( assoc.sing$error)),
+         sd( unrel.plur$error) / sqrt( length( unrel.plur$error)),
+         sd( unrel.sing$error) / sqrt( length( unrel.sing$error))
   ))
 
 cat(">>>  ASSOCIATED VS. UNRELATED", fill=50 )
@@ -754,25 +741,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 #
 ds.relat <- data.frame(data = c("n2num","plur","sing"),
 
-                       n = c(length(relat$error),
-                             length(relat.plur$error),
-                             length(relat.sing$error)),
+                       n = c( length( relat$error),
+                              length( relat.plur$error),
+                              length( relat.sing$error)),
 
-                       N = c(length(relat$error),
-                             length(relat.plur$error),
-                             length(relat.sing$error)),
+                       N = c( length( relat$error),
+                              length( relat.plur$error),
+                              length( relat.sing$error)),
 
-                       mean = c(mean(relat$error),
-                                mean(relat.plur$error),
-                                mean(relat.sing$error)),
+                    mean = c( mean( relat$error),
+                              mean( relat.plur$error),
+                              mean( relat.sing$error)),
 
-                       sd = c(sd(relat$error),
-                              sd(relat.plur$error),
-                              sd(relat.sing$error)),
+                       sd = c( sd( relat$error),
+                               sd( relat.plur$error),
+                               sd( relat.sing$error)),
 
-                       se = c(sd(relat$error) / sqrt(length(relat$error)),
-                              sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-                              sd(relat.sing$error) / sqrt(length(relat.sing$error))))
+                       se = c( sd( relat$error)      / sqrt( length( relat$error)),
+                               sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+                               sd( relat.sing$error) / sqrt( length( relat.sing$error))))
 
 
 cat(rep(c("-"), times=40, quote=F),"\n")
@@ -796,25 +783,25 @@ cat(" ", "\n")
 
 ds.assoc <- data.frame(data = c("n2num","plur","sing"),
 
-                       n = c(length(assoc$error),
-                             length(assoc.plur$error),
-                             length(assoc.sing$error)),
+                       n = c( length( assoc$error),
+                              length( assoc.plur$error),
+                              length( assoc.sing$error)),
 
-                       N = c(length(assoc$error),
-                             length(assoc.plur$error),
-                             length(assoc.sing$error)),
+                       N = c( length( assoc$error),
+                              length( assoc.plur$error),
+                              length( assoc.sing$error)),
 
-                       mean = c(mean(assoc$error),
-                                mean(assoc.plur$error),
-                                mean(assoc.sing$error)),
+                     mean = c( mean( assoc$error),
+                               mean( assoc.plur$error),
+                               mean( assoc.sing$error)),
 
-                       sd = c(sd(assoc$error),
-                              sd(assoc.plur$error),
-                              sd(assoc.sing$error)),
+                       sd = c( sd( assoc$error),
+                               sd( assoc.plur$error),
+                               sd( assoc.sing$error)),
 
-                       se = c(sd(assoc$error) / sqrt(length(assoc$error)),
-                              sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-                              sd(assoc.sing$error) / sqrt(length(assoc.sing$error))))
+                       se = c( sd( assoc$error)     / sqrt( length( assoc$error)),
+                               sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+                               sd( assoc.sing$error) / sqrt( length( assoc.sing$error))))
 
 
 cat(">>>  ASSOCIATED SING. VS. PLUR", fill=50 )
@@ -833,25 +820,25 @@ cat(" ", "\n")
 # -----------------------UNRELATED ITEMS----------------
 ds.unrel <- data.frame(data = c("n2num", "plur", "sing"),
 
-                       n = c(length(unrel$error),
-                             length(unrel.plur$error),
-                             length(unrel.sing$error)),
+                       n = c( length( unrel$error),
+                              length( unrel.plur$error),
+                              length( unrel.sing$error)),
 
-                       N = c(length(unrel$error),
-                             length(unrel.plur$error),
-                             length(unrel.sing$error)),
+                       N = c( length( unrel$error),
+                              length( unrel.plur$error),
+                              length( unrel.sing$error)),
+                       
+                    mean = c( mean( unrel$error),
+                              mean( unrel.plur$error),
+                              mean( unrel.sing$error)),
 
-                       mean = c(mean(unrel$error),
-                                mean(unrel.plur$error),
-                                mean(unrel.sing$error)),
-
-                       sd = c(sd(unrel$error),
-                              sd(unrel.plur$error),
-                              sd(unrel.sing$error)),
-
-                       se = c(sd(unrel$error) / sqrt(length(unrel$error)),
-                              sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-                              sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+                       sd = c( sd( unrel$error),
+                               sd( unrel.plur$error),
+                               sd( unrel.sing$error)),
+ 
+                       se = c( sd( unrel$error)     / sqrt( length( unrel$error)),
+                               sd( unrel.plur$error) / sqrt( length( unrel.plur$error)),
+                               sd( unrel.sing$error) / sqrt( length( unrel.sing$error))))
 
 cat(">>>  UNRELATED SING. VS. PLUR", fill=50 )
 cat(rep(c("-"), times=25, quote=F),"\n")
@@ -892,30 +879,30 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.plur <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
 
-                      n = c(length(plur$error),
-                            length(assoc.plur$error),
-                            length(relat.plur$error),
-                            length(unrel.plur$error)),
+                      n = c( length( plur$error),
+                             length( assoc.plur$error),
+                             length( relat.plur$error),
+                             length( unrel.plur$error)),
 
-                      N = c(length(plur$error),
-                            length(assoc.plur$error),
-                            length(relat.plur$error),
-                            length(unrel.plur$error)),
+                      N = c( length( plur$error),
+                             length( assoc.plur$error),
+                             length( relat.plur$error),
+                             length( unrel.plur$error)),
+                      
+                    mean = c( mean( plur$error),
+                              mean( assoc.plur$error),
+                              mean( relat.plur$error),
+                              mean( unrel.plur$error)),
 
-                      mean = c(mean(plur$error),
-                               mean(assoc.plur$error),
-                               mean(relat.plur$error),
-                               mean(unrel.plur$error)),
+                      sd = c( sd( plur$error),
+                              sd( assoc.plur$error),
+                              sd( relat.plur$error),
+                              sd( unrel.plur$error)),
 
-                      sd = c(sd(plur$error),
-                             sd(assoc.plur$error),
-                             sd(relat.plur$error),
-                             sd(unrel.plur$error)),
-
-                      se = c(sd(plur$error) / sqrt(length(plur$error)),
-                             sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-                             sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-                             sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
+                      se = c( sd( plur$error)      / sqrt( length( plur$error)),
+                              sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+                              sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+                              sd( unrel.plur$error) / sqrt( length( unrel.plur$error))))
 
 
 cat(rep(c("-"), times=40, quote=F),"\n")
@@ -960,30 +947,30 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.sing <- data.frame(data = c("Related","Assoc","Rel","Unrel"),
 
-                      n = c(length(sing$error),
-                            length(assoc.sing$error),
-                            length(relat.sing$error),
-                            length(unrel.sing$error)),
+                      n = c( length( sing$error),
+                             length( assoc.sing$error),
+                             length( relat.sing$error),
+                             length( unrel.sing$error)),
 
-                      N = c(length(sing$error),
-                            length(assoc.sing$error),
-                            length(relat.sing$error),
-                            length(unrel.sing$error)),
+                      N = c( length( sing$error),
+                             length( assoc.sing$error),
+                             length( relat.sing$error),
+                             length( unrel.sing$error)),
 
-                      mean = c(mean(sing$error),
-                               mean(assoc.sing$error),
-                               mean(relat.sing$error),
-                               mean(unrel.sing$error)),
+                    mean = c( mean( sing$error),
+                              mean( assoc.sing$error),
+                              mean( relat.sing$error),
+                              mean( unrel.sing$error)),
 
-                      sd = c(sd(plur$error),
-                             sd(assoc.sing$error),
-                             sd(relat.sing$error),
-                             sd(unrel.sing$error)),
+                      sd = c( sd( plur$error),
+                              sd( assoc.sing$error),
+                              sd( relat.sing$error),
+                              sd( unrel.sing$error)),
 
-                      se = c(sd(sing$error) / sqrt(length(sing$error)),
-                             sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
-                             sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-                             sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+                      se = c( sd( sing$error)       / sqrt( length( sing$error)),
+                              sd( assoc.sing$error) / sqrt( length( assoc.sing$error)),
+                              sd( relat.sing$error) / sqrt( length( relat.sing$error)),
+                              sd( unrel.sing$error) / sqrt( length( unrel.sing$error))))
 
 cat(">>> SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
 cat(rep(c("-"), times=25, quote=F),"\n")
@@ -1023,25 +1010,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.plur <- data.frame(data = c("Related","Assoc","Relat"),
 
-                      n = c(length(plur$error),
-                            length(assoc.plur$error),
-                            length(relat.plur$error)),
+                      n = c( length( plur$error),
+                             length( assoc.plur$error),
+                             length( relat.plur$error)),
 
-                      N = c(length(plur$error),
-                            length(assoc.plur$error),
-                            length(relat.plur$error)),
+                      N = c( length( plur$error),
+                             length( assoc.plur$error),
+                             length( relat.plur$error)),
 
-                      mean = c(mean(plur$error),
-                               mean(assoc.plur$error),
-                               mean(relat.plur$error)),
+                    mean = c( mean( plur$error),
+                              mean( assoc.plur$error),
+                              mean( relat.plur$error)),
 
-                      sd = c(sd(plur$error),
-                             sd(assoc.plur$error),
-                             sd(relat.plur$error)),
+                      sd = c( sd( plur$error),
+                              sd( assoc.plur$error),
+                              sd( relat.plur$error)),
 
-                      se = c(sd(plur$error) / sqrt(length(plur$error)),
-                             sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-                             sd(relat.plur$error) / sqrt(length(relat.plur$error))))
+                      se = c( sd( plur$error)       / sqrt( length( plur$error)),
+                              sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+                              sd( relat.plur$error) / sqrt( length( relat.plur$error))))
 
 cat(">>>  ASSOCIATED VS. RELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
 cat(rep(c("-"), times=25, quote=F),"\n")
@@ -1078,25 +1065,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.plur <- data.frame(data = c("Related","Relat","Unrel"),
 
-                      n = c(length(plur$error),
-                            length(relat.plur$error),
-                            length(unrel.plur$error)),
+                      n = c( length( plur$error),
+                             length( relat.plur$error),
+                             length( unrel.plur$error)),
 
-                      N = c(length(plur$error),
-                            length(relat.plur$error),
-                            length(unrel.plur$error)),
+                      N = c( length( plur$error),
+                             length( relat.plur$error),
+                             length( unrel.plur$error)),
 
-                      mean = c(mean(plur$error),
-                               mean(relat.plur$error),
-                               mean(unrel.plur$error)),
+                    mean = c( mean( plur$error),
+                              mean( relat.plur$error),
+                              mean( unrel.plur$error)),
 
-                      sd = c(sd(plur$error),
-                             sd(relat.plur$error),
-                             sd(unrel.plur$error)),
+                      sd = c( sd( plur$error),
+                              sd( relat.plur$error),
+                              sd( unrel.plur$error)),
 
-                      se = c(sd(plur$error) / sqrt(length(plur$error)),
-                             sd(relat.plur$error) / sqrt(length(relat.plur$error)),
-                             sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
+                      se = c( sd( plur$error) / sqrt( length( plur$error)),
+                              sd( relat.plur$error) / sqrt( length( relat.plur$error)),
+                              sd( unrel.plur$error) / sqrt( length( unrel.plur$error))))
 
 
 cat(">>>  RELATED VS. UNRELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
@@ -1135,25 +1122,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.plur <- data.frame(data = c("Related","Assoc","Unrel"),
 
-                      n = c(length(plur$error),
-                            length(assoc.plur$error),
-                            length(unrel.plur$error)),
+                      n = c( length( plur$error),
+                             length( assoc.plur$error),
+                             length( unrel.plur$error)),
 
-                      N = c(length(plur$error),
-                            length(assoc.plur$error),
-                            length(unrel.plur$error)),
+                      N = c( length( plur$error),
+                             length( assoc.plur$error),
+                             length( unrel.plur$error)),
+                      
+                    mean = c( mean( plur$error),
+                              mean( assoc.plur$error),
+                              mean( unrel.plur$error)),
 
-                      mean = c(mean(plur$error),
-                               mean(assoc.plur$error),
-                               mean(unrel.plur$error)),
+                      sd = c( sd( plur$error),
+                              sd( assoc.plur$error),
+                              sd( unrel.plur$error)),
 
-                      sd = c(sd(plur$error),
-                             sd(assoc.plur$error),
-                             sd(unrel.plur$error)),
-
-                      se = c(sd(plur$error) / sqrt(length(plur$error)),
-                             sd(assoc.plur$error) / sqrt(length(assoc.plur$error)),
-                             sd(unrel.plur$error) / sqrt(length(unrel.plur$error))))
+                      se = c( sd( plur$error)       / sqrt( length( plur$error)),
+                              sd( assoc.plur$error) / sqrt( length( assoc.plur$error)),
+                              sd( unrel.plur$error) / sqrt( length( unrel.plur$error))))
 
 
 cat(">>>  ASSOCIATED VS. UNRELATED PLURAL ITEMS PARIED COMPARISONS", fill=50 )
@@ -1193,25 +1180,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.sing <- data.frame(data = c("Related","Assoc","Relat"),
 
-                      n = c(length(sing$error),
-                            length(assoc.sing$error),
-                            length(relat.sing$error)),
+                      n = c( length( sing$error),
+                             length( assoc.sing$error),
+                             length( relat.sing$error)),
 
-                      N = c(length(sing$error),
-                            length(assoc.sing$error),
-                            length(relat.sing$error)),
+                      N = c( length( sing$error),
+                             length( assoc.sing$error),
+                             length( relat.sing$error)),
 
-                      mean = c(mean(sing$error),
-                               mean(assoc.sing$error),
-                               mean(relat.sing$error)),
+                    mean = c( mean( sing$error),
+                              mean( assoc.sing$error),
+                              mean( relat.sing$error)),
 
-                      sd = c(sd(sing$error),
-                             sd(assoc.sing$error),
-                             sd(relat.sing$error)),
+                      sd = c( sd( sing$error),
+                              sd( assoc.sing$error),
+                              sd( relat.sing$error)),
 
-                      se = c(sd(sing$error) / sqrt(length(sing$error)),
-                             sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
-                             sd(relat.sing$error) / sqrt(length(relat.sing$error))))
+                      se = c( sd( sing$error) / sqrt( length( sing$error)),
+                              sd( assoc.sing$error) / sqrt( length( assoc.sing$error)),
+                              sd( relat.sing$error) / sqrt( length( relat.sing$error))))
 
 cat(">>>  ASSOCIATED VS. RELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
 cat(rep(c("-"), times=25, quote=F),"\n")
@@ -1248,25 +1235,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.sing <- data.frame(data = c("Related","Relat","Unrel"),
 
-                      n = c(length(sing$error),
-                            length(relat.sing$error),
-                            length(unrel.sing$error)),
+                      n = c( length( sing$error),
+                            length( relat.sing$error),
+                            length( unrel.sing$error)),
 
-                      N = c(length(sing$error),
-                            length(relat.sing$error),
-                            length(unrel.sing$error)),
+                      N = c( length( sing$error),
+                             length( relat.sing$error),
+                             length( unrel.sing$error)),
 
-                      mean = c(mean(sing$error),
-                               mean(relat.sing$error),
-                               mean(unrel.sing$error)),
+                      mean = c( mean( sing$error),
+                                mean( relat.sing$error),
+                                mean( unrel.sing$error)),
 
-                      sd = c(sd(sing$error),
-                             sd(relat.sing$error),
-                             sd(unrel.sing$error)),
+                      sd = c( sd( sing$error),
+                              sd( relat.sing$error),
+                              sd( unrel.sing$error)),
 
-                      se = c(sd(sing$error) / sqrt(length(sing$error)),
-                             sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-                             sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+                      se = c( sd( sing$error)       / sqrt( length( sing$error)),
+                              sd( relat.sing$error) / sqrt( length( relat.sing$error)),
+                              sd( unrel.sing$error) / sqrt( length( unrel.sing$error))))
 
 
 cat(">>>  RELATED VS. UNRELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
@@ -1305,25 +1292,25 @@ unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
 
 ds.sing <- data.frame(data = c("Related","Assoc","Unrel"),
 
-                      n = c(length(sing$error),
-                            length(assoc.sing$error),
-                            length(unrel.sing$error)),
+                      n = c( length( sing$error),
+                             length( assoc.sing$error),
+                             length( unrel.sing$error)),
 
-                      N = c(length(sing$error),
-                            length(assoc.sing$error),
-                            length(unrel.sing$error)),
+                      N = c( length( sing$error),
+                             length( assoc.sing$error),
+                             length( unrel.sing$error)),
 
-                      mean = c(mean(sing$error),
-                               mean(assoc.sing$error),
-                               mean(unrel.sing$error)),
+                    mean = c( mean( sing$error),
+                              mean( assoc.sing$error),
+                              mean( unrel.sing$error)),
 
-                      sd = c(sd(sing$error),
-                             sd(assoc.sing$error),
-                             sd(unrel.sing$error)),
+                      sd = c( sd( sing$error),
+                              sd( assoc.sing$error),
+                              sd( unrel.sing$error)),
 
-                      se = c(sd(sing$error) / sqrt(length(sing$error)),
-                             sd(assoc.sing$error) / sqrt(length(assoc.sing$error)),
-                             sd(unrel.sing$error) / sqrt(length(unrel.sing$error))))
+                      se = c( sd( sing$error)      / sqrt( length( sing$error)),
+                              sd( assoc.sing$error) / sqrt( length( assoc.sing$error)),
+                              sd( unrel.sing$error) / sqrt( length( unrel.sing$error))))
 
 
 cat(">>> ASSOCIATED VS. UNRELATED SINGULAR ITEMS PARIED COMPARISONS", fill=50 )
@@ -1340,131 +1327,188 @@ sink()
 # =============================================================================================
 # FIGURES -----------------------------------------------------------------------------------
 
-rm(list = ls()) # clears environment
+
+rm(list = ls()) 
 library(languageR)
 library(ggplot2)
 library(grid)
 
-f2errout <- read.table("data/SR2_F2_errcat.txt", header = T) # reads in all data from data file
-
-dcat <- f2errout # renames data file
-
-# Calculates the error rates (percent, including dys)
-dcat$pct <- ifelse(dcat$errd == 0 & dcat$errcord == 0, 0, (dcat$errd / (d$errcord)) * 100)
-
-# aggregates d with dysfluencies
-
-data.item <- aggregate(d$pct, list(d$item, d$related, d$n2num ), mean)
-
-colnames(data.item) <- c("item", "related", "n2num", "error") # renames columns
-
-# Below, designates various subsets of the original data file
-relat       <- subset(data.item, related  ==  "rel")
-unrel       <- subset(data.item, related  ==  "unrel")
-sing        <- subset(data.item, n2num    ==  "sing")
-plur        <- subset(data.item, n2num    ==  "plur")
-relat.plur  <- subset(data.item, related == "rel"   & n2num   == "plur")
-relat.sing  <- subset(data.item, related == "rel"   & n2num   == "sing")
-unrel.plur  <- subset(data.item, related == "unrel" & n2num   == "plur")
-unrel.sing  <- subset(data.item, related == "unrel" & n2num   == "sing")
+# CATEGORY COORDINATES FIGURE
+f2caterr  <- read.table("data/SR2_F2_errcat.txt", header = T) 
+d.cat      <- f2caterr
+d.cat$pct  <- ifelse(d.cat$errd == 0 & d.cat$errcord == 0, 0, (d.cat$errd / (d.cat$errcord)) * 100)
+cat.pl     <- subset(d.cat, related == "rel"   & n2num == "plur")
+cat.s      <- subset(d.cat, related == "rel"   & n2num == "sing")
+non.cat.pl <- subset(d.cat, related == "unrel" & n2num == "plur")
+non.cat.s  <- subset(d.cat, related == "unrel" & n2num == "sing")
 
 
+data.item.cat <- aggregate(d.cat$pct, list(d.cat$item, d.cat$related, d.cat$n2num ), mean)
+colnames(data.item.cat) <- c("item", "related", "n2num", "error") 
+cat.rel.plur  <- subset(data.item.cat, related == "rel"   & n2num   == "plur")
+cat.rel.sing  <- subset(data.item.cat, related == "rel"   & n2num   == "sing")
+cat.unr.plur  <- subset(data.item.cat, related == "unrel" & n2num   == "plur")
+cat.unr.sing  <- subset(data.item.cat, related == "unrel" & n2num   == "sing")
 
 
-  
-  se = c(sd(data.item$error) / sqrt(length(data.item$error)),
-         sd(relat$error) / sqrt(length(relat$error)),
-         sd(unrel$error) / sqrt(length(unrel$error)),
-         sd(plur$error) / sqrt(length(plur$error)),
-         sd(sing$error) / sqrt(length(sing$error)),
-         sd(relat.plur$error) / sqrt(length(relat.plur$error) ),
-         sd(relat.sing$error) / sqrt(length(relat.sing$error)),
-         sd(unrel.plur$error) / sqrt(length(unrel.plur$error)),
-         sd(unrel.sing$error) / sqrt(length(unrel.sing$error))
-  ))
-
-
-rel.pl   <- subset(dcat, related == "rel"   & n2num == "plur")
-rel.s    <- subset(dcat, related == "rel"   & n2num == "sing")
-unr.pl   <- subset(dcat, related == "unrel" & n2num == "plur")
-unr.s    <- subset(dcat, related == "unrel" & n2num == "sing")
-
-
-
-df <- data.frame(
-  Relatedness = c("Related","Related","Unrelated","Unrelated"),
+df.cat <- data.frame(
+  Relatedness = c("Category Coordinate","Category Coordinate","Non-Coordinate","Non-Coordinate"),
   Number = c("Singular","Plural","Singular","Plural"),
-  Error = c(sum(rel.s$errd),
-            sum(rel.pl$errd),
-            sum(unr.s$errd),
-            sum(unr.pl$errd)),
+  Error = c(sum( cat.s$errd),
+            sum( cat.pl$errd),
+            sum( non.cat.s$errd),
+            sum( non.cat.pl$errd)),
   
-  Correct = c(sum(rel.s$errcord)-sum(rel.s$errd),
-              sum(rel.pl$errcord)  -sum(rel.pl$errd),
-              sum(unr.s$errcord)   -sum(unr.s$errd),
-              sum(unr.pl$errcord)  -sum(unr.pl$errd)),
+  Correct = c(sum( cat.s$errcord)      - sum( cat.s$errd),
+              sum( cat.pl$errcord)     - sum( cat.pl$errd),
+              sum( non.cat.s$errcord)  - sum( non.cat.s$errd),
+              sum( non.cat.pl$errcord) - sum( non.cat.pl$errd)),
   
   
-  All = c(sum(rel.int.s$errcord),
-          sum(rel.int.pl$errcord),
-          sum(rel.uni.s$errcord),
-          sum(rel.uni.pl$errcord),
-          sum(unr.int.s$errcord),
-          sum(unr.int.pl$errcord),
-          sum(unr.uni.s$errcord),
-          sum(unr.uni.pl$errcord)),
+  All = c(sum( cat.s$errcord),
+          sum( cat.pl$errcord),
+          sum( non.cat.s$errcord),
+          sum( non.cat.pl$errcord)),
   
-  Rate = c(sum(rel.int.s$errd)   / sum(rel.int.s$errcord),
-           sum(rel.int.pl$errd) / sum(rel.int.pl$errcord),
-           sum(rel.uni.s$errd)  / sum(rel.uni.s$errcord),
-           sum(rel.uni.pl$errd) / sum(rel.uni.pl$errcord),
-           sum(unr.int.s$errd)  / sum(unr.int.s$errcord),
-           sum(unr.int.pl$errd) / sum(unr.int.pl$errcord),
-           sum(unr.uni.s$errd)  / sum(unr.uni.s$errcord),
-           sum(unr.uni.pl$errd) / sum(unr.uni.pl$errcord)),
+  Rate = c(sum( cat.s$errd)      / sum( cat.s$errcord),
+           sum( cat.pl$errd)     / sum( cat.pl$errcord),
+           sum( non.cat.s$errd)  / sum( non.cat.s$errcord),
+           sum( non.cat.pl$errd) / sum( non.cat.pl$errcord)),
   
-  ErrPer = c(  (sum(rel.int.s$errd)/ sum(rel.int.s$errcord))  * 100,
-               (sum(rel.int.pl$errd) / sum(rel.int.pl$errcord)) * 100,
-               (sum(rel.uni.s$errd)  / sum(rel.uni.s$errcord))  * 100,
-               (sum(rel.uni.pl$errd) / sum(rel.uni.pl$errcord)) * 100,
-               (sum(unr.int.s$errd)  / sum(unr.int.s$errcord))  * 100,
-               (sum(unr.int.pl$errd) / sum(unr.int.pl$errcord)) * 100,
-               (sum(unr.uni.s$errd)  / sum(unr.uni.s$errcord))  * 100,
-               (sum(unr.uni.pl$errd) / sum(unr.uni.pl$errcord)) * 100),
+  ErrPer = c(  (sum( cat.s$errd)      / sum( cat.s$errcord))  * 100,
+               (sum( cat.pl$errd)     / sum( cat.pl$errcord)) * 100,
+               (sum( non.cat.s$errd)  / sum( non.cat.s$errcord))  * 100,
+               (sum( non.cat.pl$errd) / sum( non.cat.pl$errcord)) * 100),
+  
   SE = c(
-    sd(relat.int.sing$error) / sqrt(length(relat.int.sing$error)),
-    sd(relat.int.plur$error) / sqrt(length(relat.int.plur$error)),
-    sd(relat.unint.sing$error) / sqrt(length(relat.unint.sing$error)),
-    sd(relat.unint.plur$error) / sqrt(length(relat.unint.plur$error)),
-    sd(unrel.int.sing$error) / sqrt(length(unrel.int.sing$error)),
-    sd(unrel.int.plur$error) / sqrt(length(unrel.int.plur$error)),
-    sd(unrel.unint.sing$error) / sqrt(length(unrel.unint.sing$error)),
-    sd(unrel.unint.plur$error) / sqrt(length(unrel.unint.plur$error))
+         sd( cat.rel.plur$error) / sqrt( length( cat.rel.plur$error)),
+         sd( cat.rel.sing$error) / sqrt( length( cat.rel.sing$error)),
+         sd( cat.unr.plur$error) / sqrt( length( cat.unr.plur$error)),
+         sd( cat.unr.sing$error) / sqrt( length( cat.unr.sing$error))
   ))
-View(df)
 
-# MIS-MATCH EFFECTS TABLE & FIG ----------------------------
-se.dat <- read.table("~/Desktop/R/SemRel 1 & 2 R Analyses/SemRel Factorial Analyses/data/SR_SEdata.txt", header=TRUE) 
-se.dat$error <- ifelse(se.dat$errd == 0 & se.dat$errcord == 0, 0, (se.dat$errd / (se.dat$errcord)) * 100)
-se.rel.int   <- subset(se.dat, related == "rel"   & semint  == "integ" & n2num == "plur")
-se.rel.uni   <- subset(se.dat, related == "rel"   & semint  == "unint" & n2num == "plur")
-se.unr.int   <- subset(se.dat, related == "unrel" & semint  == "integ" & n2num == "plur")
-se.unr.uni   <- subset(se.dat, related == "unrel" & semint  == "unint" & n2num == "plur")
+View(df.cat)
 
+# CATEGORY MIS-MATCH EFFECTS TABLE & FIG ----------------------------
+se.cat.dat <- read.table("data/SR2_cat_SEdata.txt", header=TRUE) 
+se.cat.dat$error <- ifelse(se.cat.dat$errd == 0 & se.cat.dat$errcord == 0, 0, (se.cat.dat$errd / (se.cat.dat$errcord)) * 100)
+se.cat.rel   <- subset(se.cat.dat, related == "rel"   & n2num == "plur")
+se.cat.unr   <- subset(se.cat.dat, related == "unrel" & n2num == "plur")
 
 
-mis.eff <-data.frame(
-  Relatedness = c("Related","Related","Unrelated","Unrelated"),
-  Integration = c("Integrated", "Unintegrated", "Integrated", "Unintegrated"),
-  Number = c("Plural", "Plural","Plural","Plural"),
-  ErrRate = c((df[2,8]-df[1,8]),(df[4,8]-df[3,8]),(df[6,8]-df[5,8]),(df[8,8]-df[7,8])),
+
+cat.mis.eff <-data.frame(
+  Relatedness = c( "Category Coordinate", "Non-Coordinate"),
+  ErrRate = c( 
+    ( df.cat[2, 7] - df.cat[1, 7]),
+    ( df.cat[4, 7] - df.cat[3, 7])),
+  
   SE = c(
-    sd(se.rel.int$error) / sqrt(length(se.rel.int$error)),
-    sd(se.rel.uni$error) / sqrt(length(se.rel.uni$error)),
-    sd(se.unr.int$error) / sqrt(length(se.unr.int$error)),
-    sd(se.unr.uni$error) / sqrt(length(se.unr.uni$error)))
+    sd( se.cat.rel$error) / sqrt( length( se.cat.rel$error)),
+    sd( se.cat.unr$error) / sqrt( length( se.cat.unr$error)))
 )
 
+View(cat.mis.eff)
+
+# PROPERTY FIGURES ----------------
+f2properr  <- read.table("data/SR2_F2_errprop.txt", header = T) 
+d.prop     <- f2properr 
+d.prop$pct <- ifelse(d.prop$errd == 0 & d.prop$errcord == 0, 0, (d.prop$errd / (d.prop$errcord)) * 100)
+prop.pl     <- subset(d.prop, related == "rel"   & n2num == "plur")
+prop.s      <- subset(d.prop, related == "rel"   & n2num == "sing")
+asso.pl     <- subset(d.prop, related == "assoc" & n2num == "plur")
+asso.s      <- subset(d.prop, related == "assoc" & n2num == "sing")
+prop.unr.pl <- subset(d.prop, related == "unrel" & n2num == "plur")
+prop.unr.s  <- subset(d.prop, related == "unrel" & n2num == "sing")
+
+data.item.prop <- aggregate(d.prop$pct, list(d.prop$item, d.prop$related, d.prop$n2num ), mean)
+colnames(data.item.prop) <- c("item", "related", "n2num", "error") 
+
+prop.plur  <- subset(data.item.prop, related == "rel"   & n2num   == "plur")
+prop.sing  <- subset(data.item.prop, related == "rel"   & n2num   == "sing")
+asso.plur  <- subset(data.item.prop, related == "assoc" & n2num   == "plur")
+asso.sing  <- subset(data.item.prop, related == "assoc" & n2num   == "sing")
+unrel.plur <- subset(data.item.prop, related == "unrel" & n2num   == "plur")
+unrel.sing <- subset(data.item.prop, related == "unrel" & n2num   == "sing")
+
+df.prop <- data.frame(
+
+  Relatedness = c("Property","Property","Associate", "Associate", "Unrelated","Unrelated"),
+  Number = c("Singular","Plural", "Singular","Plural", "Singular","Plural"),
+  
+  Error = c(sum( prop.s$errd),
+            sum( prop.pl$errd),
+            sum( asso.s$errd),
+            sum( asso.pl$errd),
+            sum( prop.unr.s$errd),
+            sum( prop.unr.pl$errd)),
+  
+  Correct = c(sum( prop.s$errcord)      - sum( prop.s$errd),
+              sum( prop.pl$errcord)     - sum( prop.pl$errd),
+              sum( asso.s$errcord)      - sum( asso.s$errd),
+              sum( asso.pl$errcord)     - sum( asso.pl$errd),
+              sum( prop.unr.s$errcord)  - sum( prop.unr.s$errd),
+              sum( prop.unr.pl$errcord) - sum( prop.unr.pl$errd)),
+  
+  
+  All = c(sum( prop.s$errcord),
+          sum( prop.pl$errcord),
+          sum( asso.s$errcord),
+          sum( asso.pl$errcord),
+          sum( prop.unr.s$errcord),
+          sum( prop.unr.pl$errcord)),
+  
+  Rate = c(sum( prop.s$errd)      / sum( prop.s$errcord),
+           sum( prop.pl$errd)     / sum( prop.pl$errcord),
+           sum( asso.s$errd)      / sum( asso.s$errcord),
+           sum( asso.pl$errd)     / sum( asso.pl$errcord),
+           sum( prop.unr.s$errd)  / sum( prop.unr.s$errcord),
+           sum( prop.unr.pl$errd) / sum( prop.unr.pl$errcord)),
+  
+  ErrPer = c(  ( sum( prop.s$errd)      / sum( prop.s$errcord))  * 100,
+               ( sum( prop.pl$errd)     / sum( prop.pl$errcord)) * 100,
+               ( sum( asso.s$errd)      / sum( asso.s$errcord))  * 100,
+               ( sum( asso.pl$errd)     / sum( asso.pl$errcord)) * 100,
+               ( sum( prop.unr.s$errd)  / sum( prop.unr.s$errcord))  * 100,
+               ( sum( prop.unr.pl$errd) / sum( prop.unr.pl$errcord)) * 100),
+  
+  SE = c(
+    sd( prop.plur$error)   / sqrt( length( prop.plur$error)),
+    sd( prop.sing$error)   / sqrt( length( prop.sing$error)),
+    sd( asso.plur$error)   / sqrt( length( asso.plur$error)),
+    sd( asso.sing$error)   / sqrt( length( asso.sing$error)),
+    sd( unrel.plur$error)  / sqrt( length(unrel.plur$error)),
+    sd( unrel.sing$error)  / sqrt( length(unrel.sing$error))
+  ))
+
+View(df.prop)
+
+
+# PROPERTY MIS-MATCH EFFECTS TABLE & FIG ----------------------------
+se.prop.dat <- read.table("data/SR2_prop_SEdata.txt", header = TRUE)
+se.prop.dat$error <- ifelse(se.prop.dat$errd == 0 & se.prop.dat$errcord == 0, 0, (se.prop.dat$errd / (se.prop.dat$errcord)) * 100)
+
+se.prop.plur   <- subset( se.prop.dat, related == "rel"   & n2num   == "plur")
+se.assoc.plur  <- subset( se.prop.dat, related == "assoc" & n2num   == "plur")
+se.unrel.plur  <- subset( se.prop.dat, related == "unrel" & n2num   == "plur")
+
+
+
+prop.mis.eff <-data.frame(
+  Relatedness = c( "Property", "Associate", "Unrelated"),
+  ErrRate = c( 
+    ( df.prop[2, 7] - df.prop[1, 7]),
+    ( df.prop[4, 7] - df.prop[3, 7]),
+    ( df.prop[6, 7] - df.prop[5, 7])),
+  SE = c(
+    sd( se.prop.plur$error)  / sqrt( length( se.prop.plur$error)),
+    sd( se.assoc.plur$error) / sqrt( length( se.assoc.plur$error)),
+    sd( se.unrel.plur$error) / sqrt( length( se.unrel.plur$error)))
+)
+
+View(prop.mis.eff)
+
+semrel2.results <-rbind(cat.mis.eff, prop.mis.eff)
 
 
 

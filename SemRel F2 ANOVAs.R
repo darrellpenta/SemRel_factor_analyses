@@ -309,7 +309,6 @@ se.unr.uni   <- subset(se.dat, related == "unrel" & semint  == "unint" & n2num =
 mis.eff <-data.frame(
     Relatedness = c("Related","Related","Unrelated","Unrelated"),
     Integration = c("Integrated", "Unintegrated", "Integrated", "Unintegrated"),
-    Number = c("Plural", "Plural","Plural","Plural"),
     ErrRate = c((df[2,8]-df[1,8]),(df[4,8]-df[3,8]),(df[6,8]-df[5,8]),(df[8,8]-df[7,8])),
     SE = c(
       sd(se.rel.int$error) / sqrt(length(se.rel.int$error)),
