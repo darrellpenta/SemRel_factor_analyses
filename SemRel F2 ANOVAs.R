@@ -316,36 +316,54 @@ mis.eff <-data.frame(
       sd(se.unr.int$error) / sqrt(length(se.unr.int$error)),
       sd(se.unr.uni$error) / sqrt(length(se.unr.uni$error)))
     )
+dff = data.frame(
+  Year = c("20","20","20","20","20","20","20","20"),
+  Trt = c("Irr","Irr","Irr","Irr","Dry","Dry","Dry","Dry"),
+  Variety = c("Variety2", "Variety2", "Variety1","Variety1","Variety2", "Variety2", "Variety1","Variety1"),
+  geno = c(1,2,1,2,1,2,1,2),
+  yield = c(6855,5955,6355,5055,3955,3455,3855,3355),
+  SE = c(612,713,713,414,615,616,617,518)
+)
 
 
-dodge <- position_dodge(width = 0.9)
 
-g1 <- ggplot(data = df, aes(x = interaction(Integration, Relatedness), y = ErrPer, fill = factor(ErrPer))) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  geom_errorbar(aes(ymax = ErrPer + SE, ymin = ErrPer - SE), position = dodge, width = 0.2) +
-  coord_cartesian(ylim = c(0, 15)) +
-  annotate("text", x = 1:4, y = - 400,
-           label = rep(c("Integrated", "Unintegrated"), 2)) +
-  annotate("text", c(1.5, 3.5), y = - 500, label = c("Related", "Unrelated")) +
-  theme_classic() +
-  theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
+g1 <- ggplot(data = dff, aes(x = interaction(Variety, Trt), y = yield, fill = factor(geno)))+
+  scale_fill_manual(values=c("red", "green", "blue","green","red", "green", "blue","green"))
+g1 <- g1+layer(geom="bar", stat="identity", position = position_dodge())
+g1 <- g1+geom_errorbar(aes(ymax = yield + SE, ymin = yield - SE), position = dodge, width = 0.2) 
+g1 <- g1+coord_cartesian(ylim = c(0, 7500))
+g1 <- g1+annotate("text", x = 1:4, y = - 400,
+           label = rep(c("Variety 1", "Variety 2"), 2)) +
+  annotate("text", c(1.5, 3.5), y = - 800, label = c("Irrigated", "Dry"))
+g1 <- g1  + theme_classic()
+g1 <- g1 + theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
         axis.title.x = element_blank(),
         axis.text.x = element_blank())
+g1
 # remove clipping of x axis labels
 g2 <- ggplot_gtable(ggplot_build(g1))
 g2$layout$clip[g2$layout$name == "panel"] <- "off"
 grid.draw(g2)
-png(file="figures/errors.png")
-grid.draw(g2) 
-dev.off()
+g2
 
-
-
-
-
-
-
-
+g1 <- ggplot(data = mis.eff, aes(x = interaction(Integration, Relatedness), y = ErrRate, fill = interaction(Integration, Relatedness)))
+#scale_fill_manual(values=c("red", "green", "blue","green","red", "green", "blue","green"))
+g1 <- g1+layer(geom="bar", stat="identity", position = position_dodge())
+g1 <- g1+geom_errorbar(aes(ymax = ErrRate + SE, ymin = ErrRate - SE), position = dodge, width = 0.2) 
+g1 <- g1+coord_cartesian(ylim = c(0, 14))
+g1 <- g1+annotate("text", x = 1:4, y = - 400,
+                  label = rep(c("Integ", "Uninteg"), 2)) +
+  annotate("text", c(1.5, 3.5), y = - 800, label = c("Related", "Unrelated"))
+g1 <- g1  + theme_classic()
+g1 <- g1 + theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
+                 axis.title.x = element_blank(),
+                 axis.text.x = element_blank())
+g1
+# remove clipping of x axis labels
+g2 <- ggplot_gtable(ggplot_build(g1))
+g2$layout$clip[g2$layout$name == "panel"] <- "off"
+grid.draw(g2)
+g2
 
 #
 # --------------------------------2 X 2 X 2 ANOVA-----------------------------------------------------
