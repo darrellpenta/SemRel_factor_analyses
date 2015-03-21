@@ -319,7 +319,7 @@ mis.eff <-data.frame(
     )
 
 
-# ---PREPARE FIGURES
+# PREPARE FIGURES-------------------
 
 dodge  <- position_dodge(width = 0.9)
 g1     <- ggplot(data = mis.eff, aes(x = interaction(Integration, Relatedness), y = ErrRate, fill = interaction(Integration, Relatedness)))
@@ -337,12 +337,12 @@ g1    <- g1 +  theme(text = element_text(size=20))
 g1    <- g1 + theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
                  axis.title.x = element_blank(),
                  axis.text.x = element_blank())
+g1
 
-
-# sig.bar <- data.frame(x = c(1, 1, 4, 4), y = c(13, 14, 14, 13))
+sig.bar <- data.frame(x = c(2,2,4,4), y = c(13, 14, 14, 13))
 # 
-# g1    <- g1 + geom_path(data = sig.bar, aes(x = x, y = y))
-
+g1 + geom_path(data = sig.bar, aes(x = x, y = y))
+g1
 #   annotate("text",x=1.5,y=27,label="p=0.012")+
 #   annotate("text",x=2.5,y=39,label="p<0.0001")+
 #   annotate("text",x=3.5,y=51,label="p<0.0001")
