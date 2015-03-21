@@ -308,8 +308,8 @@ se.unr.uni   <- subset(se.dat, related == "unrel" & semint  == "unint" & n2num =
 
 
 mis.eff <-data.frame(
-    Relatedness = c("Related","Related","Unrelated","Unrelated"),
-    Integration = c("Integrated", "Unintegrated", "Integrated", "Unintegrated"),
+    Related = c("Related","Related","Unrelated","Unrelated"),
+    Integrated = c("Integrated", "Unintegrated", "Integrated", "Unintegrated"),
     ErrRate = c((df[2,8]-df[1,8]),(df[4,8]-df[3,8]),(df[6,8]-df[5,8]),(df[8,8]-df[7,8])),
     SE = c(
       sd(se.rel.int$error) / sqrt(length(se.rel.int$error)),
@@ -322,31 +322,33 @@ mis.eff <-data.frame(
 # PREPARE FIGURES-------------------
 
 dodge  <- position_dodge(width = 0.9)
-g1     <- ggplot(data = mis.eff, aes(x = interaction(Integration, Relatedness), y = ErrRate, fill = interaction(Integration, Relatedness)))
+g1     <- ggplot(data = mis.eff, aes(x = interaction(Integrated, Related), y = ErrRate, fill = interaction(Integrated, Related)))
 g1     <- g1 + layer(geom="bar", stat="identity", position = position_dodge())
 g1     <- g1 + scale_fill_manual(values=c("#990000", "#CC6666", "#000099", "#9999CC"))
 g1     <- g1 + guides(fill=FALSE)
 g1     <- g1 + geom_errorbar(aes(ymax = ErrRate + SE, ymin = ErrRate - SE), position = dodge, width = 0.2) 
-g1     <- g1 + coord_cartesian(ylim = c(0, 14))
-g1     <- g1 + scale_y_continuous(breaks=seq(0, 15, 2))
+g1     <- g1 + coord_cartesian(ylim = c(0, 15))
+g1     <- g1 + scale_y_continuous(breaks=seq(0, 14, 2))
 g1     <- g1+annotate("text", x = 1:4, y = -1,
                   label = rep(c("Integrated", "Unintegrated"), 2), size=6) +
   annotate("text", c(1.5, 3.5), y = -2, label = c("Related", "Unrelated"), size=6)
-g1    <- g1  + theme_classic()
-g1    <- g1 +  theme(text = element_text(size=20))
+g1    <- g1 + theme_classic()
+g1    <- g1 + theme(text = element_text(size=20))
+g1    <- g1 + ylab("Mismatch effect (%)")
+g1    <- g1 + theme(axis.title.y=element_text(vjust=1.5))
 g1    <- g1 + theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
                  axis.title.x = element_blank(),
                  axis.text.x = element_blank())
-g1
 
-sig.bar <- data.frame(x = c(2,2,4,4), y = c(13, 14, 14, 13))
-# 
-g1 + geom_path(data = sig.bar, aes(x = x, y = y))
-g1
-#   annotate("text",x=1.5,y=27,label="p=0.012")+
-#   annotate("text",x=2.5,y=39,label="p<0.0001")+
-#   annotate("text",x=3.5,y=51,label="p<0.0001")
-g1
+#p-value text
+p.text = grobTree(textGrob(expression(paste(italic("*p"),"<.05")), x=0.05,  y=0.95, hjust=0,
+                                       gp=gpar(col="black", fontsize=15)))
+g1    <- g1 + annotation_custom(p.text)
+                   
+g1 + geom_path(x=c(1.5,1.5,3.5,3.5),y=c(13,14,14,13))+
+  annotate("text",x=2.5,y=15,label="*")
+data2 <- data.frame(x = c(1, 1, 2, 2), y = c(12, 13, 13, 12))
+g1+geom_path(data = data2, aes(x = x, y = y))
 # remove clipping of x axis labels
 g2 <- ggplot_gtable(ggplot_build(g1))
 g2$layout$clip[g2$layout$name == "panel"] <- "off"
