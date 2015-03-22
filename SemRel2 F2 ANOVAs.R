@@ -1387,7 +1387,6 @@ df.cat <- data.frame(
          sd( cat.unr.sing$error) / sqrt( length( cat.unr.sing$error))
   ))
 
-View(df.cat)
 
 # CATEGORY MIS-MATCH EFFECTS TABLE & FIG ----------------------------
 se.cat.dat <- read.table("data/SR2_cat_SEdata.txt", header=TRUE) 
@@ -1398,7 +1397,7 @@ se.cat.unr   <- subset(se.cat.dat, related == "unrel" & n2num == "plur")
 
 
 cat.mis.eff <-data.frame(
-  Relatedness = c( "Category Coordinate", "Non-Coordinate"),
+  Relatedness = c( "Category Coordinate", "Non- Coordinate"),
   ErrRate = c( 
     ( df.cat[2, 7] - df.cat[1, 7]),
     ( df.cat[4, 7] - df.cat[3, 7])),
@@ -1481,7 +1480,6 @@ df.prop <- data.frame(
     sd( unrel.sing$error)  / sqrt( length(unrel.sing$error))
   ))
 
-View(df.prop)
 
 
 # PROPERTY MIS-MATCH EFFECTS TABLE & FIG ----------------------------
@@ -1495,7 +1493,7 @@ se.unrel.plur  <- subset( se.prop.dat, related == "unrel" & n2num   == "plur")
 
 
 prop.mis.eff <-data.frame(
-  Relatedness = c( "Property", "Associate", "Unrelated"),
+  Relatedness = c( "Attribute", "Associate", "Unrelated"),
   ErrRate = c( 
     ( df.prop[2, 7] - df.prop[1, 7]),
     ( df.prop[4, 7] - df.prop[3, 7]),
@@ -1509,6 +1507,58 @@ prop.mis.eff <-data.frame(
 View(prop.mis.eff)
 
 semrel2.results <-rbind(cat.mis.eff, prop.mis.eff)
+
+View(semrel2.results)
+
+# PREPARE FIGURES-------------------
+
+library(ggplot2)
+levels(semrel2.results$Relatedness) <- gsub(" ", "\n", levels(semrel2.results$Relatedness))                                            
+dodge  <- position_dodge(width = 0.9)
+positions <- c("Category\nCoordinate","Non-\nCoordinate","Attribute", "Associate", "Unrelated")
+
+g1<- ggplot(data = semrel2.results, aes(x = Relatedness, y = ErrRate, fill = Relatedness)) +
+            layer(geom ="bar", stat ="identity", position = position_dodge()) +
+            scale_fill_manual(values = c("#ff6600", "#ff9966", "#b96ad4", "#8c19b4", "#e3b1f4")) +
+            scale_x_discrete(limits = positions)+
+            guides(fill=FALSE) +
+            geom_errorbar(aes(ymax = ErrRate + SE, ymin = ErrRate - SE), position = dodge, width = 0.2) + 
+            coord_cartesian(ylim = c(0, 17)) +
+            scale_y_continuous(breaks=seq(0, 14, 2)) +
+            theme_classic() +
+            theme(text = element_text(size=18.5)) +
+            ylab("Mismatch effect (%)") +
+            xlab("Semantic/Associative Relationship") +
+            theme(axis.title.y = element_text(vjust = 1.5)) +
+            theme(axis.title.x = element_text(vjust = -1)) +
+            theme(plot.margin = unit(c(1, 1, 4, 1), "lines"))
+
+#p-value text
+p.text = grobTree(textGrob(expression(paste("\u2020", italic("p"), "<.10,", italic("*p"),"<.05")), x = 0.02, y = 0.90, hjust = 0, gp = gpar(col = "black", fontsize = 12)))
+g1
+g1  <- g1 + annotation_custom(p.text) 
+
+# significance grouping bars                   
+cord.bar     <- data.frame(Relatedness = NA, x = c(1, 1, 2, 2), y = c(8, 9, 9, 8))
+att.ass.bar  <- data.frame(Relatedness = NA, x = c(3, 3, 4, 4), y = c(12, 13, 13, 12))
+attass.bar   <- data.frame(Relatedness = NA, x = c(3, 3, 4, 4), y = c(13.5, 14.5, 14.5, 13.5))
+ass.unr.bar  <- data.frame(Relatedness = NA, x = c(4, 4, 5, 5), y = c(12, 13, 13, 12))
+rel.unr.bar  <- data.frame(Relatedness = NA, x = c(3.5, 3.5, 5, 5), y = c(14.5, 15.5, 15.5, 14.5))
+
+g1 <- g1 + geom_path(data = cord.bar,    aes(x = x, y = y)) +
+           geom_path(data = att.ass.bar, aes(x = x, y = y)) +
+           geom_path(data = ass.unr.bar, aes(x = x, y = y)) +
+           geom_path(data = rel.unr.bar, aes(x = x, y = y)) +
+           geom_path(data = attass.bar,  aes(x = x, y = y)) +
+           annotate("text", x = 1.5, y  = 10, label = "n.s.", size = 5) +
+           annotate("text", x = 3.5, y  = 14, label = "\u2020", size = 5) +
+           annotate("text", x = 4.5, y  = 13.5, label = "*", size = 7)
+
+p.star = grobTree(textGrob(expression(paste("*")), x = 0.725, y = 0.95, hjust = 0, gp = gpar(col = "black", fontsize = 20)))
+
+g1  <- g1 + annotation_custom(p.star)    
+g1
+ggsave(filename = "figures/SemRel 2 Mismatch Effects.png")
 
 
 

@@ -344,7 +344,7 @@ p.text = grobTree(textGrob(expression(paste(italic("*p"),"<.05")), x=0.02,  y=0.
 g1  <- g1 + annotation_custom(p.text)
 
 # significance grouping bars                   
-g1  <- g1 + geom_path(aes(group=1), x=c(1.5,1.5,3.5,3.5), y=c(14.6,15.6,15.6,14.6)) +
+g1  <- g1 + geom_path(aes(group=1), x=c(1.5,1.5,3.5,3.5), y=c(14.5,15.5,15.5,14.5)) +
             geom_path(aes(group=1), x=c(1,1,2,2), y=c(13.5,14.5,14.5,13.5)) +
             geom_path(aes(group=1), x=c(3,3,4,4), y=c(13.5,14.5,14.5,13.5)) +
   annotate("text", x=2.5,y=16,label="*", size=8)
@@ -357,7 +357,7 @@ g1$layout$clip[g1$layout$name == "panel"] <- "off"
 png(filename = "figures/SemRel Mismatch Effects.png")
 grid.draw(g1)
 dev.off()
-
+grid.draw(g1)
 
 
 
