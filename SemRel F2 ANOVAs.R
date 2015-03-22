@@ -322,38 +322,44 @@ mis.eff <-data.frame(
 # PREPARE FIGURES-------------------
 
 dodge  <- position_dodge(width = 0.9)
-g1     <- ggplot(data = mis.eff, aes(x = interaction(Integrated, Related), y = ErrRate, fill = interaction(Integrated, Related)))
-g1     <- g1 + layer(geom="bar", stat="identity", position = position_dodge())
-g1     <- g1 + scale_fill_manual(values=c("#990000", "#CC6666", "#000099", "#9999CC"))
-g1     <- g1 + guides(fill=FALSE)
-g1     <- g1 + geom_errorbar(aes(ymax = ErrRate + SE, ymin = ErrRate - SE), position = dodge, width = 0.2) 
-g1     <- g1 + coord_cartesian(ylim = c(0, 15))
-g1     <- g1 + scale_y_continuous(breaks=seq(0, 14, 2))
-g1     <- g1+annotate("text", x = 1:4, y = -1,
-                  label = rep(c("Integrated", "Unintegrated"), 2), size=6) +
-  annotate("text", c(1.5, 3.5), y = -2, label = c("Related", "Unrelated"), size=6)
-g1    <- g1 + theme_classic()
-g1    <- g1 + theme(text = element_text(size=20))
-g1    <- g1 + ylab("Mismatch effect (%)")
-g1    <- g1 + theme(axis.title.y=element_text(vjust=1.5))
-g1    <- g1 + theme(plot.margin = unit(c(1, 1, 4, 1), "lines"),
-                 axis.title.x = element_blank(),
-                 axis.text.x = element_blank())
+g1     <- ggplot(data = mis.eff, aes(x = interaction(Integrated, Related), y = ErrRate, fill = interaction(Integrated, Related))) +
+layer(geom="bar", stat="identity", position = position_dodge()) +
+scale_fill_manual(values=c("#990000", "#CC6666", "#000099", "#9999CC")) +
+guides(fill=FALSE)+
+geom_errorbar(aes(ymax = ErrRate + SE, ymin = ErrRate - SE), position = dodge, width = 0.2)+ 
+coord_cartesian(ylim = c(0, 17))+
+scale_y_continuous(breaks=seq(0, 14, 2))+
+annotate("text", x = 1:4, y = -1, label = rep(c("Integrated", "Unintegrated"), 2), size=6) +
+annotate("text", c(1.5, 3.5), y = -2, label = c("Related", "Unrelated"), size=6) +
+
+theme_classic() +
+theme(text = element_text(size=18.5)) +
+ylab("Mismatch effect (%)") +
+theme(axis.title.y=element_text(vjust=1.5)) +
+theme(plot.margin = unit(c(1, 1, 4, 1), "lines"), axis.title.x = element_blank(), axis.text.x = element_blank())
 
 #p-value text
-p.text = grobTree(textGrob(expression(paste(italic("*p"),"<.05")), x=0.05,  y=0.95, hjust=0,
-                                       gp=gpar(col="black", fontsize=15)))
-g1    <- g1 + annotation_custom(p.text)
-                   
-g1 + geom_path(x=c(1.5,1.5,3.5,3.5),y=c(13,14,14,13))+
-  annotate("text",x=2.5,y=15,label="*")
-data2 <- data.frame(x = c(1, 1, 2, 2), y = c(12, 13, 13, 12))
-g1+geom_path(data = data2, aes(x = x, y = y))
+p.text = grobTree(textGrob(expression(paste(italic("*p"),"<.05")), x=0.02,  y=0.90, hjust=0,
+                                       gp=gpar(col="black", fontsize=12)))
+g1  <- g1 + annotation_custom(p.text)
+
+# significance grouping bars                   
+g1  <- g1 + geom_path(aes(group=1), x=c(1.5,1.5,3.5,3.5), y=c(14.6,15.6,15.6,14.6)) +
+            geom_path(aes(group=1), x=c(1,1,2,2), y=c(13.5,14.5,14.5,13.5)) +
+            geom_path(aes(group=1), x=c(3,3,4,4), y=c(13.5,14.5,14.5,13.5)) +
+  annotate("text", x=2.5,y=16,label="*", size=8)
+
+
 # remove clipping of x axis labels
-g2 <- ggplot_gtable(ggplot_build(g1))
-g2$layout$clip[g2$layout$name == "panel"] <- "off"
-grid.draw(g2)
-g2
+g1 <- ggplot_gtable(ggplot_build(g1))
+g1$layout$clip[g1$layout$name == "panel"] <- "off"
+
+png(filename = "figures/SemRel Mismatch Effects.png")
+grid.draw(g1)
+dev.off()
+
+
+
 
 #
 # --------------------------------2 X 2 X 2 ANOVA-----------------------------------------------------
