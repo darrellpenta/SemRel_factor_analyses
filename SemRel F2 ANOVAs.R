@@ -2,6 +2,7 @@ rm(list = ls()) # clears environment
 library(languageR) # calls languageR library
 library(ggplot2)
 library(grid)
+install.packages("extrafont")
 library(extrafont)
 #
 # -----------------------------------PREPARE DATA FILE FOR ANALYSES---------------------------------
@@ -354,7 +355,7 @@ g1  <- g1 + geom_path(aes(group=1), x=c(1.5,1.5,3.5,3.5), y=c(14.5,15.5,15.5,14.
 g1 <- ggplot_gtable(ggplot_build(g1))
 g1$layout$clip[g1$layout$name == "panel"] <- "off"
 
-png(filename = "figures/SemRel Mismatch Effects.png")
+pdf(file = "figures/SemRel Mismatch Effects.pdf", useDingbats = FALSE)
 grid.draw(g1)
 dev.off()
 grid.draw(g1)
